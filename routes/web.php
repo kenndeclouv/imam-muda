@@ -1,64 +1,105 @@
 <?php
 
-use App\Http\Controllers\AuthController;
-use App\Http\Controllers\EmailController;
-use App\Http\Controllers\KanbanController;
-use App\Http\Controllers\PageController;
-use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\AccountController;
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Admin\HomeController as AdminHomeController;
+use App\Http\Controllers\Admin\ImamController as AdminImamController;
+use App\Http\Controllers\Admin\MasjidController as AdminMasjidController;
+use App\Http\Controllers\Admin\ScheduleController as AdminScheduleController;
+use App\Http\Controllers\Admin\ShalatController;
+use App\Http\Controllers\Admin\FeeController;
+use App\Http\Controllers\API\APIController;
+use App\Http\Controllers\UserNotificationController;
+use App\Http\Controllers\SuperAdmin\HomeController as SuperAdminHomeController;
+use App\Http\Controllers\Imam\HomeController as ImamHomeController;
 use Illuminate\Support\Facades\Route;
 
+// Route untuk Landing Page
 Route::get('/', function () {
-    if (Auth::check()) {
-        return redirect()->route('dashboard-analystics');
-    } else {
-        return redirect()->route('loginView');
-    }
-});
+    return view('index');
+})->name('landingpage');
 
-// AUTH
-Route::middleware(['guest'])->group(function () {
-    Route::get('login', [AuthController::class, 'loginView'])->name('loginView');
-    Route::post('login', [AuthController::class, 'login'])->name('login');
-});
-
-Route::get('register', [AuthController::class, 'registerView'])->name('registerView');
-
+//API
 Route::middleware(['auth'])->group(function () {
-    // DASHBOARD
-    foreach (['analystics', 'crm', 'ecommerce', 'logistics', 'academy'] as $dashboard) {
-        Route::get("dashboard-{$dashboard}", [PageController::class, "dashboard" . ucfirst($dashboard)])->name("dashboard-{$dashboard}");
-    }
+    Route::get('/api/get-imam-schedule-data', [APIController::class, 'getImamScheduleData']);
+    Route::get('/api/get-masjid-schedule-data', [APIController::class, 'getMasjidScheduleData']);
+    Route::get('/api/get-masjid-shalat-schedule-data', [APIController::class, 'getMasjidShalatScheduleData']);
+    Route::get('/api/get-notifications', [UserNotificationController::class, 'getNotifications']);
+    Route::post('/api/mark-notification-as-read', [UserNotificationController::class, 'markNotificationAsRead']);
+});
 
-    // FRONT PAGES
-    foreach (['landing', 'pricing', 'payment', 'checkout', 'help', 'help-articles'] as $fp) {
-        Route::get("frontpage-{$fp}", [PageController::class, "frontpage" . str_replace('-', '', ucfirst($fp))])->name("frontpage-{$fp}");
-    }
+// Routes untuk Login dan Logout
+Route::get('login', [LoginController::class, 'index'])->name('login.index');
+Route::post('login', [LoginController::class, 'login'])->name('login');
+Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 
-    // LAYOUTS
-    foreach (['collapsed-menu', 'content-navbar', 'content-nav-sidebar', 'horizontal', 'without-menu', 'without-navbar', 'fluid', 'container', 'blank'] as $l) {
-        Route::get("layouts-{$l}", [PageController::class, "layouts" . str_replace('-', '', ucfirst($l))])->name("layouts-{$l}");
-    }
+// Routes untuk Account
+Route::middleware(['auth'])->group(function () {
+    Route::get('/account', [AccountController::class, 'index'])->name('account');
+    Route::post('/account/shortcut', [AccountController::class, 'storeShortcut'])->name('account.shortcut');
+    Route::put('/account/update/{id}', [AccountController::class, 'update'])->name('account.update');
+});
 
-    // EMAIL
-    Route::get('email', [PageController::class, 'email'])->name('email');
-    Route::post('email', [EmailController::class, 'store'])->name('email.store');
-    Route::put('email/readed', [EmailController::class, 'readed'])->name('email.readed');
-    Route::put('email/unreaded', [EmailController::class, 'unreaded'])->name('email.unreaded');
-    Route::put('email/spam', [EmailController::class, 'spam'])->name('email.spam');
-    Route::put('email/draft', [EmailController::class, 'draft'])->name('email.draft');
-    Route::put('email/trash', [EmailController::class, 'trash'])->name('email.trash');
-    Route::put('email/star', [EmailController::class, 'star'])->name('email.stared');
-    Route::delete('email', [EmailController::class, 'delete'])->name('email.delete');
+// Routes untuk Admin
+Route::prefix('admin')->name('admin.')->middleware(['auth', 'can:isAdmin'])->group(function () {
+    Route::get('/home', [AdminHomeController::class, 'index'])->name('home');
 
-    // CHAT
-    Route::get('chat', [PageController::class, 'chat'])->name('chat');
-    // CALENDAR
-    Route::get('calendar', [PageController::class, 'calendar'])->name('calendar');
-    // KANBAN
-    Route::get('kanban', [KanbanController::class, 'index'])->name('kanban');
-    Route::post('kanban/boardstore', [KanbanController::class, 'boardStore'])->name('board.store');
-    Route::post('kanban/itemstore', [KanbanController::class, 'itemStore'])->name('item.store');
+    Route::prefix('imam')->name('imam.')->group(function () {
+        Route::get('/', [AdminImamController::class, 'index'])->name('index');
+        Route::get('/create', [AdminImamController::class, 'create'])->name('create');
+        Route::post('/create', [AdminImamController::class, 'store'])->name('store');
+        Route::get('/edit/{id}', [AdminImamController::class, 'edit'])->name('edit');
+        Route::put('/edit/{id}', [AdminImamController::class, 'update'])->name('update');
+        Route::delete('/delete/{id}', [AdminImamController::class, 'destroy'])->name('destroy');
+    });
+    Route::prefix('masjid')->name('masjid.')->group(function () {
+        Route::get('/', [AdminMasjidController::class, 'index'])->name('index');
+        Route::get('/create', [AdminMasjidController::class, 'create'])->name('create');
+        Route::post('/create', [AdminMasjidController::class, 'store'])->name('store');
+        Route::get('/edit/{id}', [AdminMasjidController::class, 'edit'])->name('edit');
+        Route::put('/edit/{id}', [AdminMasjidController::class, 'update'])->name('update');
+        Route::delete('/delete/{id}', [AdminMasjidController::class, 'destroy'])->name('destroy');
+    });
+    Route::prefix('shalat')->name('shalat.')->group(function () {
+        Route::get('/', [ShalatController::class, 'index'])->name('index');
+        Route::get('/create', [ShalatController::class, 'create'])->name('create');
+        Route::post('/create', [ShalatController::class, 'store'])->name('store');
+        Route::get('/edit/{id}', [ShalatController::class, 'edit'])->name('edit');
+        Route::put('/edit/{id}', [ShalatController::class, 'update'])->name('update');
+        Route::delete('/delete/{id}', [ShalatController::class, 'destroy'])->name('destroy');
+    });
+    Route::prefix('jadwal')->name('jadwal.')->group(function () {
+        Route::get('/', [AdminScheduleController::class, 'index'])->name('index');
+        Route::get('/fetch', [AdminScheduleController::class, 'fetch'])->name('fetch');
+        Route::get('/create', [AdminScheduleController::class, 'create'])->name('create');
+        Route::post('/create', [AdminScheduleController::class, 'store'])->name('store');
 
-    //
-    Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
+        Route::post('/updateJSON', [AdminScheduleController::class, 'updateJSON'])->name('updateJSON');
+        Route::get('/edit/{id}', [AdminScheduleController::class, 'edit'])->name('edit');
+        Route::put('/edit/{id}', [AdminScheduleController::class, 'update'])->name('update');
+        Route::delete('/delete/{id}', [AdminScheduleController::class, 'destroy'])->name('destroy');
+    });
+    Route::prefix('bayaran')->name('bayaran.')->group(function () {
+        Route::get('/', [FeeController::class, 'index'])->name('index');
+        Route::get('/create', [FeeController::class, 'create'])->name('create');
+        Route::post('/create', [FeeController::class, 'store'])->name('store');
+        Route::get('/edit/{id}', [FeeController::class, 'edit'])->name('edit');
+        Route::put('/edit/{id}', [FeeController::class, 'update'])->name('update');
+        Route::delete('/delete/{id}', [FeeController::class, 'destroy'])->name('destroy');
+    });
+    Route::prefix('statistik')->name('statistik.')->group(function () {
+        Route::get('/', [AdminHomeController::class, 'statistik'])->name('index');
+        Route::get('/bayaranimam', [AdminHomeController::class, 'bayaranimam'])->name('bayaranimam');
+    });
+});
+
+// Routes untuk SuperAdmin
+Route::prefix('superadmin')->name('superadmin.')->middleware(['auth', 'can:isSuperAdmin'])->group(function () {
+    Route::get('/home', [SuperAdminHomeController::class, 'index'])->name('home');
+});
+
+// Routes untuk Imam
+Route::prefix('imam')->name('imam.')->middleware(['auth', 'can:isImam'])->group(function () {
+    Route::get('/home', [ImamHomeController::class, 'index'])->name('home');
+    Route::put('/account', [ImamHomeController::class, 'update'])->name('update');
 });

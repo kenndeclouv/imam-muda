@@ -4723,11 +4723,11 @@ textarea.form-control-lg {
     --bs-accordion-btn-padding-y: 0.793rem;
     --bs-accordion-btn-color: #d5d5e2;
     --bs-accordion-btn-bg: var(--bs-accordion-bg);
-    --bs-accordion-btn-icon: url("data:image/svg+xml,%3csvg width='20' height='20' viewBox='0 0 20 20' fill='none' xmlns='http://www.w3.org/2000/svg'%3e%3cg id='bx-chevron-down'%3e%3cpath id='Vector' d='M13.5775 7.74417L9.99997 11.3217L6.42247 7.74417L5.24414 8.9225L9.99997 13.6783L14.7558 8.9225L13.5775 7.74417Z' fill='%23d5d5e2' fill-opacity='0.9'/%3e%3c/g%3e%3c/svg%3e");
+    --bs-accordion-btn-icon: "\f078"; /* Font Awesome icon for chevron-down */
     --bs-accordion-btn-icon-width: 1.25rem;
     --bs-accordion-btn-icon-transform: rotate(180deg);
     --bs-accordion-btn-icon-transition: transform 0.2s ease-in-out;
-    --bs-accordion-btn-active-icon: url("data:image/svg+xml,%3csvg width='20' height='20' viewBox='0 0 20 20' fill='none' xmlns='http://www.w3.org/2000/svg'%3e%3cg id='bx-chevron-down'%3e%3cpath id='Vector' d='M13.5775 7.74417L9.99997 11.3217L6.42247 7.74417L5.24414 8.9225L9.99997 13.6783L14.7558 8.9225L13.5775 7.74417Z' fill='%23d5d5e2' fill-opacity='0.9'/%3e%3c/g%3e%3c/svg%3e");
+    --bs-accordion-btn-active-icon: "\f077"; /* Font Awesome icon for chevron-up */
     --bs-accordion-btn-focus-box-shadow: none;
     --bs-accordion-body-padding-x: 1.25rem;
     --bs-accordion-body-padding-y: 1.25rem;
@@ -8183,7 +8183,7 @@ a.invert-bg-dark:hover,a.invert-bg-dark:focus {
     border-color: rgba(0,0,0,0) !important
 }
 
-.btn .bx {
+.btn .fa {
     line-height: 1.15
 }
 
@@ -32336,17 +32336,16 @@ html:not(.layout-menu-fixed) .menu-inner-shadow {
     position: absolute;
     top: 50%;
     display: block;
-    font-family: "boxicons";
-    font-size: 1.375rem;
-    transform: translateY(-50%)
+    font-family: "fontawesome";
+    font-size: 1rem;
+    transform: translateY(-50%);
+    content: "";
 }
-
-html:not([dir=rtl]) .menu-toggle::after {
-    content: ""
+html:not([dir="rtl"]) .menu-toggle::after {
+    content: "\f054";
 }
-
-[dir=rtl] .menu-toggle::after {
-    content: ""
+[dir="rtl"] .menu-toggle::after {
+    content: "\f053";
 }
 
 .menu:not(.menu-no-animation) .menu-toggle::after {

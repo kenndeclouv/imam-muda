@@ -1302,7 +1302,7 @@
                                         this._cleanup(),
                                             (this.container =
                                                 this._getElementFromString(
-                                                    '<div id="template-customizer" class="bg-card"> <a href="javascript:void(0)" class="template-customizer-open-btn" tabindex="-1"></a> <div class="p-6 m-0 lh-1 border-bottom template-customizer-header position-relative py-4"> <h6 class="template-customizer-t-panel_header mb-1"></h6> <p class="template-customizer-t-panel_sub_header mb-0 small"></p> <div class="d-flex align-items-center gap-2 position-absolute end-0 top-0 mt-6 me-5"> <a href="javascript:void(0)" class="template-customizer-reset-btn text-heading" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Reset Customizer"><i class="bx bx-refresh bx-24px"></i><span class="badge rounded-pill bg-danger badge-dot badge-notifications d-none"></span></a> <a href="javascript:void(0)" class="template-customizer-close-btn fw-light text-heading" tabindex="-1"> <i class="bx bx-x bx-lg"></i> </a> </div> </div> <div class="template-customizer-inner pt-6"> <div class="template-customizer-theming"> <h5 class="m-0 px-6 py-6"> <span class="template-customizer-t-theming_header bg-label-primary rounded-1 py-1 px-3 small"></span> </h5> <div class="m-0 px-6 pb-6 template-customizer-style w-100"> <label for="customizerStyle" class="form-label d-block template-customizer-t-style_label mb-2"></label> <div class="row px-1 template-customizer-styles-options"></div> </div> <div class="m-0 px-6 template-customizer-themes w-100"> <label for="customizerTheme" class="form-label template-customizer-t-theme_label mb-2"></label> <div class="row px-1 template-customizer-themes-options"></div> </div> </div> <div class="template-customizer-layout"> <hr class="m-0 px-6 my-6"/> <h5 class="m-0 px-6 pb-6"> <span class="template-customizer-t-layout_header bg-label-primary rounded-2 py-1 px-3 small"></span> </h5> <div class="m-0 px-6 pb-6 d-block template-customizer-layouts"> <label for="customizerStyle" class="form-label d-block template-customizer-t-layout_label mb-2"></label> <div class="row px-1 template-customizer-layouts-options"> </div> </div> <div class="m-0 px-6 pb-6 template-customizer-headerOptions w-100"> <label for="customizerHeader" class="form-label template-customizer-t-layout_header_label mb-2"></label> <div class="row px-1 template-customizer-header-options"></div> </div> <div class="m-0 px-6 pb-6 template-customizer-layoutNavbarOptions w-100"> <label for="customizerNavbar" class="form-label template-customizer-t-layout_navbar_label mb-2"></label> <div class="row px-1 template-customizer-navbar-options"></div> </div> <div class="m-0 px-6 pb-6 template-customizer-content w-100"> <label for="customizerContent" class="form-label template-customizer-t-content_label mb-2"></label> <div class="row px-1 template-customizer-content-options"></div> </div> <div class="m-0 px-6 pb-6 template-customizer-directions w-100"> <label for="customizerDirection" class="form-label template-customizer-t-direction_label mb-2"></label> <div class="row px-1 template-customizer-directions-options"></div> </div> </div> </div> </div> '
+                                                    '<div id="template-customizer" class="bg-card"> <a href="javascript:void(0)" class="template-customizer-open-btn" tabindex="-1"></a> <div class="p-6 m-0 lh-1 border-bottom template-customizer-header position-relative py-4"> <h6 class="template-customizer-t-panel_header mb-1"></h6> <p class="template-customizer-t-panel_sub_header mb-0 small"></p> <div class="d-flex align-items-center gap-2 position-absolute end-0 top-0 mt-6 me-5"> <a href="javascript:void(0)" class="template-customizer-reset-btn text-heading" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Reset Customizer"><i class="fa-solid fa-arrows-rotate"></i><span class="badge rounded-pill bg-danger badge-dot badge-notifications d-none"></span></a> <a href="javascript:void(0)" class="template-customizer-close-btn fw-light text-heading" tabindex="-1"> <i class="fa-solid fa-times"></i> </a> </div> </div> <div class="template-customizer-inner pt-6"> <div class="template-customizer-theming"> <h5 class="m-0 px-6 py-6"> <span class="template-customizer-t-theming_header bg-label-primary rounded-1 py-1 px-3 small"></span> </h5> <div class="m-0 px-6 pb-6 template-customizer-style w-100"> <label for="customizerStyle" class="form-label d-block template-customizer-t-style_label mb-2"></label> <div class="row px-1 template-customizer-styles-options"></div> </div> <div class="m-0 px-6 template-customizer-themes w-100"> <label for="customizerTheme" class="form-label template-customizer-t-theme_label mb-2"></label> <div class="row px-1 template-customizer-themes-options"></div> </div> </div> <div class="template-customizer-layout"> <hr class="m-0 px-6 my-6"/> <h5 class="m-0 px-6 pb-6"> <span class="template-customizer-t-layout_header bg-label-primary rounded-2 py-1 px-3 small"></span> </h5> <div class="m-0 px-6 pb-6 d-block template-customizer-layouts"> <label for="customizerStyle" class="form-label d-block template-customizer-t-layout_label mb-2"></label> <div class="row px-1 template-customizer-layouts-options"> </div> </div> <div class="m-0 px-6 pb-6 template-customizer-headerOptions w-100"> <label for="customizerHeader" class="form-label template-customizer-t-layout_header_label mb-2"></label> <div class="row px-1 template-customizer-header-options"></div> </div> <div class="m-0 px-6 pb-6 template-customizer-layoutNavbarOptions w-100"> <label for="customizerNavbar" class="form-label template-customizer-t-layout_navbar_label mb-2"></label> <div class="row px-1 template-customizer-navbar-options"></div> </div> <div class="m-0 px-6 pb-6 template-customizer-content w-100"> <label for="customizerContent" class="form-label template-customizer-t-content_label mb-2"></label> <div class="row px-1 template-customizer-content-options"></div> </div> <div class="m-0 px-6 pb-6 template-customizer-directions w-100"> <label for="customizerDirection" class="form-label template-customizer-t-direction_label mb-2"></label> <div class="row px-1 template-customizer-directions-options"></div> </div> </div> </div> </div> '
                                                 ));
                                         var s = this.container;
                                         this.settings.displayCustomizer
@@ -2283,7 +2283,6 @@
                     ]),
                     (E.DIRECTIONS = [
                         { name: "ltr", title: "Left to Right (En)" },
-                        { name: "rtl", title: "Right to Left (Ar)" },
                     ]),
                     (E.LANGUAGES = {
                         en: {
@@ -2299,48 +2298,7 @@
                             content_label: "Content",
                             layout_navbar_label: "Navbar Type",
                             direction_label: "Direction",
-                        },
-                        fr: {
-                            panel_header: "Modèle De Personnalisation",
-                            panel_sub_header:
-                                "Personnalisez et prévisualisez en temps réel",
-                            theming_header: "Thématisation",
-                            style_label: "Style (Mode)",
-                            theme_label: "Thèmes",
-                            layout_header: "Disposition",
-                            layout_label: "Menu (Navigation)",
-                            layout_header_label: "Types d'en-tête",
-                            content_label: "Contenu",
-                            layout_navbar_label: "Type de barre de navigation",
-                            direction_label: "Direction",
-                        },
-                        ar: {
-                            panel_header: "أداة تخصيص القالب",
-                            panel_sub_header: "تخصيص ومعاينة في الوقت الحقيقي",
-                            theming_header: "السمات",
-                            style_label: "النمط (الوضع)",
-                            theme_label: "المواضيع",
-                            layout_header: "تَخطِيط",
-                            layout_label: "القائمة (الملاحة)",
-                            layout_header_label: "أنواع الرأس",
-                            content_label: "محتوى",
-                            layout_navbar_label: "نوع شريط التنقل",
-                            direction_label: "اتجاه",
-                        },
-                        de: {
-                            panel_header: "Vorlagen-Anpasser",
-                            panel_sub_header:
-                                "Anpassen und Vorschau in Echtzeit",
-                            theming_header: "Themen",
-                            style_label: "Stil (Modus)",
-                            theme_label: "Themen",
-                            layout_header: "Layout",
-                            layout_label: "Menü (Navigation)",
-                            layout_header_label: "Header-Typen",
-                            content_label: "Inhalt",
-                            layout_navbar_label: "Art der Navigationsleiste",
-                            direction_label: "Richtung",
-                        },
+                        }
                     }),
                     (window.TemplateCustomizer = E);
             })(),

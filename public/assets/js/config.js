@@ -49,10 +49,8 @@
         localStorage.getItem("templateCustomizer-" + templateName + "--Lang") ||
         "en",
       controls: [
-        "rtl",
         "style",
         "headerType",
-        "contentLayout",
         "layoutCollapsed",
         "layoutNavbarOptions",
         "themes",

@@ -31,19 +31,6 @@ class UserFactory extends Factory
             // 'password' => bcrypt('password'),
             'password' => static::$password ??= Hash::make('password'),
             'remember_token' => Str::random(10),
-
-            'as' => fake()->randomElement(['admin', 'author', 'editor', 'maintainer', 'subscriber', 'member']),
-            'plan' => fake()->randomElement(['basic', 'company', 'enterprise', 'team']),
-            'active_plan' => fake()->optional()->dateTimeBetween(now(), '2028-12-31'),
-            'billing' => fake()->randomElement(['auto-debit', 'manual-cash', 'manual-paypal', 'manual-credit']),
-            'status' => fake()->randomElement(['active', 'pending', 'inactive']),
-            'contact' => fake()->phoneNumber(),
-            'country' => fake()->country(),
-            'order' => fake()->optional()->numberBetween(1, 200),
-            'total_spent' => fake()->optional()->numberBetween(1, 200),
-            'balance' => fake()->optional()->numberBetween(1, 2000),
-            'address' => fake()->address(),
-            'img' => rand(1, 20) . '.png',
         ];
     }
 
