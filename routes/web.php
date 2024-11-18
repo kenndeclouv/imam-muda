@@ -89,7 +89,7 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'can:isAdmin'])->gro
     });
     Route::prefix('statistik')->name('statistik.')->group(function () {
         Route::get('/', [AdminHomeController::class, 'statistik'])->name('index');
-        Route::get('/bayaranimam', [AdminHomeController::class, 'bayaranimam'])->name('bayaranimam');
+        Route::get('/bayaranimam', [AdminHomeController::class, 'bayaranimam'])->name('bayaranimam.index');
     });
 });
 

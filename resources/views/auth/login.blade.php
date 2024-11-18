@@ -29,7 +29,7 @@
                             <div class="mb-6">
                                 <label for="username" class="form-label">Username</label>
                                 <input type="text" class="form-control" id="username" name="username"
-                                    placeholder="Masukkan username" autofocus="on">
+                                    placeholder="Masukkan username" autofocus="on" value="{{ old('username') }}">
                             </div>
                             <div class="mb-6 form-password-toggle">
                                 <label class="form-label" for="password">Password</label>
@@ -43,7 +43,7 @@
                             <div class="mb-8">
                                 <div class="d-flex justify-content-between mt-8">
                                     <div class="form-check mb-0 ms-2">
-                                        <input class="form-check-input" type="checkbox" id="remember-me">
+                                        <input class="form-check-input" type="checkbox" id="remember-me" name="remember">
                                         <label class="form-check-label" for="remember-me">
                                             Remember Me
                                         </label>

@@ -113,8 +113,8 @@
                 <div class="text-truncate">Lihat Statistik</div>
             </a>
         </li>
-        <li class="menu-item {{ request()->routeIs('admin.statistik.bayaranimam') ? 'active' : '' }}">
-            <a href="{{ route('admin.statistik.bayaranimam') }}" class="menu-link">
+        <li class="menu-item {{ request()->routeIs('admin.statistik.bayaranimam.index') ? 'active' : '' }}">
+            <a href="{{ route('admin.statistik.bayaranimam.index') }}" class="menu-link">
                 <div class="text-truncate">Bayaran Imam</div>
             </a>
         </li>

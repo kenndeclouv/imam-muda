@@ -208,12 +208,26 @@
                         <select class="form-control select2" id="shortcutLink" name="link">
                             <option value="">Pilih Url</option>
                             @foreach ($user->getAccessibleRoutes() as $route)
-                                @if (str_ends_with($route['name'], '.index') ||
-                                        str_ends_with($route['name'], '.create') ||
-                                        str_ends_with($route['name'], '.home'))
-                                    <option value="/{{ $route['uri'] }}">
-                                        {{ ucfirst(str_replace('.', ' ', $route['name'])) }}
-                                    </option>
+                                @php
+                                    // Tentukan apakah route termasuk dalam opsi
+                                    $isIncluded =
+                                        (str_ends_with($route['name'], '.index') ||
+                                            str_ends_with($route['name'], '.create') ||
+                                            str_ends_with($route['name'], '.home') ||
+                                            $route['name'] == 'account') &&
+                                        $route['name'] != 'login.index';
+
+                                    // Format nama route
+                                    $routeName = $route['name'];
+                                    $formattedRoute = str_replace('admin', '', $routeName);
+                                    $formattedRoute = str_replace('.', ' ', $formattedRoute);
+                                    $formattedRoute = str_replace('create', 'tambah data', $formattedRoute);
+                                    $formattedRoute = str_replace('index', 'data', $formattedRoute);
+                                    $formattedRoute = ucwords($formattedRoute);
+                                @endphp
+
+                                @if ($isIncluded)
+                                    <option value="/{{ e($route['uri']) }}">{{ e($formattedRoute) }}</option>
                                 @endif
                             @endforeach
                         </select>
@@ -342,27 +356,30 @@
     }
 
     function showToast(notificationId, title, content, link, created_at) {
-        // Format created_at menggunakan moment.js atau tetap gunakan string jika tidak perlu
-        const timeAgo = moment(created_at).fromNow(); // Jika ingin menampilkan waktu relative
+        const timeAgo = moment(created_at).fromNow();
 
-        // Menampilkan toast menggunakan toastr
         toastr.options = {
-            "closeButton": true, // Menampilkan tombol tutup
+            "closeButton": true,
             "debug": false,
             "newestOnTop": true,
-            "progressBar": true, // Menampilkan progress bar
-            "positionClass": "toast-bottom-right", // Posisi toast
+            "progressBar": true,
+            "positionClass": "toast-bottom-right",
             "preventDuplicates": true,
+            "onShown": function() {
+                const toast = document.querySelector('.toast');
+                const closeButton = toast.querySelector('.toast-close-button');
+                if (closeButton) {
+                    closeButton.addEventListener('click', function() {
+                        markNotificationAsRead(notificationId);
+                    });
+                }
+            },
             "onclick": function() {
                 window.location.href = link;
-                markNotificationAsRead(notificationId); // Update status ke read setelah diklik
+                markNotificationAsRead(notificationId);
             },
-            // "onHidden": function() {
-            //     markNotificationAsRead(notificationId); // Update status ke read setelah ditutup
-            // }
         };
 
-        // Menampilkan toast
         toastr.info(content, title + ' <small>(' + timeAgo + ')</small>');
     }
 
@@ -387,7 +404,6 @@
             .catch(error => console.error('Error marking notification as read:', error));
     }
 
-    // Panggil fungsi saat halaman dimuat
     $(document).ready(function() {
         fetchNotifications();
 

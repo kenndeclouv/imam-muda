@@ -70,25 +70,16 @@
                                     placeholder="john.doe@email.com" aria-label="john.doe" name="email"
                                     value="{{ old('email', $imam->User->email) }}">
                             </div>
-                            <div class="col-sm-6 form-password-toggle">
+                            {{-- <div class="col-sm-6 form-password-toggle">
                                 <label class="form-label" for="password">Kata Sandi</label>
                                 <div class="input-group input-group-merge">
                                     <input type="password" id="password" class="form-control"
-                                        placeholder="············" aria-describedby="password2" name="password">
+                                        value="{{ old('password', $imam->User->password) }}"
+                                        aria-describedby="password2" name="password">
                                     <span class="input-group-text cursor-pointer" id="password2"><i
                                             class="fa fa-eye-slash"></i></span>
                                 </div>
-                            </div>
-                            <div class="col-sm-6 form-password-toggle">
-                                <label class="form-label" for="confirm-password">Konfirmasi Kata Sandi</label>
-                                <div class="input-group input-group-merge">
-                                    <input type="password" id="confirm-password" class="form-control"
-                                        placeholder="············" aria-describedby="confirm-password2"
-                                        name="confirm_password">
-                                    <span class="input-group-text cursor-pointer" id="confirm-password2"><i
-                                            class="fa fa-eye-slash"></i></span>
-                                </div>
-                            </div>
+                            </div> --}}
                             <div class="col-12 d-flex justify-content-between">
                                 <button class="btn btn-label-secondary btn-prev" type="button">
                                     <i class="fa fa-chevron-left fa-sm ms-sm-n2 me-sm-2"></i>

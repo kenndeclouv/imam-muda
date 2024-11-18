@@ -19,7 +19,7 @@
             </div>
             <div class="card-body pb-0">
                 @include('components.alert')
-                <form method="GET" action="{{ route('admin.statistik.bayaranimam') }}" class="mb-3">
+                <form method="GET" action="{{ route('admin.statistik.bayaranimam.index') }}" class="mb-3">
                     <div class="row">
                         <div class="col-md-4">
                             <div class="form-group">
@@ -30,7 +30,7 @@
                         </div>
                         <div class="col-md-4 d-flex align-items-end">
                             <button type="submit" class="btn btn-primary">Filter</button>
-                            <a href="{{ route('admin.statistik.bayaranimam') }}"
+                            <a href="{{ route('admin.statistik.bayaranimam.index') }}"
                                 class="btn btn-secondary ms-2">Reset</a>
                         </div>
                     </div>
