@@ -30,7 +30,7 @@
                                             <span class="fw-medium">{{ $user->email }}</span>
                                         </li>
                                         <li class="list-inline-item">
-                                            <span class="fw-medium"> Joined {{ $user->created_at->format('F Y') }}</span>
+                                            <span class="fw-medium">Terdaftar {{ $user->created_at->format('F Y') }}</span>
                                         </li>
                                     </ul>
                                 </div>
@@ -75,7 +75,7 @@
                             <div class="col">: {{ $user->email }}</div>
                         </div>
                         <div class="row mt-3">
-                            <div class="col"><i class="text-warning fa fa-calendar-alt me-2"></i> Created At
+                            <div class="col"><i class="text-warning fa fa-calendar-alt me-2"></i> Terdaftar
                             </div>
                             <div class="col">: {{ $user->created_at->format('d M Y') }}</div>
                         </div>
@@ -102,7 +102,7 @@
                                             name="photo" accept="photo/*">
                                     </label>
 
-                                    <div>Allowed JPG, JPEG, GIF or PNG. Max size of 5 Mb</div>
+                                    <div>Diizinkan JPG, JPEG, GIF atau PNG. Ukuran maksimum 5 Mb</div>
                                 </div>
                             </div>
                         </div>
@@ -111,7 +111,7 @@
                                 <div class="col-md-6 fv-plugins-icon-container">
                                     <label for="name" class="form-label">Nama</label>
                                     <input class="form-control" type="text" id="name" name="name"
-                                        value="{{ $user->Role->name }}">
+                                        value="{{ $user->name }}">
                                     <div
                                         class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback">
                                     </div>
@@ -144,7 +144,7 @@
                     </div>
                     <!--/ Activity Timeline -->
                     <div class="card mb-6">
-                        <h5 class="card-header">Ganti Password</h5>
+                        <h5 class="card-header border-bottom mb-4">Ganti Password</h5>
                         <div class="card-body">
                             <form id="formChangePassword" method="GET" onsubmit="return false"
                                 class="fv-plugins-bootstrap5 fv-plugins-framework" novalidate="novalidate">
@@ -198,7 +198,7 @@
                         @method('PUT')
                         <div class="card mb-6">
                             <!-- Account -->
-                            <h5 class="card-header">Informasi Tambahan</h5>
+                            <h5 class="card-header border-bottom mb-4">Informasi Tambahan</h5>
                             <div class="card-body pt-4">
                                 <div class="row g-6">
                                     <div class="col-md-6 fv-plugins-icon-container">

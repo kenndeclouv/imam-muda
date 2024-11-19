@@ -9,6 +9,19 @@
             <i class="fa-solid fa-chevron-left d-flex align-items-center justify-content-center"></i>
         </a>
     </div>
+    {{-- <div class="app-brand demo ">
+        <a href="index.html" class="app-brand-link">
+            <span class="app-brand-logo demo">
+                <img src="{{ asset(config('app.logo')) }}" alt="{{ config('app.name') . ' logo' }}"
+                    style="max-height: 50px">
+            </span>
+            <span class="app-brand-text demo menu-text fw-bold ms-2">{{ ucwords(str_replace('_', ' ', env('APP_NAME'))) }}</span>
+        </a>
+
+        <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto">
+            <i class="fa-solid fa-chevron-left d-flex align-items-center justify-content-center"></i>
+        </a>
+    </div> --}}
 
     <div class="menu-inner-shadow"></div>
 
@@ -31,7 +44,7 @@
             @break
 
             @case('super_admin')
-                @include('Sidebar.SuperAdmin')
+                @include('Sidebar.Superadmin')
             @break
 
             @case('imam')

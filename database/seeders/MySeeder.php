@@ -2,8 +2,11 @@
 
 namespace Database\Seeders;
 
+use App\Models\Fee;
 use App\Models\Imam;
+use App\Models\Masjid;
 use App\Models\Role;
+use App\Models\Shalat;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 
@@ -15,12 +18,12 @@ class MySeeder extends Seeder
     public function run(): void
     {
         Role::create([
-            'code' => 'admin',
-            'name' => 'Admin',
-        ]);
-        Role::create([
             'code' => 'super_admin',
             'name' => 'Super Admin',
+        ]);
+        Role::create([
+            'code' => 'admin',
+            'name' => 'Admin',
         ]);
         Role::create([
             'code' => 'imam',
@@ -32,7 +35,7 @@ class MySeeder extends Seeder
             'email' => 'admin@gmail.com',
             'username' => 'admin',
             'password' => 'admin',
-            'role_id' => 1,
+            'role_id' => 2,
         ]);
 
         User::create([
@@ -40,14 +43,14 @@ class MySeeder extends Seeder
             'email' => 'superadmin@gmail.com',
             'username' => 'superadmin',
             'password' => 'admin',
-            'role_id' => 3,
+            'role_id' => 1,
         ]);
 
         User::create([
-            'name' => 'Haidar',
+            'name' => 'Imam',
             'email' => 'imam@gmail.com',
-            'username' => 'haidar',
-            'password' => 'haidar',
+            'username' => 'imam',
+            'password' => 'imam',
             'role_id' => 3,
         ]);
 
@@ -57,7 +60,7 @@ class MySeeder extends Seeder
             'phone' => fake()->phoneNumber,
             'birthplace' => fake()->city(),
             'birthdate' => fake()->date(),
-            'juz' => rand(1,30),
+            'juz' => rand(1, 30),
             'address' => fake()->address,
             'description' => fake()->text(20),
         ]);
@@ -70,7 +73,7 @@ class MySeeder extends Seeder
                 'password' => 'password',
                 'role_id' => 3,
             ]);
-            Imam::create([
+            $imam = Imam::create([
                 'user_id' => $user->id,
                 'fullname' => fake()->name,
                 'phone' => fake()->phoneNumber,
@@ -80,6 +83,34 @@ class MySeeder extends Seeder
                 'address' => fake()->address,
                 'description' => fake()->text(20),
             ]);
+
+            Fee::create([
+                'imam_id' => $imam->id,
+                'fee' => rand(1000, 10000),
+            ]);
         }
+
+        for ($i = 1; $i <= 4; $i++) {
+            Masjid::create([
+                'name' => 'Masjid ' . $i,
+                'address' => fake()->address,
+            ]);
+        }
+
+        Shalat::create([
+            'name' => 'Subuh',
+            'start' => '04:00:00',
+            'end' => '05:00:00',
+        ]);
+        Shalat::create([
+            'name' => 'Dzuhur',
+            'start' => '12:00:00',
+            'end' => '13:00:00',
+        ]);
+        Shalat::create([
+            'name' => 'Ashar',
+            'start' => '15:00:00',
+            'end' => '16:00:00',
+        ]);
     }
 }

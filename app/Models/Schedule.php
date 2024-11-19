@@ -23,4 +23,8 @@ class Schedule extends Model
     {
         return $this->belongsTo(Masjid::class);
     }
+    public function Badal()
+    {
+        return $this->belongsTo(Imam::class, 'badal_id');
+    }
 }

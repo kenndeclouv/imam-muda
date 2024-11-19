@@ -19,6 +19,17 @@ class Imam extends Model
     {
         return $this->hasMany(Schedule::class, 'imam_id');
     }
+    public function BadalSchedules()
+    {
+        return $this->hasMany(Schedule::class, 'badal_id');
+    }
+    public function AllSchedules($monthYear)
+    {
+        return $this->schedules()
+            ->whereYear('date', explode('-', $monthYear)[0])
+            ->whereMonth('date', explode('-', $monthYear)[1])
+            ->union($this->badalSchedules()->toBase());
+    }
     public function Fee()
     {
         return $this->hasOne(Fee::class);

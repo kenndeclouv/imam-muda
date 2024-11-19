@@ -1,21 +1,14 @@
 <li class="menu-item">
-    <a href="javascript:void(0);" class="menu-link menu-toggle">
-        <i class="menu-icon tf-icons fa fa-shield-alt"></i>
-        <div class="text-truncate" data-i18n="Roles & Permissions">
+    <a href="{{ route('imam.jadwal.index') }}" class="menu-link menu-toggle">
+        <i class="menu-icon fa-solid fa-calendar-lines-pen fs-6"></i>
+        <div class="text-truncate">
             Jadwal
         </div>
     </a>
     <ul class="menu-sub">
         <li class="menu-item">
-            <a href="app-access-roles.html" class="menu-link">
-                <div class="text-truncate" data-i18n="Roles">Roles</div>
-            </a>
-        </li>
-        <li class="menu-item">
-            <a href="app-access-permission.html" class="menu-link">
-                <div class="text-truncate" data-i18n="Permission">
-                    Permission
-                </div>
+            <a href="{{ route('imam.jadwal.index') }}" class="menu-link">
+                <div class="text-truncate">Daftar Jadwal</div>
             </a>
         </li>
     </ul>

@@ -1,18 +1,28 @@
 <?php
-
+//global
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AccountController;
+use App\Http\Controllers\Admin\RekapController;
 use App\Http\Controllers\Auth\LoginController;
+// API
+use App\Http\Controllers\API\APIController;
+use App\Http\Controllers\UserNotificationController;
+
+// Admin
 use App\Http\Controllers\Admin\HomeController as AdminHomeController;
 use App\Http\Controllers\Admin\ImamController as AdminImamController;
 use App\Http\Controllers\Admin\MasjidController as AdminMasjidController;
 use App\Http\Controllers\Admin\ScheduleController as AdminScheduleController;
-use App\Http\Controllers\Admin\ShalatController;
-use App\Http\Controllers\Admin\FeeController;
-use App\Http\Controllers\API\APIController;
-use App\Http\Controllers\UserNotificationController;
+use App\Http\Controllers\Admin\ShalatController as AdminShalatController;
+use App\Http\Controllers\Admin\FeeController as AdminFeeController;
+use App\Http\Controllers\Admin\StatisticController as AdminStatisticController;
+
+// Imam
+use App\Http\Controllers\Imam\ScheduleController as ImamScheduleController;
+
+// SuperAdmin
 use App\Http\Controllers\SuperAdmin\HomeController as SuperAdminHomeController;
 use App\Http\Controllers\Imam\HomeController as ImamHomeController;
-use Illuminate\Support\Facades\Route;
 
 // Route untuk Landing Page
 Route::get('/', function () {
@@ -61,12 +71,12 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'can:isAdmin'])->gro
         Route::delete('/delete/{id}', [AdminMasjidController::class, 'destroy'])->name('destroy');
     });
     Route::prefix('shalat')->name('shalat.')->group(function () {
-        Route::get('/', [ShalatController::class, 'index'])->name('index');
-        Route::get('/create', [ShalatController::class, 'create'])->name('create');
-        Route::post('/create', [ShalatController::class, 'store'])->name('store');
-        Route::get('/edit/{id}', [ShalatController::class, 'edit'])->name('edit');
-        Route::put('/edit/{id}', [ShalatController::class, 'update'])->name('update');
-        Route::delete('/delete/{id}', [ShalatController::class, 'destroy'])->name('destroy');
+        Route::get('/', [AdminShalatController::class, 'index'])->name('index');
+        Route::get('/create', [AdminShalatController::class, 'create'])->name('create');
+        Route::post('/create', [AdminShalatController::class, 'store'])->name('store');
+        Route::get('/edit/{id}', [AdminShalatController::class, 'edit'])->name('edit');
+        Route::put('/edit/{id}', [AdminShalatController::class, 'update'])->name('update');
+        Route::delete('/delete/{id}', [AdminShalatController::class, 'destroy'])->name('destroy');
     });
     Route::prefix('jadwal')->name('jadwal.')->group(function () {
         Route::get('/', [AdminScheduleController::class, 'index'])->name('index');
@@ -80,16 +90,19 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'can:isAdmin'])->gro
         Route::delete('/delete/{id}', [AdminScheduleController::class, 'destroy'])->name('destroy');
     });
     Route::prefix('bayaran')->name('bayaran.')->group(function () {
-        Route::get('/', [FeeController::class, 'index'])->name('index');
-        Route::get('/create', [FeeController::class, 'create'])->name('create');
-        Route::post('/create', [FeeController::class, 'store'])->name('store');
-        Route::get('/edit/{id}', [FeeController::class, 'edit'])->name('edit');
-        Route::put('/edit/{id}', [FeeController::class, 'update'])->name('update');
-        Route::delete('/delete/{id}', [FeeController::class, 'destroy'])->name('destroy');
+        Route::get('/', [AdminFeeController::class, 'index'])->name('index');
+        Route::get('/create', [AdminFeeController::class, 'create'])->name('create');
+        Route::post('/create', [AdminFeeController::class, 'store'])->name('store');
+        Route::get('/edit/{id}', [AdminFeeController::class, 'edit'])->name('edit');
+        Route::put('/edit/{id}', [AdminFeeController::class, 'update'])->name('update');
+        Route::delete('/delete/{id}', [AdminFeeController::class, 'destroy'])->name('destroy');
     });
     Route::prefix('statistik')->name('statistik.')->group(function () {
-        Route::get('/', [AdminHomeController::class, 'statistik'])->name('index');
-        Route::get('/bayaranimam', [AdminHomeController::class, 'bayaranimam'])->name('bayaranimam.index');
+        Route::get('/', [AdminStatisticController::class, 'statistik'])->name('index');
+    });
+    Route::prefix('rekap')->name('rekap.')->group(function () {
+        Route::get('/imam', [RekapController::class, 'imam'])->name('imam.index');
+        Route::get('/imam/export', [RekapController::class, 'exportImam'])->name('imam.export');
     });
 });
 
@@ -102,4 +115,18 @@ Route::prefix('superadmin')->name('superadmin.')->middleware(['auth', 'can:isSup
 Route::prefix('imam')->name('imam.')->middleware(['auth', 'can:isImam'])->group(function () {
     Route::get('/home', [ImamHomeController::class, 'index'])->name('home');
     Route::put('/account', [ImamHomeController::class, 'update'])->name('update');
+
+    Route::prefix('jadwal')->name('jadwal.')->group(function () {
+        Route::get('/', [ImamScheduleController::class, 'index'])->name('index');
+        Route::get('/fetch', [ImamScheduleController::class, 'fetch'])->name('fetch');
+        Route::post('/updateJSON', [ImamScheduleController::class, 'updateJSON'])->name('updateJSON');
+        Route::get('/create', [ImamScheduleController::class, 'create'])->name('create');
+        Route::post('/create', [ImamScheduleController::class, 'store'])->name('store');
+        Route::get('/edit/{id}', [ImamScheduleController::class, 'edit'])->name('edit');
+        Route::put('/edit/{id}', [ImamScheduleController::class, 'update'])->name('update');
+        Route::delete('/delete/{id}', [ImamScheduleController::class, 'destroy'])->name('destroy');
+        
+        Route::post('/cari-badal/{id}', [ImamScheduleController::class, 'cariBadal'])->name('cariBadal');
+        Route::post('/done/{id}', [ImamScheduleController::class, 'done'])->name('done');
+    });
 });

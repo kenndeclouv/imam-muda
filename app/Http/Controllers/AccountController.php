@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\UserShortcut;
-use Auth;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 // use Illuminate\Support\Facades\Auth;
 
@@ -37,8 +37,16 @@ class AccountController extends Controller
         $user = User::findOrFail($id);
 
         if ($request->hasFile('photo')) {
-            $photoPath = $request->file('photo')->store('photo/imam/', 'public');
-            $validated['photo'] = $photoPath;
+            // Hapus foto lama jika ada
+            if ($user->photo && file_exists(public_path($user->photo))) {
+                unlink(public_path($user->photo));
+            }
+            // Generate nama unik untuk file
+            $filename = uniqid() . '_' . time() . '.' . $request->file('photo')->getClientOriginalExtension();
+
+            // Pindahkan file ke folder
+            $photoPath = $request->file('photo')->move(public_path('public/uploads/photo/'), $filename);
+            $validated['photo'] = 'public/uploads/photo/' . $filename;
         }
 
         $user->update($validated);

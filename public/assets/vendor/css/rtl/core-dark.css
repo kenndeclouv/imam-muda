@@ -119,6 +119,14 @@
     box-sizing: border-box
 }
 
+::-webkit-scrollbar {
+    width: 8px !important;
+}
+::-webkit-scrollbar-thumb {
+    background-color: var(--bs-primary, #696cff) !important;
+    border-radius: 10px;
+}
+
 :root {
     font-size: var(--bs-root-font-size)
 }

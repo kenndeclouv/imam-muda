@@ -19,9 +19,6 @@
             html: htmlContent,
             icon: 'info',
             showConfirmButton: true,
-            // customClass: {
-            //     popup: 'z-3'
-            // }
             background: isDarkMode ? '#2b2c40' : '#fff',
             color: isDarkMode ? '#b2b2c4' : '#000'
         });

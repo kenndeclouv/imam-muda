@@ -93,6 +93,7 @@ class ScheduleController extends Controller
             'shalat_id' => 'required|array',
             'shalat_id.*' => 'exists:shalats,id',
             'date' => 'required|date',
+            'status' => 'required|in:to_do,done',
         ]);
 
         // Loop through each selected shalat_id to check if a schedule already exists
@@ -117,6 +118,7 @@ class ScheduleController extends Controller
                 'shalat_id' => $shalatId,
                 'date' => $validated['date'] . ' ' . $shalat->start,
                 'end' => $validated['date'] . ' ' . $shalat->end,
+                'status' => $validated['status'],
             ]);
         }
 
@@ -129,7 +131,8 @@ class ScheduleController extends Controller
         $jadwal = Schedule::findOrFail($id);
         $shalats = Shalat::all();
         $masjids =  Masjid::all();
-        return view('Admin.jadwal.edit', compact('jadwal', 'masjids', 'shalats'));
+        $imams = Imam::all();
+        return view('Admin.jadwal.edit', compact('jadwal', 'masjids', 'shalats', 'imams'));
     }
 
     public function update(Request $request, $id)
@@ -138,14 +141,27 @@ class ScheduleController extends Controller
             'masjid_id' => 'required|exists:masjids,id',
             'shalat_id' => 'required',
             'date' => 'required|date',
+            'status' => 'required|in:to_do,done',
+            'is_badal' => 'required|in:0,1',
+            'badal_id' => 'nullable|exists:imams,id',
+            'note' => 'nullable|string',
         ]);
-        $existingSchedule = Schedule::whereRaw('DATE(`date`) = ?', [$validated['date']]) // Konversi timestamp ke date
-            ->where('masjid_id', $validated['masjid_id'])
+        
+        $inputDate = Carbon::parse($validated['date'])->toDateString(); // Format jadi 'Y-m-d'
+
+        $existingSchedule = Schedule::where('masjid_id', $validated['masjid_id'])
             ->where('shalat_id', $validated['shalat_id'])
+            ->whereDate('date', $inputDate) // Gunakan whereDate untuk mencocokkan hanya tanggal
+            ->where('id', '!=', $id) // Abaikan jadwal yang sedang diperbarui
             ->exists();
 
         if ($existingSchedule) {
-            return back()->withErrors(['error' => 'Hari ini sudah ada jadwal untuk shalat ini di masjid ini.']);
+            $shalatName = Shalat::find($validated['shalat_id'])->name ?? 'Shalat Tidak Ditemukan';
+            $masjidName = Masjid::find($validated['masjid_id'])->name ?? 'Masjid Tidak Ditemukan';
+
+            return back()->withErrors([
+                'error' => 'Hari ini sudah ada jadwal untuk shalat ' . $shalatName . ' di masjid ' . $masjidName . '.'
+            ])->withInput();
         }
         $jadwal = Schedule::findOrFail($id);
         $jadwal->update($validated);

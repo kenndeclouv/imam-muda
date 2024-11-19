@@ -188,16 +188,9 @@
     </div>
     <x-slot:style>
         <link rel="stylesheet" href="{{ asset('assets/vendor/libs/bs-stepper/bs-stepper.css') }}">
-
-        {{-- <link rel="stylesheet" href="{{ asset('assets/vendor/libs/dropzone/dropzone.css') }}"> --}}
-        </link>
     </x-slot:style>
     <x-slot:js>
         <script src="{{ asset('assets/js/form-wizard-numbered.js') }}"></script>
-
-        {{-- <script src="{{ asset('assets/js/forms-file-upload.js') }}"></script>
-        <script src="{{ asset('assets/vendor/libs/dropzone/dropzone.js') }}"></script> --}}
-        {{-- <script src="{{ asset('assets/js/form-wizard-validation.js') }}"></script> --}}
         <script src="{{ asset('assets/vendor/libs/bs-stepper/bs-stepper.js') }}"></script>
     </x-slot:js>
 </x-app>

@@ -14,7 +14,7 @@
                 </nav>
             </div>
         </div>
-        <div class="card app-calendar-wrapper mb-3">
+        <div class="card app-calendar-wrapper mb-3 d-none d-lg-block">
             <div class="row w-100 g-0">
                 <!-- Calendar Sidebar -->
                 <div class="col-3 app-calendar-sidebar border-end pb-4" id="app-calendar-sidebar">
@@ -131,6 +131,27 @@
                                     <input type="date" class="form-control" id="eventDate" name="date"
                                         required />
                                 </div>
+                                <div class="mb-6">
+                                    <label class="form-label" for="jadwal-status">Status</label>
+                                    <div id="jadwal-status">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="status"
+                                                id="status-to_do" value="to_do"
+                                                {{ old('status') == 'to_do' ? 'checked' : '' }} checked>
+                                            <label class="form-check-label" for="status-to_do">
+                                                Akan
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="status"
+                                                id="status-done" value="done"
+                                                {{ old('status') == 'done' ? 'checked' : '' }}>
+                                            <label class="form-check-label" for="status-done">
+                                                Selesai
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="d-flex justify-content-sm-between justify-content-start mt-6 gap-2">
                                     <div class="d-flex">
                                         <button type="submit" class="btn btn-primary me-4">Tambahkan</button>
@@ -148,29 +169,28 @@
         </div>
 
         <div class="card">
-            <div class="card-header">
+            <div class="card-header border-bottom mb-4">
                 <h5 class="card-title">Daftar Jadwal</h5>
             </div>
             <div class="card-body pb-0">
                 @include('components.alert')
 
-                <div class="card-actions d-flex w-100">
+                <div class="card-actions d-flex flex-wrap w-100">
                     <form method="GET" action="{{ route('admin.jadwal.index') }}" class="mb-3 w-100">
-                        <label for="month">Pilih Bulan</label>
-                        <div class="d-flex gap-2 flex-row">
-                            <input type="month" id="month" name="month" class="form-control h-25 w-25"
-                                value="{{ request('month') }}" {{ request('month') ? 'selected' : '' }}>
-                            <div class="d-flex">
+                        <label for="month" class="form-label">Pilih Bulan</label>
+                        <div class="d-flex flex-wrap gap-2">
+                            <input type="month" id="month" name="month" class="form-control flex-grow-1"
+                                value="{{ request('month') ?? now()->format('Y-m') }}" {{ request('month') ? 'selected' : '' }}>
+                            <div class="d-flex flex-wrap gap-2">
                                 <button type="submit" class="btn btn-primary">Filter</button>
-                                <a href="{{ route('admin.jadwal.index') }}" class="btn btn-secondary ms-2">Reset</a>
+                                <a href="{{ route('admin.jadwal.index') }}" class="btn btn-secondary">Reset</a>
                             </div>
-                            <a href="{{ route('admin.jadwal.create') }}" class="btn btn-primary ms-auto">Tambah
-                                Jadwal</a>
+                            <a href="{{ route('admin.jadwal.create') }}" class="btn btn-primary ms-auto mt-2 mt-sm-0">Tambah Jadwal</a>
                         </div>
                     </form>
                 </div>
             </div>
-            <div class="card-datatable">
+            <div class="card-datatable table-responsive text-start text-nowrap">
                 <table class="table table-bordered table-responsive-sm table-responsive-md table-responsive-xl w-100"
                     id="dataTable" style="width: 100%;">
                     <thead>
@@ -179,7 +199,7 @@
                             <th>Shalat</th>
                             <th>Nama Masjid</th>
                             <th>Tanggal</th>
-                            <th>Terakhir Diubah</th>
+                            <th>Status</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
@@ -190,13 +210,27 @@
                                 <td>{{ $jadwal->Shalat->name }}</td>
                                 <td>{{ $jadwal->Masjid->name }}</td>
                                 <td>{{ \Carbon\Carbon::parse($jadwal->date)->format('d F Y') }}</td>
-                                <td>{{ \Carbon\Carbon::parse($jadwal->updated_at)->format('d F Y') }}</td>
+                                <td>
+                                    @if ($jadwal->is_badal == 1 && $jadwal->badal_id == null)
+                                        <span class="badge bg-label-danger">Membutuhkan Badal</span>
+                                    @elseif($jadwal->is_badal == 1 && $jadwal->badal_id != null)
+                                        <span class="badge bg-label-warning">Dibadalkan</span>
+                                        <span class="badge bg-label-info">{{ optional($jadwal->Badal)->fullname }}</span>
+                                    @endif
+                                    @if ($jadwal->status == 'to_do')
+                                        <span class="badge bg-label-danger">Belum dilaksanakan</span>
+                                    @else
+                                        <span class="badge bg-label-success">Selesai</span>
+                                    @endif
+                                </td>
                                 <td>
                                     <div class="d-flex gap-2" aria-label="Basic example">
                                         <a href="{{ route('admin.jadwal.edit', $jadwal->id) }}"
-                                            class="btn btn-warning">
+                                            class="btn btn-warning" data-bs-toggle="tooltip" data-bs-placement="top"
+                                            data-bs-title="Edit Jadwal">
                                             <i class="fa-solid fa-edit"></i>
                                         </a>
+
                                         <x-confirm-delete :route="route('admin.jadwal.destroy', $jadwal->id)" title="Hapus Jadwal"
                                             message="Apakah anda yakin ingin menghapus jadwal ini?" />
                                     </div>
@@ -210,7 +244,7 @@
     </div>
 
     <x-slot:style>
-        <link rel="stylesheet" href="{{ asset('assets/vendor/libs/bs-stepper/bs-stepper.css') }}">
+        {{-- <link rel="stylesheet" href="{{ asset('assets/vendor/libs/bs-stepper/bs-stepper.css') }}"> --}}
         <link rel="stylesheet" href="{{ asset('assets/vendor/css/pages/app-calendar.css') }}">
 
         {{-- <link rel="stylesheet" href="{{ asset('assets/vendor/libs/fullcalendar/fullcalendar.css') }}"> --}}
@@ -291,12 +325,6 @@
                 padding: 8px 0 !important;
             }
 
-            .fc-day-today {
-                z-index: -100 !important;
-                background-color: rgba(119, 121, 175, 0.15) !important;
-                color: #787bff !important;
-            }
-
             .fc-list-day>* {
                 background: rgba(130, 130, 130, 0.5) !important;
                 color: #fff !important;
@@ -311,10 +339,8 @@
         @include('components.show')
         <script src="https://cdn.datatables.net/2.1.8/js/jquery.dataTables.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/flatpickr@4.6.13/dist/flatpickr.min.js"></script>
-
         {{-- <script src="{{ asset('assets/vendor/libs/fullcalendar/fullcalendar.js') }}"></script> --}}
-
+        <script src="https://cdn.jsdelivr.net/npm/flatpickr@4.6.13/dist/flatpickr.min.js"></script>
         <script>
             $(document).ready(function() {
                 function getUrlParams() {
@@ -332,6 +358,7 @@
 
                 const calendar = new FullCalendar.Calendar(calendarEl, {
                     initialView: 'dayGridMonth',
+                    moreLinkClick: "popover",
                     headerToolbar: {
                         left: 'prev,next',
                         center: 'title',
@@ -354,7 +381,6 @@
                     dayMaxEventRows: false,
                     dayMaxEvents: 3,
                     eventMaxStack: 3,
-                    moreLinkClick: "popover",
                     themeSystem: 'bootstrap5',
                     dragScroll: true,
                     navLinks: true,
@@ -509,6 +535,10 @@
                 $('#jadwal-imam, #jadwal-shalat, #jadwal-masjid').select2({
                     placeholder: "Pilih Opsi",
                     dropdownParent: $('#addEventSidebar')
+                });
+
+                $('#filter_imam, #filter_shalat, #filter_masjid').select2({
+                    placeholder: "Pilih Filter",
                 });
             });
         </script>

@@ -113,8 +113,9 @@ class User extends Authenticatable
     }
     public function getPhotoAttribute($value)
     {
-        return (!empty($value) && !is_null($value)) ? asset('/storage/' . $value) : $value;
+        return (!empty($value) && !is_null($value)) ? asset($value) : null;
     }
+
     public function getAccessibleRoutes()
     {
         $user = Auth::user();

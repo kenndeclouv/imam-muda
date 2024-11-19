@@ -69,7 +69,7 @@
                 <div class="card">
                     <div class="row row-bordered g-0">
                         <div class="col-lg-8">
-                            <div class="card-header d-flex align-items-center justify-content-between">
+                            <div class="card-header border-bottom mb-4 d-flex align-items-center justify-content-between">
                                 <div class="card-title mb-0">
                                     <h5 class="m-0 me-2">Total Revenue</h5>
                                 </div>
@@ -227,7 +227,7 @@
             <!-- Order Statistics -->
             <div class="col-md-6 col-lg-4 col-xl-4 order-0 mb-6">
                 <div class="card h-100">
-                    <div class="card-header d-flex justify-content-between">
+                    <div class="card-header border-bottom mb-4 d-flex justify-content-between">
                         <div class="card-title mb-0">
                             <h5 class="mb-1 me-2">Order Statistics</h5>
                             <p class="card-subtitle">42.82k Total Sales</p>
@@ -322,7 +322,7 @@
             <!-- Expense Overview -->
             <div class="col-md-6 col-lg-4 order-1 mb-6">
                 <div class="card h-100">
-                    <div class="card-header nav-align-top">
+                    <div class="card-header border-bottom mb-4 nav-align-top">
                         <ul class="nav nav-pills" role="tablist">
                             <li class="nav-item">
                                 <button type="button" class="nav-link active" role="tab" data-bs-toggle="tab"
@@ -381,7 +381,7 @@
             <!-- Transactions -->
             <div class="col-md-6 col-lg-4 order-2 mb-6">
                 <div class="card h-100">
-                    <div class="card-header d-flex align-items-center justify-content-between">
+                    <div class="card-header border-bottom mb-4 d-flex align-items-center justify-content-between">
                         <h5 class="card-title m-0 me-2">Transactions</h5>
                         <div class="dropdown">
                             <button class="btn text-muted p-0" type="button" id="transactionID"
@@ -501,7 +501,7 @@
             <!-- Activity Timeline -->
             <div class="col-md-12 col-lg-6 order-4 order-lg-3">
                 <div class="card h-100">
-                    <div class="card-header d-flex justify-content-between">
+                    <div class="card-header border-bottom mb-4 d-flex justify-content-between">
                         <h5 class="card-title m-0 me-2">Activity Timeline</h5>
                         <div class="dropdown">
                             <button class="btn text-muted p-0" type="button" id="timelineWapper"
@@ -616,7 +616,7 @@
             <!-- pill table -->
             <div class="col-md-6 order-3 order-lg-4 mb-6 mb-lg-0">
                 <div class="card text-center h-100">
-                    <div class="card-header nav-align-top">
+                    <div class="card-header border-bottom mb-4 nav-align-top">
                         <ul class="nav nav-pills" role="tablist">
                             <li class="nav-item">
                                 <button type="button" class="nav-link active" role="tab" data-bs-toggle="tab"

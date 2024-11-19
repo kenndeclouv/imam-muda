@@ -11,7 +11,7 @@
             </div>
         </div>
         <div class="card mb-6">
-            <div class="card-header d-flex justify-content-between align-items-center">
+            <div class="card-header border-bottom mb-4 d-flex justify-content-between align-items-center">
                 <h5 class="mb-0">Edit Shalat</h5> <small class="text-body float-end">Data Shalat</small>
             </div>
             <div class="card-body">

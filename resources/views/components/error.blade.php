@@ -7,7 +7,7 @@
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
 
-    <title>{{ ucfirst(Auth::user()->name) }} | {{ Auth::user()-> role }}</title>
+    <title>{{ $errorType ?? 'Error' }} | {{ ucwords(str_replace('_', ' ', env('APP_NAME'))) }}</title>
     <link rel="icon" type="image/x-icon" href="{{ asset('assets/img/favicon/favicon.ico') }}">
 
     <!-- Fonts -->

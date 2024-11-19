@@ -11,7 +11,7 @@
             </div>
         </div>
         <div class="card mb-6">
-            <div class="card-header d-flex justify-content-between align-items-center">
+            <div class="card-header border-bottom mb-4 d-flex justify-content-between align-items-center">
                 <h5 class="mb-0">Tambahkan Jadwal</h5> <small class="text-body float-end">Data Jadwal</small>
             </div>
             <div class="card-body">
@@ -48,23 +48,29 @@
                         <label class="form-label" for="jadwal-date">Tanggal</label>
                         <input type="date" name="date" class="form-control" id="jadwal-date" required value="{{ old('date') }}">
                     </div>
+                    <div class="mb-6">
+                        <label class="form-label" for="jadwal-status">Status</label>
+                        <div id="jadwal-status">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="status" id="status-to_do" value="to_do" {{ old('status') == 'to_do' ? 'checked' : '' }} checked>
+                                <label class="form-check-label" for="status-to_do">
+                                    Akan
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="status" id="status-done" value="done" {{ old('status') == 'done' ? 'checked' : '' }}>
+                                <label class="form-check-label" for="status-done">
+                                    Selesai
+                                </label>
+                            </div>
+                        </div>
+                    </div>
                     <button type="submit" class="btn btn-primary">Tambahkan</button>
                 </form>
             </div>
         </div>
     </div>
-    <x-slot:style>
-        <link rel="stylesheet" href="{{ asset('assets/vendor/libs/bs-stepper/bs-stepper.css') }}">
-        <link rel="stylesheet" href="{{ asset('assets/vendor/libs/select2/select2.css') }}">
-    </x-slot:style>
     <x-slot:js>
         <script src="{{ asset('assets/js/form-wizard-numbered.js') }}"></script>
-        <script src="{{ asset('assets/vendor/libs/select2/select2.js') }}"></script>
-        <script src="{{ asset('assets/vendor/libs/bs-stepper/bs-stepper.js') }}"></script>
-        {{-- <script>
-            $('.select2').select2({
-                dropdownParent: $('.card-body'),
-            });
-        </script> --}}
     </x-slot:js>
 </x-app>

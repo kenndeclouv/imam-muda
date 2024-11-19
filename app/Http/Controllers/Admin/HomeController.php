@@ -43,31 +43,13 @@ class HomeController extends Controller
             ->whereBetween('date', [$startOfWeek, $endOfWeek])
             ->count();
 
-        return view('Admin.index', compact('imams', 'masjids', 'weeklyJadwal', 'percentageChange'));
+        $schedules = Schedule::where('status', 'to_do')
+            ->where('is_badal', operator: 1)->where('badal_id', null)->get();
+
+        return view('Admin.index', compact('imams', 'masjids', 'weeklyJadwal', 'percentageChange', 'schedules'));
     }
     public function account()
     {
         return view('Admin.account');
-    }
-
-    public function statistik()
-    {
-        return view('Admin.statistik.index');
-    }
-    public function bayaranimam(Request $request)
-    {
-        $monthYear = $request->input('month');
-        if (!$monthYear || !preg_match('/^\d{4}-\d{2}$/', $monthYear)) {
-            $monthYear = Carbon::now()->format('Y-m'); // Default ke bulan dan tahun sekarang jika input tidak valid
-        }
-
-        [$year, $month] = explode('-', $monthYear);
-
-        $imams = Imam::whereHas('schedules', function ($query) use ($year, $month) {
-            $query->whereYear('date', $year)
-                ->whereMonth('date', $month);
-        })->get();
-
-        return view('Admin.statistik.bayaranimam', compact('imams', 'monthYear'));
     }
 }

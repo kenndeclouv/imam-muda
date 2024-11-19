@@ -2286,18 +2286,18 @@
                     ]),
                     (E.LANGUAGES = {
                         en: {
-                            panel_header: "Template Customizer",
+                            panel_header: "Template Kustom",
                             panel_sub_header:
-                                "Customize and preview in real time",
-                            theming_header: "Theming",
-                            style_label: "Style (Mode)",
-                            theme_label: "Themes",
-                            layout_header: "Layout",
-                            layout_label: "Menu (Navigation)",
-                            layout_header_label: "Header Types",
-                            content_label: "Content",
-                            layout_navbar_label: "Navbar Type",
-                            direction_label: "Direction",
+                                "Sesuaikan dan pratinjau secara real-time",
+                            theming_header: "Tema",
+                            style_label: "Gaya (Mode)",
+                            theme_label: "Tema",
+                            layout_header: "Tata Letak",
+                            layout_label: "Menu (Navigasi)",
+                            layout_header_label: "Jenis Header",
+                            content_label: "Konten",
+                            layout_navbar_label: "Jenis Navbar",
+                            direction_label: "Arah",
                         }
                     }),
                     (window.TemplateCustomizer = E);

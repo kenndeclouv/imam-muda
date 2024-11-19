@@ -46,9 +46,13 @@ class ImamController extends Controller
         $validated['role_id'] = 3;
 
         if ($request->hasFile('photo')) {
-            $photoPath = $request->file('photo')->store('user/photos', 'public');
-            $validated['photo'] = $photoPath;
+            $filename = uniqid() . '_' . time() . '.' . $request->file('photo')->getClientOriginalExtension();
+
+            // Pindahkan file ke folder
+            $photoPath = $request->file('photo')->move(public_path('public/uploads/photo/'), $filename);
+            $validated['photo'] = 'public/uploads/photo/' . $filename;
         }
+
 
         $user = User::create($validated);
 

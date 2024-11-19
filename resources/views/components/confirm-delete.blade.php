@@ -1,6 +1,6 @@
 @props(['route', 'message' => 'Apakah anda yakin ingin menghapus item ini?', 'title' => 'Hapus Item'])
 
-<button type="button" class="btn btn-danger"
+<button type="button" class="btn btn-danger" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="{{ $title }}"
     onclick="confirmDelete('{{ $route }}', '{{ $title }}', '{{ $message }}')">
     <i class="fa-solid fa-trash"></i>
 </button>

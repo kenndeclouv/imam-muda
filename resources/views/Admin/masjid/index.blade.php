@@ -14,7 +14,7 @@
             </div>
         </div>
         <div class="card">
-            <div class="card-header">
+            <div class="card-header border-bottom mb-4">
                 <h5 class="card-title">Daftar Masjid</h5>
             </div>
             <div class="card-body pb-0">
@@ -24,7 +24,7 @@
                     <a href="{{ route('admin.masjid.create') }}" class="btn btn-primary ms-auto">Tambah Masjid</a>
                 </div>
             </div>
-            <div class="card-datatable">
+            <div class="card-datatable table-responsive text-start text-nowrap">
                 <table class="table table-bordered table-responsive-sm table-responsive-md table-responsive-xl w-100"
                     id="dataTable" style="width: 100%;">
                     <thead>
@@ -43,7 +43,9 @@
                                 <td>{{ $masjid->updated_at->format('d F Y H:i') }}</td>
                                 <td>
                                     <div class="d-flex gap-2" aria-label="Basic example">
-                                        <a href="{{ route('admin.masjid.edit', $masjid->id) }}" class="btn btn-warning">
+                                        <a href="{{ route('admin.masjid.edit', $masjid->id) }}" class="btn btn-warning"
+                                            data-bs-toggle="tooltip" data-bs-placement="top"
+                                            data-bs-title="Edit Masjid">
                                             <i class="fa-solid fa-edit"></i>
                                         </a>
                                         <x-confirm-delete :route="route('admin.masjid.destroy', $masjid->id)" title="Hapus Masjid"

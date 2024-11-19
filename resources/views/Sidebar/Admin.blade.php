@@ -6,7 +6,7 @@
         </div>
     </a>
     <ul class="menu-sub">
-        <li class="menu-item {{ request()->routeIs('admin.imam.index') ? 'active' : '' }}">
+        <li class="menu-item {{ request()->routeIs('admin.imam.index', 'admin.imam.edit') ? 'active' : '' }}">
             <a href="{{ route('admin.imam.index') }}" class="menu-link">
                 <div class="text-truncate">Daftar Imam</div>
             </a>
@@ -26,7 +26,7 @@
         </div>
     </a>
     <ul class="menu-sub">
-        <li class="menu-item {{ request()->routeIs('admin.shalat.index') ? 'active' : '' }}">
+        <li class="menu-item {{ request()->routeIs('admin.shalat.index', 'admin.shalat.edit') ? 'active' : '' }}">
             <a href="{{ route('admin.shalat.index') }}" class="menu-link">
                 <div class="text-truncate">Daftar Shalat</div>
             </a>
@@ -46,7 +46,7 @@
         </div>
     </a>
     <ul class="menu-sub">
-        <li class="menu-item {{ request()->routeIs('admin.masjid.index') ? 'active' : '' }}">
+        <li class="menu-item {{ request()->routeIs('admin.masjid.index', 'admin.masjid.edit') ? 'active' : '' }}">
             <a href="{{ route('admin.masjid.index') }}" class="menu-link">
                 <div class="text-truncate">Daftar Masjid</div>
             </a>
@@ -67,7 +67,7 @@
         </div>
     </a>
     <ul class="menu-sub">
-        <li class="menu-item {{ request()->routeIs('admin.jadwal.index') ? 'active' : '' }}">
+        <li class="menu-item {{ request()->routeIs('admin.jadwal.index', 'admin.jadwal.edit') ? 'active' : '' }}">
             <a href="{{ route('admin.jadwal.index') }}" class="menu-link">
                 <div class="text-truncate">Daftar Jadwal</div>
             </a>
@@ -87,7 +87,7 @@
         </div>
     </a>
     <ul class="menu-sub">
-        <li class="menu-item {{ request()->routeIs('admin.bayaran.index') ? 'active' : '' }}">
+        <li class="menu-item {{ request()->routeIs('admin.bayaran.index', 'admin.bayaran.edit') ? 'active' : '' }}">
             <a href="{{ route('admin.bayaran.index') }}" class="menu-link">
                 <div class="text-truncate">Daftar Bayaran</div>
             </a>
@@ -95,6 +95,22 @@
         <li class="menu-item {{ request()->routeIs('admin.bayaran.create') ? 'active' : '' }}">
             <a href="{{ route('admin.bayaran.create') }}" class="menu-link">
                 <div class="text-truncate">Tambah Bayaran</div>
+            </a>
+        </li>
+    </ul>
+</li>
+
+<li class="menu-item {{ request()->routeIs('admin.rekap.*') ? 'open active' : '' }}">
+    <a href="javascript:void(0);" class="menu-link menu-toggle">
+        <i class="menu-icon fa-solid fa-file fs-6"></i>
+        <div class="text-truncate">
+            Rekap
+        </div>
+    </a>
+    <ul class="menu-sub">
+        <li class="menu-item {{ request()->routeIs('admin.rekap.imam.index') ? 'active' : '' }}">
+            <a href="{{ route('admin.rekap.imam.index') }}" class="menu-link">
+                <div class="text-truncate">Rekap Imam</div>
             </a>
         </li>
     </ul>
@@ -111,11 +127,6 @@
         <li class="menu-item {{ request()->routeIs('admin.statistik.index') ? 'active' : '' }}">
             <a href="{{ route('admin.statistik.index') }}" class="menu-link">
                 <div class="text-truncate">Lihat Statistik</div>
-            </a>
-        </li>
-        <li class="menu-item {{ request()->routeIs('admin.statistik.bayaranimam.index') ? 'active' : '' }}">
-            <a href="{{ route('admin.statistik.bayaranimam.index') }}" class="menu-link">
-                <div class="text-truncate">Bayaran Imam</div>
             </a>
         </li>
     </ul>

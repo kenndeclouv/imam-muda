@@ -14,17 +14,16 @@
             </div>
         </div>
         <div class="card">
-            <div class="card-header">
+            <div class="card-header border-bottom mb-4">
                 <h5 class="card-title">Daftar Imam</h5>
             </div>
             <div class="card-body pb-0">
                 @include('components.alert')
-
                 <div class="card-actions d-flex">
                     <a href="{{ route('admin.imam.create') }}" class="btn btn-primary ms-auto">Tambah Imam</a>
                 </div>
             </div>
-            <div class="card-datatable">
+            <div class="card-datatable table-responsive text-start text-nowrap">
                 <table class="table table-bordered table-responsive-sm table-responsive-md table-responsive-xl w-100"
                     id="dataTable" style="width: 100%;">
                     <thead>
@@ -46,11 +45,14 @@
                                 <td>{{ $imam->updated_at->format('d F Y H:i') }}</td>
                                 <td>
                                     <div class="d-flex gap-2" aria-label="Basic example">
-                                        <button type="button" class="btn btn-info"
+                                        <button type="button" class="btn btn-info" data-bs-toggle="tooltip"
+                                            data-bs-placement="top" data-bs-title="Detail Imam"
                                             onclick="show('Detail Imam',[{label:'Nama',value:'{{ $imam->fullname }}'},{label:'Juz yang dihafal',value:'{{ $imam->juz }}'},{label:'No. Handphone',value:'{{ $imam->phone }}'},{label:'Alamat',value:'{{ $imam->address }}'}])">
                                             <i class="fa-solid fa-eye"></i>
                                         </button>
-                                        <a href="{{ route('admin.imam.edit', $imam->id) }}" class="btn btn-warning">
+                                        <a href="{{ route('admin.imam.edit', $imam->id) }}" class="btn btn-warning"
+                                            data-bs-toggle="tooltip" data-bs-placement="top"
+                                            data-bs-title="Edit Imam">
                                             <i class="fa-solid fa-edit"></i>
                                         </a>
                                         <x-confirm-delete :route="route('admin.imam.destroy', $imam->id)" title="Hapus Imam"

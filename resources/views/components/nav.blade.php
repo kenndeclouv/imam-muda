@@ -10,8 +10,13 @@
     </div>
 
     <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
+        <div class="sk-fold sk-primary d-none d-lg-block m-2">
+            <div class="sk-fold-cube"></div>
+            <div class="sk-fold-cube"></div>
+            <div class="sk-fold-cube"></div>
+            <div class="sk-fold-cube"></div>
+        </div>
         <ul class="navbar-nav flex-row align-items-center ms-auto">
-
             <!-- Style Switcher -->
             <li class="nav-item dropdown-style-switcher dropdown me-2 me-xl-0">
                 <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
@@ -38,7 +43,8 @@
             <!-- / Style Switcher-->
 
             <!-- Quick links  -->
-            <li class="nav-item dropdown-shortcuts navbar-dropdown dropdown me-2 me-xl-0">
+            <li class="nav-item dropdown-shortcuts navbar-dropdown dropdown me-2 me-xl-0"
+                data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Shortcuts">
                 <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown"
                     data-bs-auto-close="outside" aria-expanded="false">
                     <i class="fa-solid fa-grid-2 fa-xl"></i>
@@ -70,7 +76,8 @@
             <!-- Quick links -->
 
             <!-- Notification -->
-            <li class="nav-item dropdown-notifications navbar-dropdown dropdown me-3 me-xl-2">
+            <li class="nav-item dropdown-notifications navbar-dropdown dropdown me-3 me-xl-2"
+                data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Notifikasi">
                 <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown"
                     data-bs-auto-close="outside" aria-expanded="false">
                     <span class="position-relative">
@@ -129,7 +136,8 @@
             <!--/ Notification -->
 
             <!-- User -->
-            <li class="nav-item navbar-dropdown dropdown-user dropdown">
+            <li class="nav-item navbar-dropdown dropdown-user dropdown"
+                data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Akun">
                 <a class="nav-link dropdown-toggle hide-arrow p-0" href="javascript:void(0);" data-bs-toggle="dropdown">
                     <div class="avatar avatar-online">
                         @if ($user->photo)
