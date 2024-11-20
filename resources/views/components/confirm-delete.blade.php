@@ -50,9 +50,8 @@
                     icon: "error",
                     background: isDarkMode ? '#2b2c40' : '#fff',
                     color: isDarkMode ? '#b2b2c4' : '#000',
-                    customClass: {
-                        confirmButton: "btn btn-success"
-                    },
+                    confirmButtonColor: 'var(--bs-primary)',
+                    // cancelButtonColor: '#8592a3',
                 });
             }
         });

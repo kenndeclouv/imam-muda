@@ -19,6 +19,8 @@
             html: htmlContent,
             icon: 'info',
             showConfirmButton: true,
+            confirmButtonColor: 'var(--bs-primary)',
+            cancelButtonColor: '#8592a3',
             background: isDarkMode ? '#2b2c40' : '#fff',
             color: isDarkMode ? '#b2b2c4' : '#000'
         });

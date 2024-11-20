@@ -134,10 +134,10 @@
 }
 
 ::-webkit-scrollbar {
-    width: 8px !important;
+    width: 4px !important;
 }
 ::-webkit-scrollbar-thumb {
-    background-color: var(--bs-primary, var(--bs-primary, #696cff)) !important;
+    background-color: var(--bs-primary, #696cff) !important;
     border-radius: 10px;
 }
 

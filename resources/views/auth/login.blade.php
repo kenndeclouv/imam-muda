@@ -7,7 +7,6 @@
     <div class="container-xxl">
         <div class="authentication-wrapper authentication-basic container-p-y">
             <div class="authentication-inner">
-                <!-- Register -->
                 <div class="card px-sm-6 px-0">
                     <div class="card-body">
                         <!-- Logo -->
@@ -45,11 +44,11 @@
                                     <div class="form-check mb-0 ms-2">
                                         <input class="form-check-input" type="checkbox" id="remember-me" name="remember">
                                         <label class="form-check-label" for="remember-me">
-                                            Remember Me
+                                            Ingat saya
                                         </label>
                                     </div>
                                     <a href="auth-forgot-password-basic.html">
-                                        <span>Forgot Password?</span>
+                                        <span>Lupa password?</span>
                                     </a>
                                 </div>
                             </div>
@@ -59,10 +58,7 @@
                         </form>
                     </div>
                 </div>
-                <!-- /Register -->
             </div>
         </div>
     </div>
-
-    <!-- / Content -->
 </x-auth-app>

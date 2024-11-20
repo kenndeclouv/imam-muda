@@ -120,10 +120,10 @@
 }
 
 ::-webkit-scrollbar {
-    width: 8px !important;
+    width: 4px !important;
 }
 ::-webkit-scrollbar-thumb {
-    background-color: var(--bs-primary, var(--bs-primary, #696cff)) !important;
+    background-color: var(--bs-primary, #696cff) !important;
     border-radius: 10px;
 }
 
@@ -11849,7 +11849,7 @@ html:not([dir=rtl]) .form-select:focus,html:not([dir=rtl]) .was-validated .form-
     padding: calc(.7075rem - var(--bs-border-width)) calc(1.3125rem - var(--bs-border-width));
     padding-inline-end:calc(3.9375rem - var(--bs-border-width))}
 
-html: not([dir=rtl]) .form-select.form-select-lg:focus,html:not([dir=rtl]) .was-validated .form-select.form-select-lg {
+html:not([dir=rtl]) .form-select.form-select-lg:focus,html:not([dir=rtl]) .was-validated .form-select.form-select-lg {
     padding:calc(.7075rem - 2px) calc(3.9375rem - 2px) calc(.7075rem - 2px) calc(1.3125rem - 2px)
 }
 
@@ -11863,7 +11863,7 @@ html: not([dir=rtl]) .form-select.form-select-lg:focus,html:not([dir=rtl]) .was-
     padding: calc(.3165rem - var(--bs-border-width)) calc(.8125rem - var(--bs-border-width));
     padding-inline-end:calc(2.4375rem - var(--bs-border-width))}
 
-html: not([dir=rtl]) .form-select.form-select-sm:focus,html:not([dir=rtl]) .was-validated .form-select.form-select-sm {
+html:not([dir=rtl]) .form-select.form-select-sm:focus,html:not([dir=rtl]) .was-validated .form-select.form-select-sm {
     padding:calc(.3165rem - 2px) calc(2.4375rem - 2px) calc(.3165rem - 2px) calc(.8125rem - 2px)
 }
 
@@ -12309,7 +12309,7 @@ select.form-select option {
 .input-group.input-group-merge>:not(:first-child):not(.dropdown-menu):not(.btn):not(.dropdown-menu+.form-control):not(.btn+.form-control):not(.valid-tooltip):not(.valid-feedback):not(.invalid-tooltip):not(.invalid-feedback) {
     margin-inline-start:calc((2px + var(--bs-border-width))*-1)}
 
-.input-group.input-group-merge: focus-within>.form-control:first-child,.input-group.input-group-merge:focus-within>.form-select:first-child {
+.input-group.input-group-merge:focus-within>.form-control:first-child,.input-group.input-group-merge:focus-within>.form-select:first-child {
     padding-inline:calc(.9375rem - 2px)
 }
 

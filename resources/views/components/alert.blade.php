@@ -11,6 +11,7 @@
             icon: icon,
             title: title,
             text: text,
+            confirmButtonColor: 'var(--bs-primary)',
             background: isDarkMode ? '#2b2c40' : '#fff',
             color: isDarkMode ? '#b2b2c4' : '#000',
         };
