@@ -22,7 +22,7 @@
                         d = l()(c);
                     u.push([
                         t.id,
-                        '#template-customizer{font-family:"Open Sans",BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol" !important;font-size:inherit !important;position:fixed;top:0;right:0;height:100%;z-index:99999999;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-orient:vertical;-webkit-box-direction:normal;-ms-flex-direction:column;flex-direction:column;width:400px;-webkit-box-shadow:0px .3125rem 1.375rem 0px rgba(34,48,62,.18);box-shadow:0px .3125rem 1.375rem 0px rgba(34,48,62,.18);-webkit-transition:all .2s ease-in;-o-transition:all .2s ease-in;transition:all .2s ease-in;-webkit-transform:translateX(420px);-ms-transform:translateX(420px);transform:translateX(420px)}.dark-style #template-customizer{-webkit-box-shadow:0px .3125rem 1.375rem 0px rgba(20,20,29,.26);box-shadow:0px .3125rem 1.375rem 0px rgba(20,20,29,.26)}#template-customizer h5{position:relative;font-size:11px}#template-customizer>h5{flex:0 0 auto}#template-customizer .disabled{color:#d1d2d3 !important}#template-customizer .form-label{font-size:.9375rem;font-weight:500}#template-customizer .form-check-label{font-size:.8125rem}#template-customizer.template-customizer-open{-webkit-transition-delay:.1s;-o-transition-delay:.1s;transition-delay:.1s;-webkit-transform:none !important;-ms-transform:none !important;transform:none !important}#template-customizer.template-customizer-open .custom-option.checked{color:var(--bs-primary);border-width:2px;margin:0}#template-customizer .template-customizer-header a:hover{color:inherit !important}#template-customizer .template-customizer-open-btn{position:absolute;top:180px;left:0;z-index:-1;display:block;width:38px;height:38px;border-top-left-radius:.375rem;border-bottom-left-radius:.375rem;background:var(--bs-primary);box-shadow:0px .125rem .25rem 0px rgba(105,108,255,.4);color:#fff !important;text-align:center;font-size:18px !important;line-height:38px;opacity:1;-webkit-transition:all .1s linear .2s;-o-transition:all .1s linear .2s;transition:all .1s linear .2s;-webkit-transform:translateX(-58px);-ms-transform:translateX(-58px);transform:translateX(-58px)}@media(max-width: 991.98px){#template-customizer .template-customizer-open-btn{top:145px}}.dark-style #template-customizer .template-customizer-open-btn{background:var(--bs-primary)}#template-customizer .template-customizer-open-btn::before{content:"";width:22px;height:22px;display:block;background-size:100% 100%;position:absolute;background-image:url(' +
+                        '#template-customizer{font-family:"Open Sans",BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol" !important;font-size:inherit !important;position:fixed;top:0;right:0;height:100%;z-index:99999999;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-orient:vertical;-webkit-box-direction:normal;-ms-flex-direction:column;flex-direction:column;width:400px;-webkit-box-shadow:0px .3125rem 1.375rem 0px rgba(34,48,62,.18);box-shadow:0px .3125rem 1.375rem 0px rgba(34,48,62,.18);-webkit-transition:all .2s ease-in;-o-transition:all .2s ease-in;transition:all .2s ease-in;-webkit-transform:translateX(420px);-ms-transform:translateX(420px);transform:translateX(420px)}.dark-style #template-customizer{-webkit-box-shadow:0px .3125rem 1.375rem 0px rgba(20,20,29,.26);box-shadow:0px .3125rem 1.375rem 0px rgba(20,20,29,.26)}#template-customizer h5{position:relative;font-size:11px}#template-customizer>h5{flex:0 0 auto}#template-customizer .disabled{color:#d1d2d3 !important}#template-customizer .form-label{font-size:.9375rem;font-weight:500}#template-customizer .form-check-label{font-size:.8125rem}#template-customizer.template-customizer-open{-webkit-transition-delay:.1s;-o-transition-delay:.1s;transition-delay:.1s;-webkit-transform:none !important;-ms-transform:none !important;transform:none !important}#template-customizer.template-customizer-open .custom-option.checked{color:var(--bs-primary);border-width:2px;margin:0}#template-customizer .template-customizer-header a:hover{color:inherit !important}#template-customizer .template-customizer-open-btn{position:absolute;top:180px;left:0;z-index:-1;display:block;width:38px;height:38px;border-top-left-radius:.375rem;border-bottom-left-radius:.375rem;background:var(--bs-primary);box-shadow:0px .125rem .25rem 0px var(--bs-primary-focus-shadow, rgba(105,108,255,.4));color:#fff !important;text-align:center;font-size:18px !important;line-height:38px;opacity:1;-webkit-transition:all .1s linear .2s;-o-transition:all .1s linear .2s;transition:all .1s linear .2s;-webkit-transform:translateX(-58px);-ms-transform:translateX(-58px);transform:translateX(-58px)}@media(max-width: 991.98px){#template-customizer .template-customizer-open-btn{top:145px}}.dark-style #template-customizer .template-customizer-open-btn{background:var(--bs-primary)}#template-customizer .template-customizer-open-btn::before{content:"";width:22px;height:22px;display:block;background-size:100% 100%;position:absolute;background-image:url(' +
                             d +
                             ');top:50%;left:50%;transform:translate(-50%, -50%)}.customizer-hide #template-customizer .template-customizer-open-btn{display:none}[dir=rtl] #template-customizer .template-customizer-open-btn{border-radius:0;border-top-right-radius:.375rem;border-bottom-right-radius:.375rem}[dir=rtl] #template-customizer .template-customizer-open-btn::before{margin-left:-2px}#template-customizer.template-customizer-open .template-customizer-open-btn{opacity:0;-webkit-transition-delay:0s;-o-transition-delay:0s;transition-delay:0s;-webkit-transform:none !important;-ms-transform:none !important;transform:none !important}#template-customizer .template-customizer-inner{position:relative;overflow:auto;-webkit-box-flex:0;-ms-flex:0 1 auto;flex:0 1 auto;opacity:1;-webkit-transition:opacity .2s;-o-transition:opacity .2s;transition:opacity .2s}#template-customizer .template-customizer-inner>div:first-child>hr:first-of-type{display:none !important}#template-customizer .template-customizer-inner>div:first-child>h5:first-of-type{padding-top:0 !important}#template-customizer .template-customizer-themes-inner{position:relative;opacity:1;-webkit-transition:opacity .2s;-o-transition:opacity .2s;transition:opacity .2s}#template-customizer .template-customizer-theme-item{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-align:center;align-items:center;-ms-flex-align:center;-webkit-box-flex:1;-ms-flex:1 1 100%;flex:1 1 100%;-webkit-box-pack:justify;-ms-flex-pack:justify;justify-content:space-between;margin-bottom:10px;padding:0 24px;width:100%;cursor:pointer}#template-customizer .template-customizer-theme-item input{position:absolute;z-index:-1;opacity:0}#template-customizer .template-customizer-theme-item input~span{opacity:.25;-webkit-transition:all .2s;-o-transition:all .2s;transition:all .2s}#template-customizer .template-customizer-theme-item .template-customizer-theme-checkmark{display:inline-block;width:6px;height:12px;border-right:1px solid;border-bottom:1px solid;opacity:0;-webkit-transition:all .2s;-o-transition:all .2s;transition:all .2s;-webkit-transform:rotate(45deg);-ms-transform:rotate(45deg);transform:rotate(45deg)}[dir=rtl] #template-customizer .template-customizer-theme-item .template-customizer-theme-checkmark{border-right:none;border-left:1px solid;-webkit-transform:rotate(-45deg);-ms-transform:rotate(-45deg);transform:rotate(-45deg)}#template-customizer .template-customizer-theme-item input:checked:not([disabled])~span,#template-customizer .template-customizer-theme-item:hover input:not([disabled])~span{opacity:1}#template-customizer .template-customizer-theme-item input:checked:not([disabled])~span .template-customizer-theme-checkmark{opacity:1}#template-customizer .template-customizer-theme-colors span{display:block;margin:0 1px;width:10px;height:10px;border-radius:50%;-webkit-box-shadow:0 0 0 1px rgba(0,0,0,.1) inset;box-shadow:0 0 0 1px rgba(0,0,0,.1) inset}#template-customizer.template-customizer-loading .template-customizer-inner,#template-customizer.template-customizer-loading-theme .template-customizer-themes-inner{opacity:.2}#template-customizer.template-customizer-loading .template-customizer-inner::after,#template-customizer.template-customizer-loading-theme .template-customizer-themes-inner::after{content:"";position:absolute;top:0;right:0;bottom:0;left:0;z-index:999;display:block}@media(max-width: 1200px){#template-customizer{display:none;visibility:hidden !important}}@media(max-width: 575.98px){#template-customizer{width:300px;-webkit-transform:translateX(320px);-ms-transform:translateX(320px);transform:translateX(320px)}}.layout-menu-100vh #template-customizer{height:100vh}[dir=rtl] #template-customizer{right:auto;left:0;-webkit-transform:translateX(-420px);-ms-transform:translateX(-420px);transform:translateX(-420px)}[dir=rtl] #template-customizer .template-customizer-open-btn{right:0;left:auto;-webkit-transform:translateX(58px);-ms-transform:translateX(58px);transform:translateX(58px)}[dir=rtl] #template-customizer .template-customizer-close-btn{right:auto;left:0}#template-customizer .template-customizer-layouts-options[disabled]{opacity:.5;pointer-events:none}[dir=rtl] .template-customizer-t-style_switch_light{padding-right:0 !important}',
                         "",
@@ -472,6 +472,7 @@
                         : w.contains("layout-menu-fixed-offcanvas")
                         ? "fixed-offcanvas"
                         : "static",
+
                     E = (function () {
                         function t(e) {
                             var i = e.cssPath,
@@ -499,7 +500,8 @@
                                 D = e.defaultTheme,
                                 q = e.pathResolver,
                                 H = e.onSettingsChange,
-                                M = e.lang;
+                                M = e.lang,
+                                V = e.primaryColor;
                             if (
                                 ((function (t, e) {
                                     if (!(t instanceof e))
@@ -547,6 +549,7 @@
                                         E || t.LAYOUTS),
                                     (this.settings.availableNavbarOptions =
                                         F || t.NAVBAR_OPTIONS),
+                                    (this.settings.primaryColor = V || t.PRIMARY_COLOR),
                                     (this.settings.defaultTheme =
                                         this._getDefaultTheme(
                                             void 0 !== D ? D : z
@@ -555,6 +558,7 @@
                                     (this.settings.navbarOptions = y || S),
                                     (this.settings.defaultStyle = f || k),
                                     (this.settings.lang = M || "en"),
+                                    // (this.settings.primaryColor = V || E.PRIMARY_COLOR),
                                     (this.pathResolver =
                                         q ||
                                         function (t) {
@@ -604,6 +608,7 @@
                                         this.settings.layoutFooterFixed,
                                         !1
                                     ),
+                                    // this.setPrimaryColor(V || "#89C25B"),
                                     this._setup();
                             }
                         }
@@ -639,6 +644,75 @@
                                                     this,
                                                     this.settings
                                                 ));
+                                    },
+                                },
+                                {
+                                    key: "setPrimaryColor",
+                                    value: function (t) {
+                                        const hexToRgb = (hex) => {
+                                            const bigint = parseInt(hex.slice(1), 16);
+                                            return {
+                                                r: (bigint >> 16) & 255,
+                                                g: (bigint >> 8) & 255,
+                                                b: bigint & 255,
+                                            };
+                                        };
+
+                                        const shadeColor = (color, percent) => {
+                                            const t = percent < 0 ? 0 : 255;
+                                            const p = Math.abs(percent);
+                                            const R = Math.round((t - color.r) * p + color.r);
+                                            const G = Math.round((t - color.g) * p + color.g);
+                                            const B = Math.round((t - color.b) * p + color.b);
+                                            return `rgb(${R}, ${G}, ${B})`;
+                                        };
+
+                                        // Ambil warna RGB dari localStorage atau convert dari warna hex yang diberikan
+                                        const storedColor = localStorage.getItem('templateCustomizer-vertical-menu-template--PrimaryColor');
+                                        const rgbPrimary = storedColor ? hexToRgb(storedColor) : hexToRgb(t);
+
+                                        // Konversi warna ke format CSS
+                                        const styles = `
+                                            :root {
+                                              --bs-primary: ${t};
+                                              --bs-primary-rgb: ${rgbPrimary.r}, ${rgbPrimary.g}, ${rgbPrimary.b};
+                                              --bs-primary-border-subtle: ${shadeColor(rgbPrimary, -0.2)};
+                                              --bs-primary-text-emphasis: ${shadeColor(rgbPrimary, -0.4)};
+                                              --bs-primary-bg-subtle: ${shadeColor(rgbPrimary, 0.2)};
+                                              --bs-primary-border: ${shadeColor(rgbPrimary, -0.2)};
+                                              --bs-card-border-color: ${shadeColor(rgbPrimary, -0.2)};
+                                              --bs-primary-hover-bg: ${shadeColor(rgbPrimary, -0.15)};
+                                              --bs-primary-hover: ${shadeColor(rgbPrimary, -0.15)};
+                                              --bs-primary-hover-border: ${shadeColor(rgbPrimary, -0.2)};
+                                              --bs-primary-active-bg: ${shadeColor(rgbPrimary, -0.25)};
+                                              --bs-primary-active-border: ${shadeColor(rgbPrimary, -0.4)};
+                                              --bs-primary-disabled-bg: ${shadeColor(rgbPrimary, 0.6)};
+                                              --bs-primary-disabled-border: ${shadeColor(rgbPrimary, 0.4)};
+                                              --bs-primary-disabled-text: ${shadeColor(rgbPrimary, 0.2)};
+                                              --bs-primary-focus-bg: ${t};
+                                              --bs-primary-focus-border: ${shadeColor(rgbPrimary, -0.25)};
+                                              --bs-primary-focus-shadow: rgba(${rgbPrimary.r}, ${rgbPrimary.g}, ${rgbPrimary.b}, 0.5);
+                                              --bs-primary-shadow: rgba(0, 0, 0, 0.2);
+                                              --bs-primary-menu-active: ${shadeColor(rgbPrimary, 0.4)};
+                                              --bs-primary-label: ${shadeColor(rgbPrimary, 0.6)};
+                                            }`;
+
+                                        // Masukkan style ke dalam tag <style> dinamis
+                                        let styleTag = document.getElementById('dynamic-bootstrap-colors');
+                                        if (!styleTag) {
+                                            styleTag = document.createElement('style');
+                                            styleTag.id = 'dynamic-bootstrap-colors';
+                                            document.head.appendChild(styleTag);
+                                        }
+                                        styleTag.innerHTML = styles;
+
+                                        // Simpan warna ke localStorage
+                                        localStorage.setItem(
+                                            'templateCustomizer-vertical-menu-template--PrimaryColor',
+                                            JSON.stringify(rgbPrimary)
+                                        );
+
+                                        this._setSetting("PrimaryColor", t);
                                     },
                                 },
                                 {
@@ -1068,6 +1142,7 @@
                                                 "contentLayout",
                                                 "Rtl",
                                                 "Lang",
+                                                "PrimaryColor",
                                             ].forEach(function (e) {
                                                 var i = "templateCustomizer-"
                                                     .concat(t, "--")
@@ -1116,14 +1191,16 @@
                                                     "FixedNavbarOption"
                                                 ),
                                             c = this._getSetting("FixedFooter"),
-                                            u = this._getSetting("LayoutType");
+                                            u = this._getSetting("LayoutType"),
+                                            V = this._getSetting("PrimaryColor");
                                         "" !== i ||
                                         "" !== s ||
                                         "" !== a ||
                                         "" !== n ||
                                         "" !== o ||
                                         "" !== l ||
-                                        "" !== u
+                                        "" !== u ||
+                                        "" !== V
                                             ? this._showResetBtnNotification(!0)
                                             : this._showResetBtnNotification(
                                                   !1
@@ -1240,7 +1317,10 @@
                                                 (this.settings.layoutNavbarOptions =
                                                     null),
                                             this._hasControls("themes") ||
-                                                (this.settings.theme = null);
+                                                (this.settings.theme = null),
+                                            this._hasControls("PrimaryColor") ||
+                                                (this.settings.primaryColor =
+                                                    null);
                                     },
                                 },
                                 {
@@ -1302,7 +1382,7 @@
                                         this._cleanup(),
                                             (this.container =
                                                 this._getElementFromString(
-                                                    '<div id="template-customizer" class="bg-card"> <a href="javascript:void(0)" class="template-customizer-open-btn" tabindex="-1"></a> <div class="p-6 m-0 lh-1 border-bottom template-customizer-header position-relative py-4"> <h6 class="template-customizer-t-panel_header mb-1"></h6> <p class="template-customizer-t-panel_sub_header mb-0 small"></p> <div class="d-flex align-items-center gap-2 position-absolute end-0 top-0 mt-6 me-5"> <a href="javascript:void(0)" class="template-customizer-reset-btn text-heading" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Reset Customizer"><i class="fa-solid fa-arrows-rotate"></i><span class="badge rounded-pill bg-danger badge-dot badge-notifications d-none"></span></a> <a href="javascript:void(0)" class="template-customizer-close-btn fw-light text-heading" tabindex="-1"> <i class="fa-solid fa-times"></i> </a> </div> </div> <div class="template-customizer-inner pt-6"> <div class="template-customizer-theming"> <h5 class="m-0 px-6 py-6"> <span class="template-customizer-t-theming_header bg-label-primary rounded-1 py-1 px-3 small"></span> </h5> <div class="m-0 px-6 pb-6 template-customizer-style w-100"> <label for="customizerStyle" class="form-label d-block template-customizer-t-style_label mb-2"></label> <div class="row px-1 template-customizer-styles-options"></div> </div> <div class="m-0 px-6 template-customizer-themes w-100"> <label for="customizerTheme" class="form-label template-customizer-t-theme_label mb-2"></label> <div class="row px-1 template-customizer-themes-options"></div> </div> </div> <div class="template-customizer-layout"> <hr class="m-0 px-6 my-6"/> <h5 class="m-0 px-6 pb-6"> <span class="template-customizer-t-layout_header bg-label-primary rounded-2 py-1 px-3 small"></span> </h5> <div class="m-0 px-6 pb-6 d-block template-customizer-layouts"> <label for="customizerStyle" class="form-label d-block template-customizer-t-layout_label mb-2"></label> <div class="row px-1 template-customizer-layouts-options"> </div> </div> <div class="m-0 px-6 pb-6 template-customizer-headerOptions w-100"> <label for="customizerHeader" class="form-label template-customizer-t-layout_header_label mb-2"></label> <div class="row px-1 template-customizer-header-options"></div> </div> <div class="m-0 px-6 pb-6 template-customizer-layoutNavbarOptions w-100"> <label for="customizerNavbar" class="form-label template-customizer-t-layout_navbar_label mb-2"></label> <div class="row px-1 template-customizer-navbar-options"></div> </div> <div class="m-0 px-6 pb-6 template-customizer-content w-100"> <label for="customizerContent" class="form-label template-customizer-t-content_label mb-2"></label> <div class="row px-1 template-customizer-content-options"></div> </div> <div class="m-0 px-6 pb-6 template-customizer-directions w-100"> <label for="customizerDirection" class="form-label template-customizer-t-direction_label mb-2"></label> <div class="row px-1 template-customizer-directions-options"></div> </div> </div> </div> </div> '
+                                                    '<div id="template-customizer" class="bg-card"> <a href="javascript:void(0)" class="template-customizer-open-btn" tabindex="-1"></a> <div class="p-6 m-0 lh-1 border-bottom template-customizer-header position-relative py-4"> <h6 class="template-customizer-t-panel_header mb-1"></h6> <p class="template-customizer-t-panel_sub_header mb-0 small"></p> <div class="d-flex align-items-center gap-2 position-absolute end-0 top-0 mt-6 me-5"> <a href="javascript:void(0)" class="template-customizer-reset-btn text-heading" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Reset Customizer"><i class="fa-solid fa-arrows-rotate"></i><span class="badge rounded-pill bg-danger badge-dot badge-notifications d-none"></span></a> <a href="javascript:void(0)" class="template-customizer-close-btn fw-light text-heading" tabindex="-1"> <i class="fa-solid fa-times"></i> </a> </div> </div> <div class="template-customizer-inner pt-6"> <div class="template-customizer-primary-color"> <h5 class="m-0 px-6 py-6"> <span class=" bg-label-primary rounded-1 py-1 px-3 small" >Warna</span > </h5> <div class="m-0 px-6 pb-6 template-customizer-primary-color-picker w-100"> <label for="customizerPrimaryColor" class="form-label template-customizer-t-color_picker_label mb-2" >Pilih Warna Utama</label > <input type="color" id="customizerPrimaryColor" name="customizerPrimaryColor" class="form-control form-control-color" value="#563d7c" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Kustom warna"  /> </div> </div> <hr/> <div class="template-customizer-theming"> <h5 class="m-0 px-6 py-6"> <span class="template-customizer-t-theming_header bg-label-primary rounded-1 py-1 px-3 small"></span> </h5> <div class="m-0 px-6 pb-6 template-customizer-style w-100"> <label for="customizerStyle" class="form-label d-block template-customizer-t-style_label mb-2"></label> <div class="row px-1 template-customizer-styles-options"></div> </div> <div class="m-0 px-6 template-customizer-themes w-100"> <label for="customizerTheme" class="form-label template-customizer-t-theme_label mb-2"></label> <div class="row px-1 template-customizer-themes-options"></div> </div> </div> <div class="template-customizer-layout"> <hr class="m-0 px-6 my-6"/> <h5 class="m-0 px-6 pb-6"> <span class="template-customizer-t-layout_header bg-label-primary rounded-2 py-1 px-3 small"></span> </h5> <div class="m-0 px-6 pb-6 d-block template-customizer-layouts"> <label for="customizerStyle" class="form-label d-block template-customizer-t-layout_label mb-2"></label> <div class="row px-1 template-customizer-layouts-options"> </div> </div> <div class="m-0 px-6 pb-6 template-customizer-headerOptions w-100"> <label for="customizerHeader" class="form-label template-customizer-t-layout_header_label mb-2"></label> <div class="row px-1 template-customizer-header-options"></div> </div> <div class="m-0 px-6 pb-6 template-customizer-layoutNavbarOptions w-100"> <label for="customizerNavbar" class="form-label template-customizer-t-layout_navbar_label mb-2"></label> <div class="row px-1 template-customizer-navbar-options"></div> </div> <div class="m-0 px-6 pb-6 template-customizer-content w-100"> <label for="customizerContent" class="form-label template-customizer-t-content_label mb-2"></label> <div class="row px-1 template-customizer-content-options"></div> </div> <div class="m-0 px-6 pb-6 template-customizer-directions w-100"> <label for="customizerDirection" class="form-label template-customizer-t-direction_label mb-2"></label> <div class="row px-1 template-customizer-directions-options"></div> </div> </div> </div> </div> '
                                                 ));
                                         var s = this.container;
                                         this.settings.displayCustomizer
@@ -1334,6 +1414,13 @@
                                                             500
                                                         ));
                                             };
+                                        var colorPicker = this.container.querySelector("#customizerPrimaryColor");
+                                        const primaryColor = localStorage.getItem('templateCustomizer-vertical-menu-template--PrimaryColor') || "#89C25B";
+                                        t.setPrimaryColor(primaryColor);
+                                        colorPicker.value = primaryColor;
+                                        colorPicker.addEventListener("input", function(event) {
+                                            t.setPrimaryColor(event.target.value);
+                                        });
                                         a.addEventListener("click", n),
                                             this._listeners.push([
                                                 a,
@@ -2286,7 +2373,7 @@
                     ]),
                     (E.LANGUAGES = {
                         en: {
-                            panel_header: "Template Kustom",
+                            panel_header: "Templat",
                             panel_sub_header:
                                 "Sesuaikan dan pratinjau secara real-time",
                             theming_header: "Tema",

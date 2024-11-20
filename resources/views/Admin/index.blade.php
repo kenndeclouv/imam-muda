@@ -126,16 +126,15 @@
             </div>
 
             <div class="col-12 mb-6">
-                <button type="button"
-                    class="btn btn-label-primary text-nowrap d-inline-flex position-relative mb-6 w-100">
-                    <h4 class="mb-0">Pengumuman</h4>
+                <div class="text-center py-3 border-0 rounded-3 bg-label-primary text-nowrap d-inline-flex position-relative mb-6 w-100">
+                    <h4 class="mb-0 mx-auto">Pengumuman</h4>
                     @if ($schedules->count() > 0)
                         <span
                             class="position-absolute top-0 start-100 translate-middle badge badge-center rounded-pill bg-primary text-white">
                             {{ $schedules->count() }}
                         </span>
                     @endif
-                </button>
+                    </div>
 
                 <div class="card text-center">
                     <div class="card-header border-bottom mb-4 nav-align-top">

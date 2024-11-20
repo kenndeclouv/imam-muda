@@ -32,7 +32,7 @@ class FeeController extends Controller
         foreach ($request->imam_id as $imamId) {
             $imamExists = Fee::where('imam_id', $imamId)->exists();
             if ($imamExists) {
-                return back()->withErrors(['error' => 'Bayaran Imam dengan ID ' . $imamId . ' sudah ditetapkan']);
+                return back()->withErrors(['error' => 'Bayaran Imam ini sudah ditetapkan']);
             }
             Fee::create(['imam_id' => $imamId, 'fee' => $request->fee]);
         }

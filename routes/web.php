@@ -128,5 +128,6 @@ Route::prefix('imam')->name('imam.')->middleware(['auth', 'can:isImam'])->group(
         
         Route::post('/cari-badal/{id}', [ImamScheduleController::class, 'cariBadal'])->name('cariBadal');
         Route::post('/done/{id}', [ImamScheduleController::class, 'done'])->name('done');
+        Route::post('/cancel/{id}', [ImamScheduleController::class, 'cancel'])->name('cancel');
     });
 });

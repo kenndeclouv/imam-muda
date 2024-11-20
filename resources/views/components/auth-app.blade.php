@@ -42,15 +42,9 @@
 
 <body>
     {{ $slot }}
+    
     <!-- Main JS -->
     <script src="{{ asset('assets/js/main.js') }}"></script>
-
-
-    <!-- Page JS -->
-    @if (isset($js))
-        {{ $js }}
-    @endif
-
 </body>
 
 </html>

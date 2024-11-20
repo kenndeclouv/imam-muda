@@ -66,16 +66,17 @@ class MySeeder extends Seeder
         ]);
 
         for ($i = 1; $i <= 10; $i++) {
+            $name = fake()->firstName;
             $user = User::create([
-                'name' => fake()->name,
+                'name' => $name,
                 'email' => fake()->email,
-                'username' => fake()->userName,
+                'username' => strtolower($name),
                 'password' => 'password',
                 'role_id' => 3,
             ]);
             $imam = Imam::create([
                 'user_id' => $user->id,
-                'fullname' => fake()->name,
+                'fullname' => $name,
                 'phone' => fake()->phoneNumber,
                 'birthplace' => fake()->city(),
                 'birthdate' => fake()->date(),

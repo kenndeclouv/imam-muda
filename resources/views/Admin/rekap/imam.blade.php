@@ -87,6 +87,7 @@
                 <div class="card-header border-bottom mb-4">
                     <h5 class="d-inline-block px-3 py-1 rounded-3 bg-label-success ">{{ $imam->fullname }}</h5>
                     <h5 class="d-inline-block px-3 py-1 rounded-3 bg-label-warning ">Total Jadwal : {{ $totalJadwal }}</h5>
+                    <h5 class="d-inline-block px-3 py-1 rounded-3 bg-label-secondary ">Total Jadwal Badal : {{ $totalJadwalBadal }}</h5>
                     <h5 class="d-inline-block px-3 py-1 rounded-3 bg-label-info ">Total Bayaran : {{ $totalBayaran }}</h5>
                 </div>
                 <div class="card-datatable">

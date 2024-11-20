@@ -174,7 +174,7 @@
                             </div>
                             <div class="col-12 d-flex justify-content-between">
                                 <button class="btn btn-primary btn-prev" type="button">
-                                    <i class="fa fa-arrow-left fa-sm ms-sm-n2 me-sm-2"></i>
+                                    <i class="fa fa-chevron-left fa-sm ms-sm-n2 me-sm-2"></i>
                                     <span class="align-middle d-sm-inline-block d-none">Sebelumnya</span>
                                 </button>
                                 <button class="btn btn-primary" type="submit">Tambahkan</button>

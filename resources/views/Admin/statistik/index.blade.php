@@ -26,38 +26,8 @@
                 <div id="lineAreaChart"></div>
             </div>
         </div>
-        {{-- <div class="card mb-3">
-            <div class="card-header border-bottom mb-4 d-flex justify-content-between">
-                <div>
-                    <h5 class="card-title mb-0">Imam Aktif</h5>
-                    <p class="card-subtitle my-0">Jumlah Imam yang aktif dalam jadwal</p>
-                </div>
-                <div class="d-flex gap-2">
-                    <div class="input-group">
-                        <div class="input-group-text">
-                            <i class="fa-solid fa-calendar"></i>
-                        </div>
-                        <select class="form-select select2" id="masjidChartDropdown">
-                            <option value="today">Today</option>
-                            <option value="yesterday">Yesterday</option>
-                            <option value="last7days">Last 7 Days</option>
-                            <option value="last30days">Last 30 Days</option>
-                            <option value="currentmonth">Current Month</option>
-                            <option value="lastmonth">Last Month</option>
-                        </select>
-                    </div>
-                </div>
-
-            </div>
-            <div class="card-body">
-                <div id="masjidChart"></div>
-            </div>
-        </div> --}}
     </div>
     <x-slot:js>
-        {{-- <script src="{{ asset('assets/vendor/libs/apex-charts/apexcharts.js') }}"></script> --}}
-        {{-- <script src="{{ asset('assets/js/charts-apex.js') }}"></script> --}}
-        {{-- <script src="https://cdn.jsdelivr.net/npm/apexcharts@3.41.0"></script> --}}
         <script>
             function formatDates(days) {
                 if (!days || !Array.isArray(days)) {
@@ -103,11 +73,13 @@
                             }
                         }
                     },
-                    colors: ['#a5f8cd', '#60f2ca', '#29dac7'],
-                    series: [{
-                        name: "Jumlah Jadwal Imam",
-                        data: totals
-                    }],
+                    colors: ['var(--bs-primary)','var(--bs-primary-label)'],
+                    series: [
+                        {
+                            name: "Jumlah Jadwal Imam",
+                            data: totals 
+                        }
+                    ],
                     xaxis: {
                         categories: formatDates(days),
                         labels: {
@@ -184,7 +156,6 @@
 
                 // Muat data awal
                 fetchImamData();
-                fetchMasjidData();
             });
         </script>
     </x-slot:js>

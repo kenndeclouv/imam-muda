@@ -30,7 +30,8 @@
                                             <span class="fw-medium">{{ $user->email }}</span>
                                         </li>
                                         <li class="list-inline-item">
-                                            <span class="fw-medium">Terdaftar {{ $user->created_at->format('F Y') }}</span>
+                                            <span class="fw-medium">Terdaftar
+                                                {{ $user->created_at->format('F Y') }}</span>
                                         </li>
                                     </ul>
                                 </div>

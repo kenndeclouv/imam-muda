@@ -27,7 +27,11 @@ class ScheduleController extends Controller
             ->whereMonth('date', $month)
             ->get();
 
-        return view('Imam.jadwal.index', compact('jadwals'));
+        $jadwalBadals = Schedule::where('badal_id', Auth::user()->Imam->id)
+            ->where('is_badal', true)
+            ->get();
+
+        return view('Imam.jadwal.index', compact('jadwals', 'jadwalBadals'));
     }
 
 
@@ -41,17 +45,7 @@ class ScheduleController extends Controller
 
     public function fetch(Request $request)
     {
-        $events = Schedule::with(['imam', 'masjid', 'shalat'])
-            ->when($request->filled('filter_imam'), function ($query) use ($request) {
-                $query->where('imam_id', $request->input('filter_imam'));
-            })
-            ->when($request->filled('filter_shalat'), function ($query) use ($request) {
-                $query->where('shalat_id', $request->input('filter_shalat'));
-            })
-            ->when($request->filled('filter_masjid'), function ($query) use ($request) {
-                $query->where('masjid_id', $request->input('filter_masjid'));
-            })
-            ->get()
+        $events = Schedule::with(['imam', 'masjid', 'shalat'])->get()
             ->map(function ($schedule) {
                 return [
                     'id' => $schedule->id,
@@ -64,6 +58,7 @@ class ScheduleController extends Controller
                         'imam' => $schedule->Imam->fullname,
                         'masjid' => $schedule->masjid->name,
                         'shalat' => $schedule->shalat->name,
+                        'note' => $schedule->note,
                     ]
                 ];
             });
@@ -109,7 +104,7 @@ class ScheduleController extends Controller
             ]);
         }
 
-        return redirect()->route('imam.jadwal.index')->with('success', 'Schedule berhasil ditambahkan.');
+        return redirect()->route('imam.jadwal.index')->with('success', 'Jadwal berhasil ditambahkan.');
     }
 
 
@@ -177,5 +172,12 @@ class ScheduleController extends Controller
         $jadwal = Schedule::findOrFail($id);
         $jadwal->update(['status' => 'done']);
         return redirect()->route('imam.jadwal.index')->with('success', 'Jadwal berhasil diselesaikan.');
+    }
+
+    public function cancel($id)
+    {
+        $jadwal = Schedule::findOrFail($id);
+        $jadwal->update(['badal_id' => null]);
+        return redirect()->route('imam.jadwal.index')->with('success', 'Badal berhasil dibatalkan.');
     }
 }

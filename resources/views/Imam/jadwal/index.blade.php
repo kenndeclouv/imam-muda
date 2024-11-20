@@ -14,7 +14,7 @@
                 </nav>
             </div>
         </div>
-        <div class="card app-calendar-wrapper mb-3">
+        <div class="card app-calendar-wrapper mb-3 d-none d-lg-block">
             <div class="row w-100 g-0">
                 <!-- Calendar Sidebar -->
                 <div class="col-3 app-calendar-sidebar border-end pb-4" id="app-calendar-sidebar">
@@ -47,154 +47,239 @@
             </div>
         </div>
 
-        <div class="card">
+        <div class="card nav-align-top nav-tabs-shadow">
             <div class="card-header border-bottom mb-4">
                 <h5 class="card-title">Daftar Jadwal</h5>
             </div>
+            <ul class="nav nav-tabs nav-fill border-bottom" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button type="button" class="nav-link active" role="tab" data-bs-toggle="tab"
+                        data-bs-target="#jadwal-imam" aria-controls="jadwal-imam" aria-selected="true"
+                        tabindex="-1"><span class="d-none d-sm-block"><i
+                                class="tf-icons bx bx-home bx-sm me-1_5 align-text-bottom"></i>Jadwal Imam</span><i
+                            class="bx bx-home bx-sm d-sm-none"></i></button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
+                        data-bs-target="#jadwal-badal" aria-controls="jadwal-badal" aria-selected="false"
+                        tabindex="-1"><span class="d-none d-sm-block"><i
+                                class="tf-icons bx bx-user bx-sm me-1_5 align-text-bottom"></i>Jadwal Badal</span><i
+                            class="bx bx-user bx-sm d-sm-none"></i></button>
+                </li>
+            </ul>
             <div class="card-body pb-0">
                 @include('components.alert')
 
-                <div class="card-actions d-flex w-100">
+                <div class="card-actions d-flex flex-wrap w-100">
                     <form method="GET" action="{{ route('imam.jadwal.index') }}" class="mb-3 w-100">
-                        <label for="month">Pilih Bulan</label>
-                        <div class="d-flex gap-2 flex-row">
-                            <input type="month" id="month" name="month" class="form-control h-25 w-25"
-                                value="{{ request('month') }}" {{ request('month') ? 'selected' : '' }}>
-                            <div class="d-flex">
+                        <label for="month" class="form-label">Pilih Bulan</label>
+                        <div class="d-flex flex-wrap gap-2">
+                            <input type="month" id="month" name="month" class="form-control flex-grow-1"
+                                value="{{ request('month') ?? now()->format('Y-m') }}" {{ request('month') ? 'selected' : '' }}>
+                            <div class="d-flex flex-wrap gap-2">
                                 <button type="submit" class="btn btn-primary">Filter</button>
-                                <a href="{{ route('imam.jadwal.index') }}" class="btn btn-secondary ms-2">Reset</a>
+                                <a href="{{ route('imam.jadwal.index') }}" class="btn btn-secondary">Reset</a>
                             </div>
-                            <a href="{{ route('imam.jadwal.create') }}" class="btn btn-primary ms-auto">Tambah
-                                Jadwal</a>
+                            <a href="{{ route('imam.jadwal.create') }}" class="btn btn-primary ms-auto mt-2 mt-sm-0">Tambah Jadwal</a>
                         </div>
                     </form>
                 </div>
             </div>
-            <div class="card-datatable table-responsive text-start text-nowrap">
-                <table class="table table-bordered table-responsive-sm table-responsive-md table-responsive-xl w-100"
-                    id="dataTable" style="width: 100%;">
-                    <thead>
-                        <tr>
-                            <th>Nama Imam</th>
-                            <th>Shalat</th>
-                            <th>Nama Masjid</th>
-                            <th>Tanggal</th>
-                            <th>Aksi</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($jadwals as $jadwal)
-                            <tr>
-                                <td>{{ $jadwal->Imam->fullname }}</td>
-                                <td>{{ $jadwal->Shalat->name }}</td>
-                                <td>{{ $jadwal->Masjid->name }}</td>
-                                <td>{{ \Carbon\Carbon::parse($jadwal->date)->format('d F Y') }}</td>
-                                <td>
-                                    <div class="d-flex gap-2" aria-label="Basic example">
+            <div class="tab-content">
+                <div class="tab-pane fade active show" id="jadwal-imam">
+                    <div class="card-datatable table-responsive text-start text-nowrap">
+                        <table
+                            class="table table-bordered table-responsive-sm table-responsive-md table-responsive-xl w-100 dataTable"
+                            style="width: 100%;">
+                            <thead>
+                                <tr>
+                                    <th>Nama Imam</th>
+                                    <th>Shalat</th>
+                                    <th>Nama Masjid</th>
+                                    <th>Tanggal</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($jadwals as $jadwal)
+                                    <tr>
+                                        <td>{{ $jadwal->Imam->fullname }}</td>
+                                        <td>{{ $jadwal->Shalat->name }}</td>
+                                        <td>{{ $jadwal->Masjid->name }}</td>
+                                        <td>{{ \Carbon\Carbon::parse($jadwal->date)->format('d F Y') }}</td>
+                                        <td>
+                                            <div class="d-flex gap-2" aria-label="Basic example">
+                                                @if ($jadwal->status == 'to_do')
+                                                    @if ($jadwal->is_badal == 0)
+                                                        <!-- Tombol Edit Jadwal -->
+                                                        <a href="{{ route('imam.jadwal.edit', $jadwal->id) }}"
+                                                            class="btn btn-warning" data-bs-toggle="tooltip"
+                                                            data-bs-placement="top" title="Edit Jadwal">
+                                                            <i class="fa-solid fa-edit"></i>
+                                                        </a>
 
-                                        @if ($jadwal->status == 'to_do')
-                                            @if ($jadwal->is_badal == 0)
-                                                <!-- Tombol Edit Jadwal -->
-                                                <a href="{{ route('imam.jadwal.edit', $jadwal->id) }}"
-                                                    class="btn btn-warning" data-bs-toggle="tooltip"
-                                                    data-bs-placement="top" title="Edit Jadwal">
-                                                    <i class="fa-solid fa-edit"></i>
-                                                </a>
+                                                        <!-- Tombol Hapus Jadwal -->
+                                                        <x-confirm-delete :route="route('imam.jadwal.destroy', $jadwal->id)" title="Hapus Jadwal"
+                                                            message="Apakah anda yakin ingin menghapus jadwal ini?" />
 
-                                                <!-- Tombol Hapus Jadwal -->
-                                                <x-confirm-delete :route="route('imam.jadwal.destroy', $jadwal->id)" title="Hapus Jadwal"
-                                                    message="Apakah anda yakin ingin menghapus jadwal ini?" />
+                                                        <!-- Tombol Carikan Badal -->
+                                                        <span data-bs-toggle="tooltip" data-bs-placement="top"
+                                                            title="Carikan Badal">
+                                                            <button type="button" class="btn btn-info"
+                                                                data-bs-toggle="modal"
+                                                                data-bs-target="#carikanBadalModal{{ $jadwal->id }}">
+                                                                <i class="fa-solid fa-user-pen"></i>
+                                                            </button>
+                                                        </span>
 
-                                                <!-- Tombol Carikan Badal -->
-                                                <button type="button" class="btn btn-info" data-bs-toggle="modal"
-                                                    data-bs-target="#carikanBadalModal{{ $jadwal->id }}"
-                                                    data-bs-toggle="tooltip" data-bs-placement="top"
-                                                    title="Carikan Badal">
-                                                    <i class="fa-solid fa-user-pen"></i>
-                                                </button>
-
-                                                <!-- Tombol Jadikan Selesai -->
-                                                <form id="done-form-{{ $jadwal->id }}"
-                                                    action="{{ route('imam.jadwal.done', $jadwal->id) }}"
-                                                    method="POST" class="d-inline">
-                                                    @csrf
-                                                    <button type="button" class="btn btn-success"
-                                                        data-bs-toggle="tooltip" data-bs-placement="top"
-                                                        title="Status Selesai"
-                                                        onclick="confirmDone({{ $jadwal->id }})">
-                                                        <i class="fa-solid fa-check"></i>
-                                                    </button>
-                                                </form>
-                                            @else
-                                                @if ($jadwal->badal_id != null)
-                                                    <!-- Badge Dibadalkan -->
-                                                    <div class="badge bg-label-warning">
-                                                        Dibadalkan
-                                                    </div>
-
-                                                    <!-- Badge Nama Badal -->
-                                                    <div class="badge bg-label-info">
-                                                        {{ optional($jadwal->Badal)->fullname }}
-                                                    </div>
-
-                                                    @if ($jadwal->status == 'done')
-                                                        <!-- Badge Telah Dilaksanakan -->
-                                                        <div class="badge bg-label-success">
-                                                            Telah Dilaksanakan
-                                                        </div>
+                                                        <!-- Tombol Jadikan Selesai -->
+                                                        <form id="done-form-{{ $jadwal->id }}"
+                                                            action="{{ route('imam.jadwal.done', $jadwal->id) }}"
+                                                            method="POST" class="d-inline">
+                                                            @csrf
+                                                            <button type="button" class="btn btn-success"
+                                                                data-bs-toggle="tooltip" data-bs-placement="top"
+                                                                title="Status Selesai"
+                                                                onclick="confirmDone({{ $jadwal->id }})">
+                                                                <i class="fa-solid fa-check"></i>
+                                                            </button>
+                                                        </form>
                                                     @else
-                                                        <!-- Badge Belum Dilaksanakan -->
-                                                        <div class="badge bg-label-danger">
-                                                            Belum Dilaksanakan
-                                                        </div>
+                                                        @if ($jadwal->badal_id != null)
+                                                            <!-- Badge Dibadalkan -->
+                                                            <div class="badge bg-label-warning">
+                                                                Dibadalkan
+                                                            </div>
+
+                                                            <!-- Badge Nama Badal -->
+                                                            <div class="badge bg-label-info">
+                                                                {{ optional($jadwal->Badal)->fullname }}
+                                                            </div>
+
+                                                            @if ($jadwal->status == 'done')
+                                                                <!-- Badge Telah Dilaksanakan -->
+                                                                <div class="badge bg-label-success">
+                                                                    Telah Dilaksanakan
+                                                                </div>
+                                                            @else
+                                                                <!-- Badge Belum Dilaksanakan -->
+                                                                <div class="badge bg-label-danger">
+                                                                    Belum Dilaksanakan
+                                                                </div>
+                                                            @endif
+                                                        @else
+                                                            <!-- Badge Belum Dibadalkan -->
+                                                            <div class="badge bg-label-danger">
+                                                                Belum Dibadalkan
+                                                            </div>
+                                                        @endif
                                                     @endif
                                                 @else
-                                                    <!-- Badge Belum Dibadalkan -->
-                                                    <div class="badge bg-label-danger">
-                                                        Belum Dibadalkan
+                                                    <!-- Badge Telah Dilaksanakan -->
+                                                    <div class="badge bg-label-success">
+                                                        Telah Dilaksanakan
                                                     </div>
                                                 @endif
-                                            @endif
-                                        @else
-                                            <!-- Badge Telah Dilaksanakan -->
-                                            <div class="badge bg-label-success">
-                                                Telah Dilaksanakan
-                                            </div>
-                                        @endif
 
-                                    </div>
-                                </td>
-                            </tr>
-                            <!-- Modal -->
-                            <div class="modal fade" id="carikanBadalModal{{ $jadwal->id }}" tabindex="-1"
-                                aria-labelledby="carikanBadalModalLabel{{ $jadwal->id }}" aria-hidden="true">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="carikanBadalModalLabel">Carikan Badal</h5>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                aria-label="Close"></button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                @foreach ($jadwals as $jadwal)
+                    <!-- Modal -->
+                    <div class="modal fade" id="carikanBadalModal{{ $jadwal->id }}" tabindex="-1"
+                        aria-labelledby="carikanBadalModalLabel{{ $jadwal->id }}" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-scrollable">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="carikanBadalModalLabel">Carikan Badal
+                                    </h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <form method="POST" action="{{ route('imam.jadwal.cariBadal', $jadwal->id) }}">
+                                        @csrf
+                                        <div class="mb-3">
+                                            <label for="note" class="form-label">Catatan</label>
+                                            <input type="text" class="form-control" id="note" name="note"
+                                                required>
                                         </div>
-                                        <div class="modal-body">
-                                            <form method="POST"
-                                                action="{{ route('imam.jadwal.cariBadal', $jadwal->id) }}">
-                                                @csrf
-                                                <div class="mb-3">
-                                                    <label for="note" class="form-label">Catatan</label>
-                                                    <input type="text" class="form-control" id="note"
-                                                        name="note" required>
-                                                </div>
-                                                <button type="submit" class="btn btn-primary">Submit</button>
-                                            </form>
-                                        </div>
-                                    </div>
+                                        <button type="submit" class="btn btn-primary">Kirim</button>
+                                    </form>
                                 </div>
                             </div>
-                        @endforeach
-                    </tbody>
-                </table>
+                        </div>
+                    </div>
+                @endforeach
+                <div class="tab-pane fade" id="jadwal-badal">
+                    <div class="card-datatable table-responsive text-start text-nowrap">
+                        <table
+                            class="table table-bordered table-responsive-sm table-responsive-md table-responsive-xl w-100 dataTable"
+                            style="width: 100%;">
+                            <thead>
+                                <tr>
+                                    <th>Nama Imam Asli</th>
+                                    <th>Tanggal</th>
+                                    <th>Masjid</th>
+                                    <th>Shalat</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($jadwalBadals as $jadwalBadal)
+                                    <tr>
+                                        <td>{{ $jadwalBadal->Imam->fullname }}</td>
+                                        <td>{{ \Carbon\Carbon::parse($jadwalBadal->date)->format('d F Y') }}</td>
+                                        <td>{{ $jadwalBadal->Masjid->name }}</td>
+                                        <td>{{ $jadwalBadal->Shalat->name }}</td>
+                                        <td>
+                                            <div class="d-flex gap-2" aria-label="Basic example">
+                                                @if ($jadwalBadal->status == 'to_do')
+                                                    <form id="done-form-{{ $jadwalBadal->id }}"
+                                                        action="{{ route('imam.jadwal.done', $jadwalBadal->id) }}"
+                                                        method="POST" class="d-inline">
+                                                        @csrf
+                                                        <button type="button" class="btn btn-success"
+                                                            data-bs-toggle="tooltip" data-bs-placement="top"
+                                                            title="Status Selesai"
+                                                            onclick="confirmDone({{ $jadwalBadal->id }})">
+                                                            <i class="fa-solid fa-check"></i>
+                                                        </button>
+                                                    </form>
+                                                    <form id="cancel-form-{{ $jadwalBadal->id }}"
+                                                        action="{{ route('imam.jadwal.cancel', $jadwalBadal->id) }}"
+                                                        method="POST" class="d-inline">
+                                                        @csrf
+                                                        <button type="button" class="btn btn-danger"
+                                                            data-bs-toggle="tooltip" data-bs-placement="top"
+                                                            title="Batalkan Jadwal"
+                                                            onclick="confirmCancel({{ $jadwalBadal->id }})">
+                                                            <i class="fa-solid fa-x"></i>
+                                                        </button>
+                                                    </form>
+                                                @else
+                                                    <!-- Badge Telah Dilaksanakan -->
+                                                    <div class="badge bg-label-success">
+                                                        Telah Dilaksanakan
+                                                    </div>
+                                                @endif
+
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
+
     </div>
     <x-slot:style>
         {{-- <link rel="stylesheet" href="{{ asset('assets/vendor/libs/bs-stepper/bs-stepper.css') }}"> --}}
@@ -207,6 +292,16 @@
         <link rel="stylesheet"
             href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
         <style>
+            .modal {
+                z-index: 1050;
+                /* Default Bootstrap modal z-index */
+            }
+
+            .modal-backdrop {
+                z-index: 1040;
+                /* Background modal */
+            }
+
             #calendar {
                 margin-top: 30px;
             }
@@ -418,16 +513,16 @@
                     }
                 });
 
-                $('#dataTable').DataTable();
+                $('.dataTable').DataTable();
 
-                $('#jadwal-imam, #jadwal-shalat, #jadwal-masjid').select2({
-                    placeholder: "Pilih Opsi",
-                    dropdownParent: $('#addEventSidebar')
-                });
+                // $('#jadwal-imam, #jadwal-shalat, #jadwal-masjid').select2({
+                //     placeholder: "Pilih Opsi",
+                //     dropdownParent: $('#addEventSidebar')
+                // });
 
-                $('#filter_imam, #filter_shalat, #filter_masjid').select2({
-                    placeholder: "Pilih Filter",
-                });
+                // $('#filter_imam, #filter_shalat, #filter_masjid').select2({
+                //     placeholder: "Pilih Filter",
+                // });
 
             });
 
@@ -445,6 +540,24 @@
                 }).then((result) => {
                     if (result.isConfirmed) {
                         document.getElementById('done-form-' + jadwalId).submit();
+                    }
+                })
+            }
+
+            function confirmCancel(jadwalId) {
+                Swal.fire({
+                    title: 'Apakah Anda yakin?',
+                    text: "Anda tidak akan dapat mengembalikan ini!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Ya, batalkan!',
+                    background: isDarkMode ? '#2b2c40' : '#fff',
+                    color: isDarkMode ? '#b2b2c4' : '#000'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        document.getElementById('cancel-form-' + jadwalId).submit();
                     }
                 })
             }
