@@ -667,6 +667,12 @@
                                             return `rgb(${R}, ${G}, ${B})`;
                                         };
 
+                                        function extractRGBValues(rgbString) {
+                                            const regex = /rgb\((\d+),\s*(\d+),\s*(\d+)\)/;
+                                            const match = rgbString.match(regex);
+                                            return match ? `${match[1]}, ${match[2]}, ${match[3]}` : null;
+                                        }
+
                                         // Ambil warna RGB dari localStorage atau convert dari warna hex yang diberikan
                                         const storedColor = localStorage.getItem('templateCustomizer-vertical-menu-template--PrimaryColor');
                                         const rgbPrimary = storedColor ? hexToRgb(storedColor) : hexToRgb(t);
@@ -683,6 +689,8 @@
                                               --bs-card-border-color: ${shadeColor(rgbPrimary, -0.2)};
                                               --bs-primary-hover-bg: ${shadeColor(rgbPrimary, -0.15)};
                                               --bs-primary-hover: ${shadeColor(rgbPrimary, -0.15)};
+                                              --bs-link-hover-color-rgb: ${extractRGBValues(shadeColor(rgbPrimary, 0.65))};
+                                              --bs-link-color-rgb: ${extractRGBValues(shadeColor(rgbPrimary, 0.65))};
                                               --bs-primary-hover-border: ${shadeColor(rgbPrimary, -0.2)};
                                               --bs-primary-active-bg: ${shadeColor(rgbPrimary, -0.25)};
                                               --bs-primary-active-border: ${shadeColor(rgbPrimary, -0.4)};

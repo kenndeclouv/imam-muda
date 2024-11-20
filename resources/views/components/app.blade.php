@@ -70,22 +70,23 @@
         href="https://cdn.jsdelivr.net/npm/datatables.net-buttons-bs5@2.2.3/css/buttons.bootstrap5.min.css">
     <link rel="stylesheet" href="{{ asset('assets/vendor/libs/flatpickr/flatpickr.css') }}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@form-validation@1.8.1/dist/css/formValidation.min.css">
-    
+
         <!-- Page CSS -->
         @if (isset($style))
             {{ $style }}
         @endif
-    
+
         <!-- Helpers -->
         <script src="{{ asset('assets/vendor/libs/jquery/jquery.js') }}"></script>
         <script src="{{ asset('assets/vendor/libs/select2/select2.js') }}"></script>
         <script src="https://cdn.jsdelivr.net/npm/toastr@2.1.4/build/toastr.min.js"></script>
         <script src="{{ asset('assets/vendor/js/helpers.js') }}"></script>
         <script src="https://cdn.jsdelivr.net/npm/ui-toasts.js"></script>
-        <script src="{{ asset('assets/vendor/js/template-customizer.min.js') }}"></script>
+        {{-- <script src="{{ asset('assets/vendor/js/template-customizer.min.js') }}"></script> --}}
+        <script src="{{ asset('assets/vendor/js/template-customizer.js') }}"></script>
         <script src="{{ asset('assets/js/config.js') }}"></script>
     </head>
-    
+
 
 <body style="overflow-x: hidden">
     <div class="layout-wrapper layout-content-navbar">

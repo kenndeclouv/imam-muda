@@ -65,7 +65,8 @@
                                     <span class="dropdown-shortcuts-icon rounded-circle mb-3">
                                         <i class="{{ $shortcut->icon ?? 'fa-solid fa-bookmark' }} text-heading"></i>
                                     </span>
-                                    <a href="{{ $shortcut->link }}" class="stretched-link">{{ $shortcut->title }}</a>
+                                    <a href="{{ $shortcut->link }}" class="stretched-link"
+                                        style="var(--bs-link-color-rgb)">{{ $shortcut->title }}</a>
                                     <small>{{ $shortcut->description }}</small>
                                 </div>
                             @endforeach

@@ -39,7 +39,7 @@
                         @foreach ($masjids as $masjid)
                             <tr>
                                 <td>{{ $masjid->name }}</td>
-                                <td>{{ $masjid->address }}</td>
+                                <td>{{ Str::limit($masjid->address, 60) }}</td>
                                 <td>{{ $masjid->updated_at->format('d F Y H:i') }}</td>
                                 <td>
                                     <div class="d-flex gap-2" aria-label="Basic example">

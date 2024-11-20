@@ -25,6 +25,8 @@ class MasjidController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:50',
             'address' => 'required|string',
+            'latitude' => 'required|numeric',
+            'longitude' => 'required|numeric',
         ]);
 
         Masjid::create($validated);
@@ -43,6 +45,8 @@ class MasjidController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:50',
             'address' => 'required|string',
+            'latitude' => 'required|numeric',
+            'longitude' => 'required|numeric',
         ]);
 
         $masjid = Masjid::findOrFail($id);

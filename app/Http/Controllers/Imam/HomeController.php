@@ -11,7 +11,7 @@ class HomeController extends Controller
 {
     public function index()
     {
-        return view('Imam.index'); // Assuming you have a view file for the Imam home page
+        return view('Imam.index');
     }
     public function update(Request $request)
     {
@@ -31,18 +31,5 @@ class HomeController extends Controller
         $imam->update($validated);
 
         return redirect()->route('account')->with('success', 'Imam berhasil diperbarui.');
-    }
-
-    public function destroy($id)
-    {
-        $imam = Imam::findOrFail($id);
-        $user = $imam->User; // Get the associated user
-        $imam->delete();
-
-        if ($user) {
-            $user->delete(); // Delete the user as well
-        }
-
-        return redirect()->route('admin.imam.index')->with('success', 'Imam berhasil dihapus.');
     }
 }
