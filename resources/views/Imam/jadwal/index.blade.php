@@ -18,13 +18,13 @@
             <div class="row w-100 g-0">
                 <!-- Calendar Sidebar -->
                 <div class="col-3 app-calendar-sidebar border-end pb-4" id="app-calendar-sidebar">
-                    <div class="border-bottom p-6 my-sm-0 mb-4">
+                    {{-- <div class="border-bottom p-6 my-sm-0 mb-4">
                         <button class="btn btn-primary btn-toggle-sidebar w-100" data-bs-toggle="offcanvas"
                             data-bs-target="#addEventSidebar" aria-controls="addEventSidebar">
                             <i class="fa fa-plus fa-16px me-2"></i>
                             <span class="align-middle">Add Event</span>
                         </button>
-                    </div>
+                    </div> --}}
                     <div class="px-3 pt-2">
                         <!-- inline calendar (flatpicker) -->
                         <div class="inline-calendar"></div>

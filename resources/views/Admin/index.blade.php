@@ -78,7 +78,7 @@
                             </div>
                         </div>
                         <p class="mb-1">Total Bayaran Imam</p>
-                        <h4 class="card-title mb-3">Rp.{{ number_format($bayaranImam ?? 0 , 0, ',', '.') }}</h4>
+                        <h4 class="card-title mb-3">Rp.{{ number_format($bayaranImam ?? 0, 0, ',', '.') }}</h4>
                     </div>
                 </div>
             </div>
@@ -100,31 +100,37 @@
 
             <div class="col-12 mb-6">
                 <span
-                    class="text-center py-3 border-0 rounded-3 bg-label-primary fs-4 fw-semibold text-nowrap d-flex position-relative mb-6 w-100">
+                    class="text-center py-3 border-0 rounded-3 bg-label-primary fs-4 fw-semibold text-nowrap d-flex mb-6 w-100">
                     <span class="mx-auto">Pengumuman</span>
-                    @if ($schedules->count() > 0)
-                        <span
-                            class="position-absolute top-0 start-100 translate-middle badge badge-center rounded-pill bg-primary text-white">
-                            {{ $schedules->count() }}
-                        </span>
-                    @endif
                 </span>
 
                 <div class="card text-center">
                     <div class="card-header border-bottom mb-4 nav-align-top">
-                        <ul class="nav nav-pills flex-column flex-md-row" role="tablist">
-                            <li class="nav-item">
+                        <ul class="nav nav-pills flex-column flex-md-row gap-3" role="tablist">
+                            <li class="nav-item position-relative">
                                 <button type="button" class="nav-link active" role="tab" data-bs-toggle="tab"
                                     data-bs-target="#navs-pills-pengumuman" aria-controls="navs-pills-pengumuman"
                                     aria-selected="true">
                                     Pengumuman
+                                    @if ($announcements->count() > 0)
+                                        <span
+                                            class="position-absolute top-0 start-100 translate-middle badge badge-center rounded-pill bg-info text-white">
+                                            {{ $announcements->count() }}
+                                        </span>
+                                    @endif
                                 </button>
                             </li>
-                            <li class="nav-item">
+                            <li class="nav-item position-relative">
                                 <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
                                     data-bs-target="#navs-pills-imam" aria-controls="navs-pills-imam"
                                     aria-selected="true">
                                     Imam minta Badal
+                                    @if ($schedules->count() > 0)
+                                        <span
+                                            class="position-absolute top-0 start-100 translate-middle badge badge-center rounded-pill bg-info text-white">
+                                            {{ $schedules->count() }}
+                                        </span>
+                                    @endif
                                 </button>
                             </li>
                         </ul>
@@ -153,10 +159,15 @@
                                                 <td>
                                                     @if ($announcement->is_active)
                                                         <span class="badge bg-label-success">Aktif</span>
+                                                    @else
+                                                        <span class="badge bg-label-danger">Tidak Aktif</span>
                                                     @endif
                                                 </td>
                                                 <td>
-
+                                                    <a href="{{ route('admin.pengumuman.edit', $announcement->id) }}"
+                                                        class="btn btn-sm btn-warning">
+                                                        <i class="fa fa-edit"></i>
+                                                    </a>
                                                 </td>
                                             </tr>
                                         @endforeach

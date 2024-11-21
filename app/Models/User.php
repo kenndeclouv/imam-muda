@@ -103,6 +103,10 @@ class User extends Authenticatable
     {
         return $this->hasOne(Imam::class);
     }
+    public function Admin()
+    {
+        return $this->hasOne(Admin::class);
+    }
     public function UserNotifications()
     {
         return $this->hasMany(UserNotification::class);

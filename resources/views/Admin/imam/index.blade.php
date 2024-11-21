@@ -1,7 +1,7 @@
 <x-app>
-    <x-slot:css>
-        <link rel="stylesheet" href="https://cdn.datatables.net/2.1.8/css/jquery.dataTables.min.css">
-    </x-slot:css>
+    @php
+        $permissions = Auth::user()->Admin->getPermissionCodes();
+    @endphp
     <div class="container-xxl flex-grow-1 container-p-y">
         <div class="card mb-3">
             <div class="card-body">
@@ -19,9 +19,11 @@
             </div>
             <div class="card-body pb-0">
                 @include('components.alert')
-                <div class="card-actions d-flex">
-                    <a href="{{ route('admin.imam.create') }}" class="btn btn-primary ms-auto">Tambah Imam</a>
-                </div>
+                @if ($permissions->contains('imam_create'))
+                    <div class="card-actions d-flex">
+                        <a href="{{ route('admin.imam.create') }}" class="btn btn-primary ms-auto">Tambah Imam</a>
+                    </div>
+                @endif
             </div>
             <div class="card-datatable table-responsive text-start text-nowrap">
                 <table class="table table-bordered table-responsive-sm table-responsive-md table-responsive-xl w-100"
@@ -50,13 +52,17 @@
                                             onclick="show('Detail Imam',[{label:'Nama',value:'{{ $imam->fullname }}'},{label:'Juz yang dihafal',value:'{{ $imam->juz }}'},{label:'No. Handphone',value:'{{ $imam->phone }}'},{label:'Alamat',value:'{{ $imam->address }}'}])">
                                             <i class="fa-solid fa-eye"></i>
                                         </button>
-                                        <a href="{{ route('admin.imam.edit', $imam->id) }}" class="btn btn-warning"
-                                            data-bs-toggle="tooltip" data-bs-placement="top"
-                                            data-bs-title="Edit Imam">
-                                            <i class="fa-solid fa-edit"></i>
-                                        </a>
-                                        <x-confirm-delete :route="route('admin.imam.destroy', $imam->id)" title="Hapus Imam"
-                                            message="Apakah anda yakin ingin menghapus imam ini?" />
+                                        @if ($permissions->contains('imam_edit'))
+                                            <a href="{{ route('admin.imam.edit', $imam->id) }}" class="btn btn-warning"
+                                                data-bs-toggle="tooltip" data-bs-placement="top"
+                                                data-bs-title="Edit Imam">
+                                                <i class="fa-solid fa-edit"></i>
+                                            </a>
+                                        @endif
+                                        @if ($permissions->contains('imam_delete'))
+                                            <x-confirm-delete :route="route('admin.imam.destroy', $imam->id)" title="Hapus Imam"
+                                                message="Apakah anda yakin ingin menghapus imam ini?" />
+                                        @endif
                                         <a href="{{ route('admin.imam.index', $imam->id) }}" class="btn btn-primary"
                                             data-bs-toggle="tooltip" data-bs-placement="top"
                                             data-bs-title="Detail Imam">

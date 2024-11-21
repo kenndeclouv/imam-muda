@@ -3,7 +3,7 @@
         <h1 class="mb-2 mx-2" style="line-height: 6rem;font-size: 6rem;">500</h1>
         <h4 class="mb-2 mx-2">Internal Server Error! 🔐</h4>
         <p class="mb-6 mx-2">Maaf server tidak dapat memproses permintaan anda. Silahkan coba lagi!</p>
-        <a href="{{ route(str_replace('_', '', Auth::user()->Role->code) . '.home') }}" class="btn btn-primary">Kembali</a>
+        <a href="{{ url()->previous()  }}" class="btn btn-primary">Kembali</a>
         <div class="mt-6">
             <img src="/assets/img/illustrations/girl-with-laptop-light.png" alt="page-misc-not-authorized-light"
                 width="500" class="img-fluid" data-app-light-img="illustrations/girl-with-laptop-light.png"

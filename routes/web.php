@@ -20,10 +20,11 @@ use App\Http\Controllers\Admin\StatisticController as AdminStatisticController;
 use App\Http\Controllers\Admin\AnnouncementController as AdminAnnouncementController;
 // Imam
 use App\Http\Controllers\Imam\ScheduleController as ImamScheduleController;
+use App\Http\Controllers\Imam\HomeController as ImamHomeController;
 
 // SuperAdmin
 use App\Http\Controllers\SuperAdmin\HomeController as SuperAdminHomeController;
-use App\Http\Controllers\Imam\HomeController as ImamHomeController;
+use App\Http\Controllers\SuperAdmin\AdminController as SuperAdminAdminController;
 
 // Route untuk Landing Page
 Route::get('/', function () {
@@ -62,6 +63,20 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/account', [AccountController::class, 'index'])->name('account');
     Route::post('/account/shortcut', [AccountController::class, 'storeShortcut'])->name('account.shortcut');
     Route::put('/account/update/{id}', [AccountController::class, 'update'])->name('account.update');
+});
+
+// Routes untuk SuperAdmin
+Route::prefix('superadmin')->name('superadmin.')->middleware(['auth', 'can:isSuperAdmin'])->group(function () {
+    Route::get('/home', [SuperAdminHomeController::class, 'index'])->name('home');
+
+    Route::prefix('admin')->name('admin.')->group(function () {
+        Route::get('/', [SuperAdminAdminController::class, 'index'])->name('index');
+        Route::get('/create', [SuperAdminAdminController::class, 'create'])->name('create');
+        Route::post('/create', [SuperAdminAdminController::class, 'store'])->name('store');
+        Route::get('/edit/{id}', [SuperAdminAdminController::class, 'edit'])->name('edit');
+        Route::put('/edit/{id}', [SuperAdminAdminController::class, 'update'])->name('update');
+        Route::delete('/delete/{id}', [SuperAdminAdminController::class, 'destroy'])->name('destroy');
+    });
 });
 
 // Routes untuk Admin
@@ -126,11 +141,6 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'can:isAdmin'])->gro
         Route::put('/edit/{id}', [AdminAnnouncementController::class, 'update'])->name('update');
         Route::delete('/delete/{id}', [AdminAnnouncementController::class, 'destroy'])->name('destroy');
     });
-});
-
-// Routes untuk SuperAdmin
-Route::prefix('superadmin')->name('superadmin.')->middleware(['auth', 'can:isSuperAdmin'])->group(function () {
-    Route::get('/home', [SuperAdminHomeController::class, 'index'])->name('home');
 });
 
 // Routes untuk Imam

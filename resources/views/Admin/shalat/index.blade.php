@@ -1,7 +1,7 @@
 <x-app>
-    <x-slot:css>
-        <link rel="stylesheet" href="https://cdn.datatables.net/2.1.8/css/jquery.dataTables.min.css">
-    </x-slot:css>
+    @php
+        $permissions = Auth::user()->Admin->getPermissionCodes();
+    @endphp
     <div class="container-xxl flex-grow-1 container-p-y">
         <div class="card mb-3">
             <div class="card-body">
@@ -20,9 +20,11 @@
             <div class="card-body pb-0">
                 @include('components.alert')
 
-                <div class="card-actions d-flex">
-                    <a href="{{ route('admin.shalat.create') }}" class="btn btn-primary ms-auto">Tambah Shalat</a>
-                </div>
+                @if ($permissions->contains('shalat_create'))
+                    <div class="card-actions d-flex">
+                        <a href="{{ route('admin.shalat.create') }}" class="btn btn-primary ms-auto">Tambah Shalat</a>
+                    </div>
+                @endif
             </div>
             <div class="card-datatable table-responsive text-start text-nowrap">
                 <table class="table table-bordered table-responsive-sm table-responsive-md table-responsive-xl w-100"
@@ -33,7 +35,9 @@
                             <th>Jam Mulai Shalat</th>
                             <th>Sampai Jam</th>
                             <th>terakhir diubah</th>
-                            <th>aksi</th>
+                            @if ($permissions->contains('shalat_edit') || $permissions->contains('shalat_delete'))
+                                <th>aksi</th>
+                            @endif
                         </tr>
                     </thead>
                     <tbody>
@@ -43,17 +47,23 @@
                                 <td>{{ \Carbon\Carbon::parse($shalat->start)->format('H:i') }}</td>
                                 <td>{{ \Carbon\Carbon::parse($shalat->end)->format('H:i') }}</td>
                                 <td>{{ $shalat->updated_at->format('d F Y H:i') }}</td>
-                                <td>
-                                    <div class="d-flex gap-2" aria-label="Basic example">
-                                        <a href="{{ route('admin.shalat.edit', $shalat->id) }}" class="btn btn-warning"
-                                            data-bs-toggle="tooltip" data-bs-placement="top"
-                                            data-bs-title="Edit Shalat">
-                                            <i class="fa-solid fa-edit"></i>
-                                        </a>
-                                        <x-confirm-delete :route="route('admin.shalat.destroy', $shalat->id)" title="Hapus Shalat"
-                                            message="Apakah anda yakin ingin menghapus shalat ini?" />
-                                    </div>
-                                </td>
+                                @if ($permissions->contains('shalat_edit') || $permissions->contains('shalat_delete'))
+                                    <td>
+                                        <div class="d-flex gap-2" aria-label="Basic example">
+                                            @if ($permissions->contains('shalat_edit'))
+                                                <a href="{{ route('admin.shalat.edit', $shalat->id) }}"
+                                                    class="btn btn-warning" data-bs-toggle="tooltip"
+                                                    data-bs-placement="top" data-bs-title="Edit Shalat">
+                                                    <i class="fa-solid fa-edit"></i>
+                                                </a>
+                                            @endif
+                                            @if ($permissions->contains('shalat_delete'))
+                                                <x-confirm-delete :route="route('admin.shalat.destroy', $shalat->id)" title="Hapus Shalat"
+                                                    message="Apakah anda yakin ingin menghapus shalat ini?" />
+                                            @endif
+                                        </div>
+                                    </td>
+                                @endif
                             </tr>
                         @endforeach
                     </tbody>

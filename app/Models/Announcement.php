@@ -14,4 +14,8 @@ class Announcement extends Model
     {
         return $this->belongsTo(Role::class, 'target_id');
     }
+    public function getPhotoAttribute($value)
+    {
+        return (!empty($value) && !is_null($value)) ? asset($value) : null;
+    }
 }

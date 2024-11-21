@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Imam;
 
 use App\Http\Controllers\Controller;
+use App\Models\Announcement;
 use App\Models\Imam;
+use App\Models\Schedule;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -11,7 +13,18 @@ class HomeController extends Controller
 {
     public function index()
     {
-        return view('Imam.index');
+        $schedules = Schedule::where('status', 'to_do')
+            ->where('is_badal', true)
+            ->where('badal_id', null)
+            ->where('imam_id', '!=', Auth::user()->imam->id)
+            ->get();
+
+        $announcements = Announcement::where('is_active', 1)
+            ->where('target_id', Auth::user()->role->id)
+            ->whereMonth('date', now()->month)
+            // ->orWhereDate('date', '<=', now())
+            ->get();
+        return view('Imam.index', compact('schedules', 'announcements'));
     }
     public function update(Request $request)
     {

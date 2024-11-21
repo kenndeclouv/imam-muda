@@ -1,9 +1,8 @@
 <x-app>
-    <x-slot:css>
-        <link rel="stylesheet" href="https://cdn.datatables.net/2.1.8/css/jquery.dataTables.min.css">
-    </x-slot:css>
+    @php
+        $permissions = Auth::user()->Admin->getPermissionCodes();
+    @endphp
     <div class="container-xxl flex-grow-1 container-p-y">
-
         <div class="card mb-3">
             <div class="card-body">
                 <nav aria-label="breadcrumb">
@@ -18,13 +17,15 @@
             <div class="row w-100 g-0">
                 <!-- Calendar Sidebar -->
                 <div class="col-3 app-calendar-sidebar border-end pb-4" id="app-calendar-sidebar">
-                    <div class="border-bottom p-6 my-sm-0 mb-4">
-                        <button class="btn btn-primary btn-toggle-sidebar w-100" data-bs-toggle="offcanvas"
-                            data-bs-target="#addEventSidebar" aria-controls="addEventSidebar">
-                            <i class="fa fa-plus fa-16px me-2"></i>
-                            <span class="align-middle">Add Event</span>
-                        </button>
-                    </div>
+                    @if ($permissions->contains('jadwal_create'))
+                        <div class="border-bottom p-6 my-sm-0 mb-4">
+                            <button class="btn btn-primary btn-toggle-sidebar w-100" data-bs-toggle="offcanvas"
+                                data-bs-target="#addEventSidebar" aria-controls="addEventSidebar">
+                                <i class="fa fa-plus fa-16px me-2"></i>
+                                <span class="align-middle">Add Event</span>
+                            </button>
+                        </div>
+                    @endif
                     <div class="px-3 pt-2">
                         <!-- inline calendar (flatpicker) -->
                         <div class="inline-calendar"></div>
@@ -80,89 +81,95 @@
                     </div> --}}
                     <div class="app-overlay"></div>
                     <!-- FullCalendar Offcanvas -->
-                    <div class="offcanvas offcanvas-end event-sidebar" tabindex="-1" id="addEventSidebar"
-                        aria-labelledby="addEventSidebarLabel">
-                        <div class="offcanvas-header border-bottom">
-                            <h5 class="offcanvas-title" id="addEventSidebarLabel">Add Jadwal</h5>
-                            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"
-                                aria-label="Close"></button>
-                        </div>
-                        <div class="offcanvas-body">
-                            <form class="event-form pt-0" id="eventForm" method="POST"
-                                action="{{ route('admin.jadwal.store') }}">
-                                @csrf
-                                <div class="mb-6">
-                                    <label class="form-label" for="jadwal-imam">Nama Imam</label>
-                                    <select name="imam_id" class="form-control select2" id="jadwal-imam" required>
-                                        <option value="" disabled {{ old('imam_id') ? '' : 'selected' }}>Pilih
-                                            Imam</option>
-                                        @foreach ($imams as $imam)
-                                            <option value="{{ $imam->id }}"
-                                                {{ old('imam_id') == $imam->id ? 'selected' : '' }}>
-                                                {{ $imam->fullname }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="mb-6">
-                                    <label class="form-label" for="jadwal-shalat">Shalat</label>
-                                    <select name="shalat_id[]" class="form-control select2" id="jadwal-shalat" multiple
-                                        required>
-                                        @foreach ($shalats as $shalat)
-                                            <option value="{{ $shalat->id }}"
-                                                {{ in_array($shalat->id, old('shalat_id', [])) ? 'selected' : '' }}>
-                                                {{ $shalat->name }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="mb-6">
-                                    <label class="form-label" for="jadwal-masjid">Masjid</label>
-                                    <select name="masjid_id" class="form-control select2" id="jadwal-masjid" required>
-                                        <option value="" disabled {{ old('masjid_id') ? '' : 'selected' }}>Pilih
-                                            Masjid</option>
-                                        @foreach ($masjids as $masjid)
-                                            <option value="{{ $masjid->id }}"
-                                                {{ old('masjid_id') == $masjid->id ? 'selected' : '' }}>
-                                                {{ $masjid->name }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="mb-6">
-                                    <label class="form-label" for="eventDate">Tanggal</label>
-                                    <input type="date" class="form-control" id="eventDate" name="date"
-                                        required />
-                                </div>
-                                <div class="mb-6">
-                                    <label class="form-label" for="jadwal-status">Status</label>
-                                    <div id="jadwal-status">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="status"
-                                                id="status-to_do" value="to_do"
-                                                {{ old('status') == 'to_do' ? 'checked' : '' }} checked>
-                                            <label class="form-check-label" for="status-to_do">
-                                                Akan
-                                            </label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="status"
-                                                id="status-done" value="done"
-                                                {{ old('status') == 'done' ? 'checked' : '' }}>
-                                            <label class="form-check-label" for="status-done">
-                                                Selesai
-                                            </label>
+                    @if ($permissions->contains('jadwal_create'))
+                        <div class="offcanvas offcanvas-end event-sidebar" tabindex="-1" id="addEventSidebar"
+                            aria-labelledby="addEventSidebarLabel">
+                            <div class="offcanvas-header border-bottom">
+                                <h5 class="offcanvas-title" id="addEventSidebarLabel">Add Jadwal</h5>
+                                <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="offcanvas-body">
+                                <form class="event-form pt-0" id="eventForm" method="POST"
+                                    action="{{ route('admin.jadwal.store') }}">
+                                    @csrf
+                                    <div class="mb-6">
+                                        <label class="form-label" for="jadwal-imam">Nama Imam</label>
+                                        <select name="imam_id" class="form-control select2" id="jadwal-imam" required>
+                                            <option value="" disabled {{ old('imam_id') ? '' : 'selected' }}>
+                                                Pilih
+                                                Imam</option>
+                                            @foreach ($imams as $imam)
+                                                <option value="{{ $imam->id }}"
+                                                    {{ old('imam_id') == $imam->id ? 'selected' : '' }}>
+                                                    {{ $imam->fullname }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="mb-6">
+                                        <label class="form-label" for="jadwal-shalat">Shalat</label>
+                                        <select name="shalat_id[]" class="form-control select2" id="jadwal-shalat"
+                                            multiple required>
+                                            @foreach ($shalats as $shalat)
+                                                <option value="{{ $shalat->id }}"
+                                                    {{ in_array($shalat->id, old('shalat_id', [])) ? 'selected' : '' }}>
+                                                    {{ $shalat->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="mb-6">
+                                        <label class="form-label" for="jadwal-masjid">Masjid</label>
+                                        <select name="masjid_id" class="form-control select2" id="jadwal-masjid"
+                                            required>
+                                            <option value="" disabled {{ old('masjid_id') ? '' : 'selected' }}>
+                                                Pilih
+                                                Masjid</option>
+                                            @foreach ($masjids as $masjid)
+                                                <option value="{{ $masjid->id }}"
+                                                    {{ old('masjid_id') == $masjid->id ? 'selected' : '' }}>
+                                                    {{ $masjid->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="mb-6">
+                                        <label class="form-label" for="eventDate">Tanggal</label>
+                                        <input type="date" class="form-control" id="eventDate" name="date"
+                                            required />
+                                    </div>
+                                    <div class="mb-6">
+                                        <label class="form-label" for="jadwal-status">Status</label>
+                                        <div id="jadwal-status">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="status"
+                                                    id="status-to_do" value="to_do"
+                                                    {{ old('status') == 'to_do' ? 'checked' : '' }} checked>
+                                                <label class="form-check-label" for="status-to_do">
+                                                    Akan
+                                                </label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="status"
+                                                    id="status-done" value="done"
+                                                    {{ old('status') == 'done' ? 'checked' : '' }}>
+                                                <label class="form-check-label" for="status-done">
+                                                    Selesai
+                                                </label>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="d-flex justify-content-sm-between justify-content-start mt-6 gap-2">
-                                    <div class="d-flex">
-                                        <button type="submit" class="btn btn-primary me-4">Tambahkan</button>
-                                        <button type="reset" class="btn btn-label-secondary btn-cancel me-sm-0 me-1"
-                                            data-bs-dismiss="offcanvas">Cancel</button>
+                                    <div class="d-flex justify-content-sm-between justify-content-start mt-6 gap-2">
+                                        <div class="d-flex">
+                                            <button type="submit" class="btn btn-primary me-4">Tambahkan</button>
+                                            <button type="reset"
+                                                class="btn btn-label-secondary btn-cancel me-sm-0 me-1"
+                                                data-bs-dismiss="offcanvas">Cancel</button>
+                                        </div>
+                                        <button class="btn btn-label-danger btn-delete-event d-none">Delete</button>
                                     </div>
-                                    <button class="btn btn-label-danger btn-delete-event d-none">Delete</button>
-                                </div>
-                            </form>
+                                </form>
+                            </div>
                         </div>
-                    </div>
+                    @endif
                 </div>
                 <!-- /Calendar & Modal -->
             </div>
@@ -180,12 +187,16 @@
                         <label for="month" class="form-label">Pilih Bulan</label>
                         <div class="d-flex flex-wrap gap-2">
                             <input type="month" id="month" name="month" class="form-control flex-grow-1"
-                                value="{{ request('month') ?? now()->format('Y-m') }}" {{ request('month') ? 'selected' : '' }}>
+                                value="{{ request('month') ?? now()->format('Y-m') }}"
+                                {{ request('month') ? 'selected' : '' }}>
                             <div class="d-flex flex-wrap gap-2">
                                 <button type="submit" class="btn btn-primary">Filter</button>
                                 <a href="{{ route('admin.jadwal.index') }}" class="btn btn-secondary">Reset</a>
                             </div>
-                            <a href="{{ route('admin.jadwal.create') }}" class="btn btn-primary ms-auto mt-2 mt-sm-0">Tambah Jadwal</a>
+                            @if ($permissions->contains('jadwal_create'))
+                                <a href="{{ route('admin.jadwal.create') }}"
+                                    class="btn btn-primary ms-auto mt-2 mt-sm-0">Tambah Jadwal</a>
+                            @endif
                         </div>
                     </form>
                 </div>
@@ -215,7 +226,8 @@
                                         <span class="badge bg-label-danger">Membutuhkan Badal</span>
                                     @elseif($jadwal->is_badal == 1 && $jadwal->badal_id != null)
                                         <span class="badge bg-label-warning">Dibadalkan</span>
-                                        <span class="badge bg-label-info">{{ optional($jadwal->Badal)->fullname }}</span>
+                                        <span
+                                            class="badge bg-label-info">{{ optional($jadwal->Badal)->fullname }}</span>
                                     @endif
                                     @if ($jadwal->status == 'to_do')
                                         <span class="badge bg-label-danger">Belum dilaksanakan</span>
@@ -224,16 +236,18 @@
                                     @endif
                                 </td>
                                 <td>
-                                    <div class="d-flex gap-2" aria-label="Basic example">
-                                        <a href="{{ route('admin.jadwal.edit', $jadwal->id) }}"
-                                            class="btn btn-warning" data-bs-toggle="tooltip" data-bs-placement="top"
-                                            data-bs-title="Edit Jadwal">
-                                            <i class="fa-solid fa-edit"></i>
-                                        </a>
-
+                                    @if ($permissions->contains('jadwal_edit'))
+                                        <div class="d-flex gap-2" aria-label="Basic example">
+                                            <a href="{{ route('admin.jadwal.edit', $jadwal->id) }}"
+                                                class="btn btn-warning" data-bs-toggle="tooltip"
+                                                data-bs-placement="top" data-bs-title="Edit Jadwal">
+                                                <i class="fa-solid fa-edit"></i>
+                                            </a>
+                                    @endif
+                                    @if ($permissions->contains('jadwal_delete'))
                                         <x-confirm-delete :route="route('admin.jadwal.destroy', $jadwal->id)" title="Hapus Jadwal"
                                             message="Apakah anda yakin ingin menghapus jadwal ini?" />
-                                    </div>
+                                    @endif
                                 </td>
                             </tr>
                         @endforeach

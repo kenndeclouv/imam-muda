@@ -1,20 +1,25 @@
 <li class="menu-item">
     <a href="javascript:void(0);" class="menu-link menu-toggle">
-        <i class="menu-icon tf-icons fa fa-shield-alt"></i>
-        <div class="text-truncate" data-i18n="Roles & Permissions">
-            Jadwal
+        <i class="menu-icon fa fa-user-shield fs-6"></i>
+        <div class="text-truncate">
+            Admin
         </div>
     </a>
     <ul class="menu-sub">
         <li class="menu-item">
-            <a href="app-access-roles.html" class="menu-link">
-                <div class="text-truncate" data-i18n="Roles">Roles</div>
+            <a href="admin-access-roles.html" class="menu-link">
+                <div class="text-truncate">Daftar Admin</div>
             </a>
         </li>
         <li class="menu-item">
-            <a href="app-access-permission.html" class="menu-link">
-                <div class="text-truncate" data-i18n="Permission">
-                    Permission
+            <a href="admin-access-roles.html" class="menu-link">
+                <div class="text-truncate">Admin Roles</div>
+            </a>
+        </li>
+        <li class="menu-item">
+            <a href="admin-access-permission.html" class="menu-link">
+                <div class="text-truncate">
+                    Admin Permission
                 </div>
             </a>
         </li>

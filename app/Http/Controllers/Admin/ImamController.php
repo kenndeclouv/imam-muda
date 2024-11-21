@@ -47,12 +47,10 @@ class ImamController extends Controller
 
         if ($request->hasFile('photo')) {
             $filename = uniqid() . '_' . time() . '.' . $request->file('photo')->getClientOriginalExtension();
-
             // Pindahkan file ke folder
             $photoPath = $request->file('photo')->move(public_path('public/uploads/photo/'), $filename);
             $validated['photo'] = 'public/uploads/photo/' . $filename;
         }
-
 
         $user = User::create($validated);
 

@@ -2,9 +2,12 @@
 
 namespace Database\Seeders;
 
+use App\Models\Admin;
+use App\Models\Feature;
 use App\Models\Fee;
 use App\Models\Imam;
 use App\Models\Masjid;
+use App\Models\Permission;
 use App\Models\Quote;
 use App\Models\Role;
 use App\Models\Shalat;
@@ -32,6 +35,14 @@ class MySeeder extends Seeder
         ]);
 
         User::create([
+            'name' => 'Ustadz Rujian',
+            'email' => 'superadmin@gmail.com',
+            'username' => 'superadmin',
+            'password' => 'superadmin',
+            'role_id' => 1,
+        ]);
+
+        User::create([
             'name' => 'Ustadz Alfin Shahih',
             'email' => 'admin@gmail.com',
             'username' => 'admin',
@@ -39,12 +50,11 @@ class MySeeder extends Seeder
             'role_id' => 2,
         ]);
 
-        User::create([
-            'name' => 'Ustadz Rujian',
-            'email' => 'superadmin@gmail.com',
-            'username' => 'superadmin',
-            'password' => 'admin',
-            'role_id' => 1,
+        Admin::create([
+            'user_id' => 2,
+            'fullname' => 'Ustadz Alfin Shahih',
+            'phone' => fake()->phoneNumber,
+            'address' => fake()->address,
         ]);
 
         User::create([
@@ -125,5 +135,117 @@ class MySeeder extends Seeder
         //         'length' => strlen($quote),
         //     ]);
         // }
+
+        Feature::create([
+            'name' => 'Tampilkan Imam',
+            'code' => 'imam_show',
+        ]);
+        Feature::create([
+            'name' => 'Tambah Imam',
+            'code' => 'imam_create',
+        ]);
+        Feature::create([
+            'name' => 'Ubah Imam',
+            'code' => 'imam_edit',
+        ]);
+        Feature::create([
+            'name' => 'Hapus Imam',
+            'code' => 'imam_delete',
+        ]);
+        Feature::create([
+            'name' => 'Tampilkan Shalat',
+            'code' => 'shalat_show',
+        ]);
+        Feature::create([
+            'name' => 'Tambah Shalat',
+            'code' => 'shalat_create',
+        ]);
+        Feature::create([
+            'name' => 'Ubah Shalat',
+            'code' => 'shalat_edit',
+        ]);
+        Feature::create([
+            'name' => 'Hapus Shalat',
+            'code' => 'shalat_delete',
+        ]);
+        Feature::create([
+            'name' => 'Tampilkan Masjid',
+            'code' => 'masjid_show',
+        ]);
+        Feature::create([
+            'name' => 'Tambah Masjid',
+            'code' => 'masjid_create',
+        ]);
+        Feature::create([
+            'name' => 'Ubah Masjid',
+            'code' => 'masjid_edit',
+        ]);
+        Feature::create([
+            'name' => 'Hapus Masjid',
+            'code' => 'masjid_delete',
+        ]);
+        Feature::create([
+            'name' => 'Tampilkan Jadwal',
+            'code' => 'jadwal_show',
+        ]);
+        Feature::create([
+            'name' => 'Tambah Jadwal',
+            'code' => 'jadwal_create',
+        ]);
+        Feature::create([
+            'name' => 'Ubah Jadwal',
+            'code' => 'jadwal_edit',
+        ]);
+        Feature::create([
+            'name' => 'Hapus Jadwal',
+            'code' => 'jadwal_delete',
+        ]);
+        Feature::create([
+            'name' => 'Tampilkan Bayaran',
+            'code' => 'bayaran_show',
+        ]);
+        Feature::create([
+            'name' => 'Tambah Bayaran',
+            'code' => 'bayaran_create',
+        ]);
+        Feature::create([
+            'name' => 'Ubah Bayaran',
+            'code' => 'bayaran_edit',
+        ]);
+        Feature::create([
+            'name' => 'Hapus Bayaran',
+            'code' => 'bayaran_delete',
+        ]);
+        Feature::create([
+            'name' => 'Tampilkan Pengumuman',
+            'code' => 'pengumuman_show',
+        ]);
+        Feature::create([
+            'name' => 'Tambah Pengumuman',
+            'code' => 'pengumuman_create',
+        ]);
+        Feature::create([
+            'name' => 'Ubah Pengumuman',
+            'code' => 'pengumuman_edit',
+        ]);
+        Feature::create([
+            'name' => 'Hapus Pengumuman',
+            'code' => 'pengumuman_delete',
+        ]);
+        Feature::create([
+            'name' => 'Tampilkan Rekap',
+            'code' => 'rekap_show',
+        ]);
+        Feature::create([
+            'name' => 'Tampilkan Statistik',
+            'code' => 'statistik_show',
+        ]);
+
+        for ($i = 1; $i <= 26; $i++) {
+            Permission::create([
+                'admin_id' => 1,
+                'feature_id' => $i
+            ]);
+        }
     }
 }
