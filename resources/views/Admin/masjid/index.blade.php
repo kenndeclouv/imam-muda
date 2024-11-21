@@ -1,7 +1,4 @@
 <x-app>
-    <x-slot:css>
-        <link rel="stylesheet" href="https://cdn.datatables.net/2.1.8/css/jquery.dataTables.min.css">
-    </x-slot:css>
     <div class="container-xxl flex-grow-1 container-p-y">
         <div class="card mb-3">
             <div class="card-body">
@@ -60,7 +57,6 @@
         </div>
     </div>
     <x-slot:js>
-        <script src="https://cdn.datatables.net/2.1.8/js/jquery.dataTables.min.js"></script>
         <script>
             $(document).ready(function() {
                 $('#dataTable').DataTable();

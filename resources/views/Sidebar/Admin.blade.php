@@ -131,3 +131,26 @@
         </li>
     </ul>
 </li>
+<li class="menu-header small text-uppercase">
+    <span class="menu-header-text">Tools</span>
+</li>
+<li class="menu-item {{ request()->routeIs('admin.pengumuman.*') ? 'open active' : '' }}">
+    <a href="javascript:void(0);" class="menu-link menu-toggle">
+        <i class="menu-icon fa-solid fa-bullhorn fs-6"></i>
+        <div class="text-truncate">
+            Pengumuman
+        </div>
+    </a>
+    <ul class="menu-sub">
+        <li class="menu-item {{ request()->routeIs('admin.pengumuman.index') ? 'active' : '' }}">
+            <a href="{{ route('admin.pengumuman.index') }}" class="menu-link">
+                <div class="text-truncate">Daftar Pengumuman</div>
+            </a>
+        </li>
+        <li class="menu-item {{ request()->routeIs('admin.pengumuman.create') ? 'active' : '' }}">
+            <a href="{{ route('admin.pengumuman.create') }}" class="menu-link">
+                <div class="text-truncate">Tambah Pengumuman</div>
+            </a>
+        </li>
+    </ul>
+</li>

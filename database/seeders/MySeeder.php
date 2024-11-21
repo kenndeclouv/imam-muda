@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\Fee;
 use App\Models\Imam;
 use App\Models\Masjid;
+use App\Models\Quote;
 use App\Models\Role;
 use App\Models\Shalat;
 use App\Models\User;
@@ -113,5 +114,16 @@ class MySeeder extends Seeder
             'start' => '15:00:00',
             'end' => '16:00:00',
         ]);
+
+        // Quote
+        // for ($i = 1; $i <= 20; $i++) {
+        //     $quote = fake()->realText(220);
+        //     Quote::create([
+        //         'content' => $quote,
+        //         'source' => fake()->name,
+        //         'tags' => fake()->randomElement(['quran', 'hadits', 'perkataan ulama']),
+        //         'length' => strlen($quote),
+        //     ]);
+        // }
     }
 }

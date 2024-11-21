@@ -57,6 +57,11 @@
                                         </a>
                                         <x-confirm-delete :route="route('admin.imam.destroy', $imam->id)" title="Hapus Imam"
                                             message="Apakah anda yakin ingin menghapus imam ini?" />
+                                        <a href="{{ route('admin.imam.index', $imam->id) }}" class="btn btn-primary"
+                                            data-bs-toggle="tooltip" data-bs-placement="top"
+                                            data-bs-title="Detail Imam">
+                                            <i class="fa-solid fa-list-check"></i>
+                                        </a>
                                     </div>
                                 </td>
                             </tr>

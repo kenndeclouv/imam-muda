@@ -1,4 +1,4 @@
-<aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
+<aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme pb-5">
     <div class="app-brand my-4">
         <a href="" class="app-brand-link">
             <img src="{{ asset(config('app.logo')) }}" alt="{{ config('app.name') . ' logo' }}"
@@ -9,22 +9,6 @@
             <i class="fa-solid fa-chevron-left d-flex align-items-center justify-content-center"></i>
         </a>
     </div>
-    {{-- <div class="app-brand demo ">
-        <a href="index.html" class="app-brand-link">
-            <span class="app-brand-logo demo">
-                <img src="{{ asset(config('app.logo')) }}" alt="{{ config('app.name') . ' logo' }}"
-                    style="max-height: 50px">
-            </span>
-            <span class="app-brand-text demo menu-text fw-bold ms-2">{{ ucwords(str_replace('_', ' ', env('APP_NAME'))) }}</span>
-        </a>
-
-        <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto">
-            <i class="fa-solid fa-chevron-left d-flex align-items-center justify-content-center"></i>
-        </a>
-    </div> --}}
-
-    <div class="menu-inner-shadow"></div>
-
     <ul class="menu-inner py-1">
         <li class="menu-item {{ request()->routeIs('*.home') ? 'active' : '' }}">
             <a href="{{ route(str_replace('_', '', Auth::user()->Role->code) . '.home') }}" class="menu-link">
@@ -39,12 +23,12 @@
             <span class="menu-header-text">Menu</span>
         </li>
         @switch(Auth::user()->Role->code)
-            @case('admin')
-                @include('Sidebar.Admin')
-            @break
-
             @case('super_admin')
                 @include('Sidebar.Superadmin')
+            @break
+
+            @case('admin')
+                @include('Sidebar.Admin')
             @break
 
             @case('imam')

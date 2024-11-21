@@ -12,14 +12,8 @@
                                 <p class="mb-6">
                                     {{ \Carbon\Carbon::now()->format('d F Y H:i') }}
                                 </p>
+                                <span class="badge bg-label-primary fs-5 ">{{ Auth::user()->Role->name }}</span>
 
-                                {{-- <a href="javascript:;" class="btn btn-sm btn-label-primary">View Badges</a> --}}
-                                {{-- <div class="sk-fold sk-primary">
-                                    <div class="sk-fold-cube"></div>
-                                    <div class="sk-fold-cube"></div>
-                                    <div class="sk-fold-cube"></div>
-                                    <div class="sk-fold-cube"></div>
-                                </div> --}}
                             </div>
                         </div>
                     </div>
@@ -46,23 +40,10 @@
                         </div>
                         <p class="mb-1">Total Imam</p>
                         <h4 class="card-title mb-3">{{ $imams }}</h4>
-                        <small class="fw-medium">
-                            @if ($percentageChange > 0)
-                                <span class="text-success"><i class="fas fa-arrow-up"></i>
-                                    +{{ number_format($percentageChange, 2) }}%</span>
-                            @elseif($percentageChange < 0)
-                                <span class="text-danger"><i class="fas fa-arrow-down"></i>
-                                    {{ number_format($percentageChange, 2) }}%</span>
-                            @else
-                                <span class="text-muted"> 0%</span>
-                            @endif
-                        </small>
-
                     </div>
                 </div>
             </div>
-
-            <div class="col-3 mb-6">
+            <div class="col-12 col-lg-3 mb-6">
                 <div class="card h-100">
                     <div class="card-body">
                         <div class="card-title d-flex align-items-start justify-content-between mb-4">
@@ -75,51 +56,43 @@
                     </div>
                 </div>
             </div>
-            <div class="col-3 mb-6">
-                <div class="card h-100">
-                    <div class="card-body pb-0">
-                        <span class="d-block fw-medium mb-1">Revenue</span>
-                        <h4 class="card-title mb-0 mb-lg-4">425k</h4>
-                        <div id="revenueChart"></div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-3 mb-6">
+            <div class="col-12 col-lg-3 mb-6">
                 <div class="card h-100">
                     <div class="card-body">
                         <div class="card-title d-flex align-items-start justify-content-between mb-4">
-                            <div class="bg-info rounded-circle d-flex" style="width: 50px; height: 50px">
-                                <i class="menu-icon fa-solid fa-mosque m-auto text-white"></i>
+                            <div class="bg-primary rounded-circle d-flex" style="width: 50px; height: 50px">
+                                <i class="menu-icon fa-solid fa-bullhorn m-auto text-white"></i>
                             </div>
                         </div>
-                        <p class="mb-1">Total Masjid</p>
-                        <h4 class="card-title mb-3">{{ $masjids }}</h4>
+                        <p class="mb-1">Total Pengumuman</p>
+                        <h4 class="card-title mb-3">{{ $announcements->count() }}</h4>
                     </div>
                 </div>
             </div>
-            <div class="col-3 mb-6">
+            <div class="col-12 col-lg-6 mb-6">
                 <div class="card h-100">
-                    <div class="card-body pb-0">
-                        <span class="d-block fw-medium mb-1">Revenue</span>
-                        <h4 class="card-title mb-0 mb-lg-4">425k</h4>
-                        <div id="revenueChart"></div>
+                    <div class="card-body">
+                        <div class="card-title d-flex align-items-start justify-content-between mb-4">
+                            <div class="bg-warning rounded-circle d-flex" style="width: 50px; height: 50px">
+                                <i class="menu-icon fa-solid fa-money-bill m-auto text-white"></i>
+                            </div>
+                        </div>
+                        <p class="mb-1">Total Bayaran Imam</p>
+                        <h4 class="card-title mb-3">Rp.{{ number_format($bayaranImam ?? 0 , 0, ',', '.') }}</h4>
                     </div>
                 </div>
             </div>
             <div class="col-12 mb-6">
                 <div class="card">
                     <div class="card-body">
-                        <div class="d-flex justify-content-between align-items-center flex-sm-row flex-column gap-10">
-                            <div class="d-flex flex-sm-column flex-row align-items-start justify-content-between">
-                                <div class="card-title mb-6">
-                                    <h5 class="text-nowrap mb-1">Profile Report</h5>
-                                    <span class="badge bg-label-warning">YEAR 2022</span>
+                        <div class="d-flex justify-content-between align-items-center flex-column flex-md-row gap-3">
+                            <div class="d-flex flex-column align-items-start justify-content-between text-start">
+                                <div class="card-title mb-3 mb-md-6">
+                                    <h5 class="text-nowrap mb-1">Quotes</h5>
                                 </div>
-                                <div class="mt-sm-auto">
-                                    <h4 class="mb-0">$84,686k</h4>
-                                </div>
+                                <h5 class="mb-0" id="quotes"></h5>
+                                <span class="badge bg-label-primary mt-2 fs-6" id="quotes-author"></span>
                             </div>
-                            <div id="profileReportChart"></div>
                         </div>
                     </div>
                 </div>
@@ -139,18 +112,59 @@
 
                 <div class="card text-center">
                     <div class="card-header border-bottom mb-4 nav-align-top">
-                        <ul class="nav nav-pills" role="tablist">
+                        <ul class="nav nav-pills flex-column flex-md-row" role="tablist">
                             <li class="nav-item">
                                 <button type="button" class="nav-link active" role="tab" data-bs-toggle="tab"
+                                    data-bs-target="#navs-pills-pengumuman" aria-controls="navs-pills-pengumuman"
+                                    aria-selected="true">
+                                    Pengumuman
+                                </button>
+                            </li>
+                            <li class="nav-item">
+                                <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
                                     data-bs-target="#navs-pills-imam" aria-controls="navs-pills-imam"
                                     aria-selected="true">
-                                    Imam
+                                    Imam minta Badal
                                 </button>
                             </li>
                         </ul>
                     </div>
                     <div class="tab-content pt-0 pb-4">
-                        <div class="tab-pane fade show active" id="navs-pills-imam" role="tabpanel">
+                        <div class="tab-pane fade show active" id="navs-pills-pengumuman" role="tabpanel">
+                            <div class="table-responsive text-start text-nowrap">
+                                <table class="table table-borderless">
+                                    <thead>
+                                        <tr>
+                                            <th>Tanggal</th>
+                                            <th>Judul</th>
+                                            <th>Pengumuman</th>
+                                            <th>Target</th>
+                                            <th>Status</th>
+                                            <th>Aksi</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($announcements as $announcement)
+                                            <tr>
+                                                <td>{{ $announcement->date }}</td>
+                                                <td>{{ $announcement->title }}</td>
+                                                <td>{{ $announcement->content }}</td>
+                                                <td>{{ $announcement->Target->name }}</td>
+                                                <td>
+                                                    @if ($announcement->is_active)
+                                                        <span class="badge bg-label-success">Aktif</span>
+                                                    @endif
+                                                </td>
+                                                <td>
+
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="navs-pills-imam" role="tabpanel">
                             <div class="table-responsive text-start text-nowrap">
                                 <table class="table table-borderless">
                                     <thead>
@@ -218,7 +232,7 @@
                                     right: 8
                                 }
                             },
-                            colors: ["#28a745"],
+                            colors: ['var(--bs-primary)'],
                             fill: {
                                 type: "gradient",
                                 gradient: {
@@ -289,6 +303,34 @@
                     .catch(err => {
                         console.error('Error fetching data:', err);
                     });
+
+
+                fetch('https://api.quotable.io/random?minLength=80&maxLength=220')
+                    .then(response => response.json())
+                    .then(data => {
+                        document.getElementById('quotes').textContent = data.content;
+                        document.getElementById('quotes-author').textContent = data.author;
+                    })
+                    .catch(err => {
+                        document.getElementById('quotes').textContent =
+                            'Allah tidak membebani seseorang melainkan sesuai dengan kesanggupannya.';
+                        document.getElementById('quotes-author').textContent = 'QS. Al-Baqarah: 286';
+                    });
+                // fetch('/api/quote', {
+                //         headers: {
+                //             'Authorization': 'kenndeclouv'
+                //         }
+                //     })
+                //     .then(response => response.json())
+                //     .then(data => {
+                //         document.getElementById('quotes').textContent = data.content;
+                //         document.getElementById('quotes-author').textContent = data.source;
+                //     })
+                //     .catch(err => {
+                //         document.getElementById('quotes').textContent =
+                //             'Allah tidak membebani seseorang melainkan sesuai dengan kesanggupannya.';
+                //         document.getElementById('quotes-author').textContent = 'QS. Al-Baqarah: 286';
+                //     });
             });
         </script>
     </x-slot:js>

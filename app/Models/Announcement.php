@@ -8,4 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class Announcement extends Model
 {
     use HasFactory;
+
+    protected $guarded = [];
+    public function Target()
+    {
+        return $this->belongsTo(Role::class, 'target_id');
+    }
 }

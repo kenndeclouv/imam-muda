@@ -122,7 +122,7 @@ class ScheduleController extends Controller
             ]);
         }
 
-        return redirect()->route('admin.jadwal.index')->with('success', 'Schedule berhasil ditambahkan.');
+        return redirect()->route('admin.jadwal.index')->with('success', 'Jadwal berhasil ditambahkan.');
     }
 
 
@@ -146,7 +146,7 @@ class ScheduleController extends Controller
             'badal_id' => 'nullable|exists:imams,id',
             'note' => 'nullable|string',
         ]);
-        
+
         $inputDate = Carbon::parse($validated['date'])->toDateString(); // Format jadi 'Y-m-d'
 
         $existingSchedule = Schedule::where('masjid_id', $validated['masjid_id'])

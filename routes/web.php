@@ -1,5 +1,6 @@
 <?php
 //global
+use App\Http\Controllers\Api\QuoteController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\Admin\RekapController;
@@ -16,7 +17,7 @@ use App\Http\Controllers\Admin\ScheduleController as AdminScheduleController;
 use App\Http\Controllers\Admin\ShalatController as AdminShalatController;
 use App\Http\Controllers\Admin\FeeController as AdminFeeController;
 use App\Http\Controllers\Admin\StatisticController as AdminStatisticController;
-
+use App\Http\Controllers\Admin\AnnouncementController as AdminAnnouncementController;
 // Imam
 use App\Http\Controllers\Imam\ScheduleController as ImamScheduleController;
 
@@ -37,6 +38,19 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/api/get-notifications', [UserNotificationController::class, 'getNotifications']);
     Route::post('/api/mark-notification-as-read', [UserNotificationController::class, 'markNotificationAsRead']);
 });
+// Islamic Quote
+Route::middleware(['apiKey', 'throttle:120,1'])->group(function () {
+    Route::get('/api/quotes', [QuoteController::class, 'quotes']);
+    Route::get('/api/quote', [QuoteController::class, 'quote']);
+
+    Route::get('/api/random-quotes', [QuoteController::class, 'randomQuotes']);
+    Route::get('/api/random-quote', [QuoteController::class, 'randomQuote']);
+
+});
+
+Route::post('/api/upload-combined-json', [QuoteController::class, 'uploadCombinedJson']);
+// Route::post('/api/upload-hadith-bukhari-json', [QuoteController::class, 'uploadHadithBukhariJson']);
+// Route::post('/api/upload-hadith-muslim-json', [QuoteController::class, 'uploadHadithMuslimJson']);
 
 // Routes untuk Login dan Logout
 Route::get('login', [LoginController::class, 'index'])->name('login.index');
@@ -104,6 +118,14 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'can:isAdmin'])->gro
         Route::get('/imam', [RekapController::class, 'imam'])->name('imam.index');
         Route::get('/imam/export', [RekapController::class, 'exportImam'])->name('imam.export');
     });
+    Route::prefix('pengumuman')->name('pengumuman.')->group(function () {
+        Route::get('/', [AdminAnnouncementController::class, 'index'])->name('index');
+        Route::get('/create', [AdminAnnouncementController::class, 'create'])->name('create');
+        Route::post('/create', [AdminAnnouncementController::class, 'store'])->name('store');
+        Route::get('/edit/{id}', [AdminAnnouncementController::class, 'edit'])->name('edit');
+        Route::put('/edit/{id}', [AdminAnnouncementController::class, 'update'])->name('update');
+        Route::delete('/delete/{id}', [AdminAnnouncementController::class, 'destroy'])->name('destroy');
+    });
 });
 
 // Routes untuk SuperAdmin
@@ -125,7 +147,7 @@ Route::prefix('imam')->name('imam.')->middleware(['auth', 'can:isImam'])->group(
         Route::get('/edit/{id}', [ImamScheduleController::class, 'edit'])->name('edit');
         Route::put('/edit/{id}', [ImamScheduleController::class, 'update'])->name('update');
         Route::delete('/delete/{id}', [ImamScheduleController::class, 'destroy'])->name('destroy');
-        
+
         Route::post('/cari-badal/{id}', [ImamScheduleController::class, 'cariBadal'])->name('cariBadal');
         Route::post('/done/{id}', [ImamScheduleController::class, 'done'])->name('done');
         Route::post('/cancel/{id}', [ImamScheduleController::class, 'cancel'])->name('cancel');

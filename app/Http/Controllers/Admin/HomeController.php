@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Announcement;
 use App\Models\Imam;
 use App\Models\Masjid;
 use App\Models\Schedule;
@@ -15,26 +16,7 @@ class HomeController extends Controller
     public function index()
     {
         $imams = Imam::all()->count();
-
-        $currentMonthCount = Imam::whereYear('created_at', Carbon::now()->year)
-            ->whereMonth('created_at', Carbon::now()->month)
-            ->count();
-
-        $lastMonthCount = Imam::whereYear('created_at', Carbon::now()->year)
-            ->whereMonth('created_at', Carbon::now()->subMonth()->month)
-            ->count();
-
-
-        $percentageChange = 0;
-        if ($lastMonthCount > 0) {
-            $percentageChange = (($currentMonthCount - $lastMonthCount) / $lastMonthCount) * 100;
-        } elseif ($currentMonthCount > 0) {
-            $percentageChange = 100;
-        }
-
         $masjids = Masjid::all()->count();
-
-
         $startOfWeek = Carbon::now()->startOfWeek();
         $endOfWeek = Carbon::now()->endOfWeek();
 
@@ -43,10 +25,19 @@ class HomeController extends Controller
             ->whereBetween('date', [$startOfWeek, $endOfWeek])
             ->count();
 
+        $bayaranImam = Schedule::where('status', 'done')
+            ->with('imam.fee')
+            ->get()
+            ->reduce(function ($carry, $schedule) {
+                $imamFee = $schedule->imam->Fee->fee ?? 0;
+                return $carry + $imamFee;
+            }, 0);
+
         $schedules = Schedule::where('status', 'to_do')
             ->where('is_badal', operator: 1)->where('badal_id', null)->get();
 
-        return view('Admin.index', compact('imams', 'masjids', 'weeklyJadwal', 'percentageChange', 'schedules'));
+        $announcements = Announcement::all();
+        return view('Admin.index', compact('imams', 'masjids', 'weeklyJadwal', 'schedules', 'announcements', 'bayaranImam'));
     }
     public function account()
     {

@@ -83,6 +83,17 @@
                     </div>
                 </div>
                 <!--/ About User -->
+                {{-- <div class="card mb-6">
+                    <div class="card-body">
+                        <form action="/api/upload-combined-json" method="POST" enctype="multipart/form-data">
+                            @csrf
+                            <input type="file" class="form-control" name="file_arab" id="file_arab">
+                            <input type="file" class="form-control" name="file_ind" id="file_ind">
+                            <input type="file" class="form-control" name="file_en" id="file_en">
+                            <button type="submit" class="btn btn-primary mt-3">Upload</button>
+                        </form>
+                    </div>
+                </div> --}}
             </div>
             <div class="col-xl-8 col-lg-7 col-md-7">
                 <form action="{{ route('account.update', $user->id) }}" method="POST" enctype="multipart/form-data">

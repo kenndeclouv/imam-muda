@@ -685,12 +685,12 @@
                                               --bs-primary-border-subtle: ${shadeColor(rgbPrimary, -0.2)};
                                               --bs-primary-text-emphasis: ${shadeColor(rgbPrimary, -0.4)};
                                               --bs-primary-bg-subtle: ${shadeColor(rgbPrimary, 0.2)};
-                                              --bs-primary-border: ${shadeColor(rgbPrimary, -0.2)};
+                                              --bs-primary-border: rgba(${rgbPrimary.r}, ${rgbPrimary.g}, ${rgbPrimary.b}, 0.3);
                                               --bs-card-border-color: ${shadeColor(rgbPrimary, -0.2)};
                                               --bs-primary-hover-bg: ${shadeColor(rgbPrimary, -0.15)};
                                               --bs-primary-hover: ${shadeColor(rgbPrimary, -0.15)};
                                               --bs-link-hover-color-rgb: ${extractRGBValues(shadeColor(rgbPrimary, 0.65))};
-                                              --bs-link-color-rgb: ${extractRGBValues(shadeColor(rgbPrimary, 0.65))};
+                                              --bs-primary-link: ${shadeColor(rgbPrimary, 0.65)};
                                               --bs-primary-hover-border: ${shadeColor(rgbPrimary, -0.2)};
                                               --bs-primary-active-bg: ${shadeColor(rgbPrimary, -0.25)};
                                               --bs-primary-active-border: ${shadeColor(rgbPrimary, -0.4)};

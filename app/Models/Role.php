@@ -11,4 +11,8 @@ class Role extends Model
 
     protected $guarded = [];
 
+    public function Announcements()
+    {
+        return $this->hasMany(Announcement::class, 'target_id');
+    }
 }
