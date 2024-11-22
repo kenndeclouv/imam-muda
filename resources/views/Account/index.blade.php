@@ -203,90 +203,164 @@
                         </div>
                     </div>
                 </form>
-                @if ($user->Role->code === 'imam')
-                    {{-- Imam --}}
-                    <form action="{{ route('imam.update') }}" method="POST" enctype="multipart/form-data">
-                        @csrf
-                        @method('PUT')
-                        <div class="card mb-6">
-                            <!-- Account -->
-                            <h5 class="card-header border-bottom mb-4">Informasi Tambahan</h5>
-                            <div class="card-body pt-4">
-                                <div class="row g-6">
-                                    <div class="col-md-6 fv-plugins-icon-container">
-                                        <label for="fullname" class="form-label">Full Name</label>
-                                        <input class="form-control" type="text" id="fullname" name="fullname"
-                                            value="{{ $user->Imam->fullname ?? '-' }}">
-                                        <div
-                                            class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback">
+                @switch($user->Role->code)
+                    @case('imam')
+                        {{-- Imam --}}
+                        <form action="{{ route('imam.update') }}" method="POST" enctype="multipart/form-data">
+                            @csrf
+                            @method('PUT')
+                            <div class="card mb-6">
+                                <!-- Account -->
+                                <h5 class="card-header border-bottom mb-4">Informasi Tambahan</h5>
+                                <div class="card-body pt-4">
+                                    <div class="row g-6">
+                                        <div class="col-md-6 fv-plugins-icon-container">
+                                            <label for="fullname" class="form-label">Full Name</label>
+                                            <input class="form-control" type="text" id="fullname" name="fullname"
+                                                value="{{ $user->Imam->fullname ?? '-' }}">
+                                            <div
+                                                class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 fv-plugins-icon-container">
+                                            <label for="phone" class="form-label">Phone</label>
+                                            <input class="form-control" type="text" id="phone" name="phone"
+                                                value="{{ $user->Imam->phone ?? '-' }}">
+                                            <div
+                                                class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 fv-plugins-icon-container">
+                                            <label for="birthplace" class="form-label">Birthplace</label>
+                                            <input class="form-control" type="text" id="birthplace" name="birthplace"
+                                                value="{{ $user->Imam->birthplace ?? '-' }}">
+                                            <div
+                                                class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 fv-plugins-icon-container">
+                                            <label for="birthdate" class="form-label">Birthdate</label>
+                                            <input class="form-control" type="date" id="birthdate" name="birthdate"
+                                                value="{{ $user->Imam->birthdate ?? '-' }}">
+                                            <div
+                                                class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 fv-plugins-icon-container">
+                                            <label for="juz" class="form-label">Juz</label>
+                                            <input class="form-control" type="number" id="juz" name="juz"
+                                                value="{{ $user->Imam->juz ?? '-' }}">
+                                            <div
+                                                class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 fv-plugins-icon-container">
+                                            <label for="school" class="form-label">School</label>
+                                            <input class="form-control" type="text" id="school" name="school"
+                                                value="{{ $user->Imam->school ?? '-' }}">
+                                            <div
+                                                class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback">
+                                            </div>
+                                        </div>
+                                        <div class=" fv-plugins-icon-container">
+                                            <label for="address" class="form-label">Address</label>
+                                            <input class="form-control" type="text" id="address" name="address"
+                                                value="{{ $user->Imam->address ?? '-' }}">
+                                            <div
+                                                class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback">
+                                            </div>
+                                        </div>
+                                        <div class="fv-plugins-icon-container">
+                                            <label for="description" class="form-label">Description</label>
+                                            <textarea class="form-control" id="description" name="description">{{ $user->Imam->description ?? '-' }}</textarea>
+                                            <div
+                                                class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback">
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-6 fv-plugins-icon-container">
-                                        <label for="phone" class="form-label">Phone</label>
-                                        <input class="form-control" type="text" id="phone" name="phone"
-                                            value="{{ $user->Imam->phone ?? '-' }}">
-                                        <div
-                                            class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 fv-plugins-icon-container">
-                                        <label for="birthplace" class="form-label">Birthplace</label>
-                                        <input class="form-control" type="text" id="birthplace" name="birthplace"
-                                            value="{{ $user->Imam->birthplace ?? '-' }}">
-                                        <div
-                                            class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 fv-plugins-icon-container">
-                                        <label for="birthdate" class="form-label">Birthdate</label>
-                                        <input class="form-control" type="date" id="birthdate" name="birthdate"
-                                            value="{{ $user->Imam->birthdate ?? '-' }}">
-                                        <div
-                                            class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 fv-plugins-icon-container">
-                                        <label for="juz" class="form-label">Juz</label>
-                                        <input class="form-control" type="number" id="juz" name="juz"
-                                            value="{{ $user->Imam->juz ?? '-' }}">
-                                        <div
-                                            class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 fv-plugins-icon-container">
-                                        <label for="school" class="form-label">School</label>
-                                        <input class="form-control" type="text" id="school" name="school"
-                                            value="{{ $user->Imam->school ?? '-' }}">
-                                        <div
-                                            class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback">
-                                        </div>
-                                    </div>
-                                    <div class=" fv-plugins-icon-container">
-                                        <label for="address" class="form-label">Address</label>
-                                        <input class="form-control" type="text" id="address" name="address"
-                                            value="{{ $user->Imam->address ?? '-' }}">
-                                        <div
-                                            class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback">
-                                        </div>
-                                    </div>
-                                    <div class="fv-plugins-icon-container">
-                                        <label for="description" class="form-label">Description</label>
-                                        <textarea class="form-control" id="description" name="description">{{ $user->Imam->description ?? '-' }}</textarea>
-                                        <div
-                                            class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback">
-                                        </div>
+                                    <div class="mt-6">
+                                        <button type="submit" class="btn btn-primary me-3">Simpan Perubahan</button>
+                                        <button type="reset" class="btn btn-label-secondary">Batalkan</button>
                                     </div>
                                 </div>
-                                <div class="mt-6">
-                                    <button type="submit" class="btn btn-primary me-3">Simpan Perubahan</button>
-                                    <button type="reset" class="btn btn-label-secondary">Batalkan</button>
-                                </div>
+                                <!-- /Account -->
                             </div>
-                            <!-- /Account -->
-                        </div>
-                    </form>
-                    {{-- / Imam --}}
-                @endif
+                        </form>
+                        {{-- / Imam --}}
+                    @break
+
+                    @case('admin')
+                        <form action="{{ route('admin.update') }}" method="POST" enctype="multipart/form-data">
+                            @csrf
+                            @method('PUT')
+                            <div class="card mb-6">
+                                <!-- Account -->
+                                <h5 class="card-header border-bottom mb-4">Informasi Tambahan</h5>
+                                <div class="card-body pt-4">
+                                    <div class="row g-6">
+                                        <div class="col-md-6 fv-plugins-icon-container">
+                                            <label for="fullname" class="form-label">Full Name</label>
+                                            <input class="form-control" type="text" id="fullname" name="fullname"
+                                                value="{{ $user->Admin->fullname ?? '-' }}">
+                                            <div
+                                                class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 fv-plugins-icon-container">
+                                            <label for="phone" class="form-label">Phone</label>
+                                            <input class="form-control" type="text" id="phone" name="phone"
+                                                value="{{ $user->Admin->phone ?? '-' }}">
+                                            <div
+                                                class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 fv-plugins-icon-container">
+                                            <label for="birthplace" class="form-label">Birthplace</label>
+                                            <input class="form-control" type="text" id="birthplace" name="birthplace"
+                                                value="{{ $user->Admin->birthplace ?? '-' }}">
+                                            <div
+                                                class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 fv-plugins-icon-container">
+                                            <label for="birthdate" class="form-label">Birthdate</label>
+                                            <input class="form-control" type="date" id="birthdate" name="birthdate"
+                                                value="{{ $user->Admin->birthdate ?? '-' }}">
+                                            <div
+                                                class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback">
+                                            </div>
+                                        </div>
+
+                                        <div class=" fv-plugins-icon-container">
+                                            <label for="address" class="form-label">Address</label>
+                                            <input class="form-control" type="text" id="address" name="address"
+                                                value="{{ $user->Admin->address ?? '-' }}">
+                                            <div
+                                                class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback">
+                                            </div>
+                                        </div>
+                                        <div class="fv-plugins-icon-container">
+                                            <label for="description" class="form-label">Description</label>
+                                            <textarea class="form-control" id="description" name="description">{{ $user->Admin->description ?? '-' }}</textarea>
+                                            <div
+                                                class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="mt-6">
+                                        <button type="submit" class="btn btn-primary me-3">Simpan Perubahan</button>
+                                        <button type="reset" class="btn btn-label-secondary">Batalkan</button>
+                                    </div>
+                                </div>
+                                <!-- /Account -->
+                            </div>
+                        </form>
+                    @break
+
+                    @default
+                        {{-- Default --}}
+                    @break
+                @endswitch
             </div>
         </div>
         <!--/ User Profile Content -->

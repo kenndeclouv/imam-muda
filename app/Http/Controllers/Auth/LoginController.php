@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\HomeController;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -24,6 +25,17 @@ class LoginController extends Controller
         $credentials = $request->only('username', 'password');
         $remember = $request->has('remember');
 
+        // Cari user berdasarkan username
+        $user = User::where('username', $credentials['username'])->first();
+
+        // Validasi apakah user aktif
+        if ($user && !$user->is_active) {
+            return back()->withErrors([
+                'error' => 'Akun Anda tidak aktif. Silakan hubungi admin.',
+            ])->withInput($request->except('password'));
+        }
+
+        // Lanjutkan login jika user aktif
         if (Auth::attempt($credentials, $remember)) {
             $request->session()->regenerate();
             return app(HomeController::class)->index($request);
@@ -33,6 +45,7 @@ class LoginController extends Controller
             'username' => 'Username atau password tidak sesuai.',
         ])->withInput($request->except('password'));
     }
+
 
     public function logout(Request $request)
     {

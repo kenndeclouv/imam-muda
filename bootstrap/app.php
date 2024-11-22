@@ -13,7 +13,6 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->alias([
             'apiKey' => \App\Http\Middleware\ApiKeyMiddleware::class,
-            'customExceptionRenderer' => \App\Exceptions\CustomExceptionRenderer::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {

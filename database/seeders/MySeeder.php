@@ -55,6 +55,9 @@ class MySeeder extends Seeder
             'fullname' => 'Ustadz Alfin Shahih',
             'phone' => fake()->phoneNumber,
             'address' => fake()->address,
+            'birthdate' => fake()->date(),
+            'birthplace' => fake()->city(),
+            'description' => fake()->realText(20),
         ]);
 
         User::create([
@@ -136,6 +139,10 @@ class MySeeder extends Seeder
         //     ]);
         // }
 
+        Feature::create([
+            'name' => 'Semua Fitur',
+            'code' => 'all_feature',
+        ]);
         Feature::create([
             'name' => 'Tampilkan Imam',
             'code' => 'imam_show',
@@ -241,11 +248,15 @@ class MySeeder extends Seeder
             'code' => 'statistik_show',
         ]);
 
-        for ($i = 1; $i <= 26; $i++) {
-            Permission::create([
-                'admin_id' => 1,
-                'feature_id' => $i
-            ]);
-        }
+        // for ($i = 1; $i <= 26; $i++) {
+        //     Permission::create([
+        //         'admin_id' => 1,
+        //         'feature_id' => $i
+        //     ]);
+        // }
+        Permission::create([
+            'user_id' => 2,
+            'feature_id' => 1
+        ]);
     }
 }

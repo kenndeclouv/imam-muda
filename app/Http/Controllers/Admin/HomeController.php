@@ -3,12 +3,14 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Admin;
 use App\Models\Announcement;
 use App\Models\Imam;
 use App\Models\Masjid;
 use App\Models\Schedule;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
@@ -42,5 +44,23 @@ class HomeController extends Controller
     public function account()
     {
         return view('Admin.account');
+    }
+
+    public function update(Request $request)
+    {
+        $validated = $request->validate([
+            'fullname' => 'required|string|max:50',
+            'phone' => 'required|string|max:20',
+            'birthplace' => 'required|string|max:100',
+            'birthdate' => 'required|date',
+            'description' => 'nullable|string|max:255',
+            'address' => 'nullable|string|max:255',
+        ]);
+
+        $admin = Admin::where('user_id', Auth::id())->firstOrFail();
+
+        $admin->update($validated);
+
+        return redirect()->route('account')->with('success', 'Admin berhasil diperbarui.');
     }
 }

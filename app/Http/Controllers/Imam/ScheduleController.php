@@ -7,6 +7,8 @@ use App\Models\Imam;
 use App\Models\Masjid;
 use App\Models\Schedule;
 use App\Models\Shalat;
+use App\Models\User;
+use App\Models\UserNotification;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -164,6 +166,16 @@ class ScheduleController extends Controller
             'note' => $request->note,
             'is_badal' => true
         ]);
+        $admins = User::where('role_id', 2)->get();
+        foreach ($admins as $admin) {
+            UserNotification::create([
+                'user_id' => $admin->id,
+                'title' => Auth::user()->Imam->fullname . ' - Jadwal Badal',
+                'content' => Auth::user()->Imam->fullname . ' meminta jadwal badal untuk shalat ' . $jadwal->Shalat->name . ' pada ' . $jadwal->date . ' di masjid ' . $jadwal->Masjid->name . '.',
+                'link' => '/admin/jadwal/edit/' . $jadwal->id,
+                'is_displayed' => false,
+            ]);
+        }
         return redirect()->route('imam.jadwal.index')->with('success', 'Badal berhasil dicarikan.');
     }
 

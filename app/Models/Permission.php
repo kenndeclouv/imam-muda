@@ -15,4 +15,9 @@ class Permission extends Model
     {
         return $this->belongsTo(Feature::class);
     }
+
+    public function User()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

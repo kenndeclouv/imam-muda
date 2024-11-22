@@ -1,6 +1,7 @@
 <?php
 //global
 use App\Http\Controllers\Api\QuoteController;
+use App\Http\Controllers\LogViewerController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\Admin\RekapController;
@@ -25,6 +26,8 @@ use App\Http\Controllers\Imam\HomeController as ImamHomeController;
 // SuperAdmin
 use App\Http\Controllers\SuperAdmin\HomeController as SuperAdminHomeController;
 use App\Http\Controllers\SuperAdmin\AdminController as SuperAdminAdminController;
+
+// use Arcanedev\LogViewer\Contracts\LogViewer as ContractsLogViewer;
 
 // Route untuk Landing Page
 Route::get('/', function () {
@@ -68,6 +71,10 @@ Route::middleware(['auth'])->group(function () {
 // Routes untuk SuperAdmin
 Route::prefix('superadmin')->name('superadmin.')->middleware(['auth', 'can:isSuperAdmin'])->group(function () {
     Route::get('/home', [SuperAdminHomeController::class, 'index'])->name('home');
+    Route::get('/log-viewer', [LogViewerController::class, 'index'])->name('logs');
+    Route::get('/log-viewer/show/{filename}', [LogViewerController::class, 'show'])->name('logs.show');
+    Route::delete('/log-viewer/delete/{filename}', [LogViewerController::class, 'destroy'])->name('logs.destroy');
+    Route::get('/log-viewer/download/{filename}', [LogViewerController::class, 'download'])->name('logs.download');
 
     Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/', [SuperAdminAdminController::class, 'index'])->name('index');
@@ -76,12 +83,20 @@ Route::prefix('superadmin')->name('superadmin.')->middleware(['auth', 'can:isSup
         Route::get('/edit/{id}', [SuperAdminAdminController::class, 'edit'])->name('edit');
         Route::put('/edit/{id}', [SuperAdminAdminController::class, 'update'])->name('update');
         Route::delete('/delete/{id}', [SuperAdminAdminController::class, 'destroy'])->name('destroy');
+
+        Route::get('/permissions/{id}', [SuperAdminAdminController::class, 'permissions'])->name('permissions');
+        Route::post('/permissions/{id}', [SuperAdminAdminController::class, 'permissionsStore'])->name('permissions.store');
+        Route::get('/permissions/edit/{id}', [SuperAdminAdminController::class, 'permissionsEdit'])->name('permissions.edit');
+        Route::put('/permissions/edit/{id}', [SuperAdminAdminController::class, 'permissionsUpdate'])->name('permissions.update');
+        Route::delete('/permissions/delete/{id}', [SuperAdminAdminController::class, 'permissionsDestroy'])->name('permissions.destroy');
+
     });
 });
 
 // Routes untuk Admin
 Route::prefix('admin')->name('admin.')->middleware(['auth', 'can:isAdmin'])->group(function () {
     Route::get('/home', [AdminHomeController::class, 'index'])->name('home');
+    Route::put('/account', [AdminHomeController::class, 'update'])->name('update');
 
     Route::prefix('imam')->name('imam.')->group(function () {
         Route::get('/', [AdminImamController::class, 'index'])->name('index');

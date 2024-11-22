@@ -1,5 +1,5 @@
 @php
-    $permissions = Auth::user()->Admin->getPermissionCodes();
+    $permissions = Auth::user()->getPermissionCodes();
 @endphp
 
 @if ($permissions->contains('imam_show'))

@@ -1,6 +1,6 @@
 <x-app>
     @php
-        $permissions = Auth::user()->Admin->getPermissionCodes();
+        $permissions = Auth::user()->getPermissionCodes();
     @endphp
     <div class="container-xxl flex-grow-1 container-p-y">
         <div class="card mb-3">

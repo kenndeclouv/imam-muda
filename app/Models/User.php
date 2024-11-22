@@ -65,28 +65,6 @@ class User extends Authenticatable
         ];
     }
 
-    // public static function boot()
-    // {
-    //     // Gunakan View Composer untuk semua view yang menggunakan navbar
-    //     View::composer('layouts.navbar', function ($view) {
-    //         $user = Auth::user();
-
-    //         // Ambil semua route terdaftar
-    //         $routes = collect(Route::getRoutes())->filter(function ($route) {
-    //             // Hanya ambil route yang memiliki nama
-    //             return $route->getName() !== null;
-    //         });
-
-    //         // Filter berdasarkan hak akses user
-    //         $accessibleRoutes = $routes->filter(function ($route) use ($user) {
-    //             // Logika akses: Sesuaikan dengan kebutuhan
-    //             return $user->can('access-route', $route->getName());
-    //         });
-
-    //         // Kirim daftar route ke view
-    //         $view->with('accessibleRoutes', $accessibleRoutes->pluck('uri', 'name'));
-    //     });
-    // }
     public function setPasswordAttribute($value)
     {
         $this->attributes['password'] = bcrypt($value);
@@ -151,5 +129,28 @@ class User extends Authenticatable
                 'method' => implode('|', $route->methods()),
             ];
         });
+    }
+    public function Permissions()
+    {
+        return $this->hasMany(Permission::class);
+    }
+
+    public function getPermissionCodes()
+    {
+        // cek jika user punya relasi Admin
+        if ($this->Admin && $this->is_active == true) {
+            $codes = $this->Permissions
+                ? $this->Permissions->pluck('Feature.code')
+                : collect([]);
+
+            // cek jika user punya "all_feature"
+            if ($codes->contains('all_feature')) {
+                return Feature::pluck('code');
+            }
+
+            return $codes;
+        } else {
+            return collect([]);
+        }
     }
 }

@@ -20,8 +20,8 @@ return new class extends Migration
             $table->date('birthdate');
             $table->integer('juz')->nullable();
             $table->string('school')->nullable();
-            $table->text('description')->nullable();
             $table->text('address')->nullable();
+            $table->text('description')->nullable();
             $table->timestamps();
         });
     }

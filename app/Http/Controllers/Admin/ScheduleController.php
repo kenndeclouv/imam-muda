@@ -7,8 +7,10 @@ use App\Models\Imam;
 use App\Models\Masjid;
 use App\Models\Schedule;
 use App\Models\Shalat;
+use App\Models\UserNotification;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
 class ScheduleController extends Controller
@@ -166,6 +168,20 @@ class ScheduleController extends Controller
         $jadwal = Schedule::findOrFail($id);
         $jadwal->update($validated);
 
+        UserNotification::create([
+            'user_id' => $jadwal->Imam->user_id,
+            'title' => 'Badal Telah Ditemukan',
+            'content' => Auth::user()->Admin->fullname . ' menyetujui jadwal shalat ' . $jadwal->Shalat->name . ' pada ' . $jadwal->date . ' di masjid ' . $jadwal->Masjid->name . ' untuk dibadalkan oleh imam ' . $jadwal->Badal->fullname . '.',
+            'link' => '/imam/jadwal/',
+            'is_displayed' => false,
+        ]);
+        UserNotification::create([
+            'user_id' => $jadwal->Badal->user_id,
+            'title' => 'Jadwal Badal Telah Ditetapkan',
+            'content' => Auth::user()->Admin->fullname . ' mentetapkan jadwal shalat ' . $jadwal->Shalat->name . ' pada ' . $jadwal->date . ' di masjid ' . $jadwal->Masjid->name . ' untuk kamu badalkan',
+            'link' => '/imam/jadwal/',
+            'is_displayed' => false,
+        ]);
         return redirect()->route('admin.jadwal.index', $jadwal->id)->with('success', 'Schedule berhasil diperbarui.');
     }
 

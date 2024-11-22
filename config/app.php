@@ -125,4 +125,7 @@ return [
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
 
+    'log-viewer' => [
+        'enabled' => true,
+    ],
 ];
