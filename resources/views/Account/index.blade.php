@@ -13,7 +13,7 @@
                     </div>
                     <div class="user-profile-header d-flex flex-column flex-lg-row text-sm-start text-center mb-8">
                         <div class="flex-shrink-0 mt-1 mx-sm-0 mx-auto">
-                            <img src="{{ $user->photo ?? '/assets/img/avatars/1.png' }}" alt="user image"
+                            <img src="{{ $user->photo }}" alt="user image"
                                 class="d-block h-auto ms-0 ms-sm-6 rounded-3 user-profile-img">
                         </div>
                         <div class="flex-grow-1 mt-3 mt-lg-5">
@@ -83,17 +83,6 @@
                     </div>
                 </div>
                 <!--/ About User -->
-                {{-- <div class="card mb-6">
-                    <div class="card-body">
-                        <form action="/api/upload-combined-json" method="POST" enctype="multipart/form-data">
-                            @csrf
-                            <input type="file" class="form-control" name="file_arab" id="file_arab">
-                            <input type="file" class="form-control" name="file_ind" id="file_ind">
-                            <input type="file" class="form-control" name="file_en" id="file_en">
-                            <button type="submit" class="btn btn-primary mt-3">Upload</button>
-                        </form>
-                    </div>
-                </div> --}}
             </div>
             <div class="col-xl-8 col-lg-7 col-md-7">
                 <form action="{{ route('account.update', $user->id) }}" method="POST" enctype="multipart/form-data">
@@ -104,7 +93,7 @@
                         <!-- Account -->
                         <div class="card-body">
                             <div class="d-flex align-items-start align-items-sm-center gap-6 pb-4 border-bottom">
-                                <img src="{{ $user->photo ?? '/assets/img/avatars/1.png' }}" alt="user-avatar"
+                                <img src="{{ $user->photo }}" alt="user-avatar"
                                     class="d-block w-px-100 h-px-100 rounded" id="uploadedAvatar">
                                 <div class="button-wrapper">
                                     <label for="upload" class="btn btn-primary me-3 mb-4" tabindex="0">

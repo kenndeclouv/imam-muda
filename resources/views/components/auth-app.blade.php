@@ -40,9 +40,9 @@
     <script src="{{ asset('assets/js/config.js') }}"></script>
 </head>
 
-<body>
+<body class="overflow-hidden">
     {{ $slot }}
-    
+
     <!-- Main JS -->
     <script src="{{ asset('assets/js/main.js') }}"></script>
 </body>

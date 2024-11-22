@@ -57,7 +57,7 @@ class LogViewerController extends Controller
             ];
         }
 
-        return view('Superadmin.log.index', compact('logs', 'stats'));
+        return view('SuperAdmin.log.index', compact('logs', 'stats'));
     }
 
     public function show($filename)
@@ -66,10 +66,9 @@ class LogViewerController extends Controller
         abort_unless(File::exists($filePath), 404, 'Log file not found!');
 
         $content = File::get($filePath);
-        $logs = $this->parseLog($content);
+        $logs = collect($this->parseLog($content))->sortByDesc('timestamp');
 
-
-        return response()->view('Superadmin.log.show', compact('logs', 'filename'));
+        return response()->view('SuperAdmin.log.show', compact('logs', 'filename'));
     }
 
     private function parseLog($content)

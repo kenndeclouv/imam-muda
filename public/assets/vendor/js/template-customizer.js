@@ -707,8 +707,6 @@
                                               --fc-list-event-hover-bg-color: rgba(${rgbPrimary.r}, ${rgbPrimary.g}, ${rgbPrimary.b}, 0.2);
                                               --bs-primary-flatpicker: ${shadeColor(rgbPrimary, 0.6)};
                                               --bs-primary-flatpicker-svg: ${t};
-                                            //   --bs-primary-flatpicker: rgba(${rgbPrimary.r}, ${rgbPrimary.g}, ${rgbPrimary.b}, 0.2);
-
                                             }`;
 
                                         // Masukkan style ke dalam tag <style> dinamis

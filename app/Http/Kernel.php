@@ -43,5 +43,6 @@ class Kernel extends HttpKernel
      */
     protected $routeMiddleware = [
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
+        'checkRole' => \App\Http\Middleware\CheckRole::class,
     ];
 }

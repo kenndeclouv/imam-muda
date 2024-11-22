@@ -93,9 +93,27 @@ class User extends Authenticatable
     {
         return $this->hasMany(UserShortcut::class);
     }
+    // public function setPhotoAttribute($value)
+    // {
+    //     $this->attributes['photo'] = 'public/uploads/photos/' . $value;
+    // }
+    private function getConsistentColor()
+    {
+        $hash = md5($this->name ?? 'Guest'); // hash nama user
+        $color = substr($hash, 0, 6); // ambil 6 karakter pertama sebagai warna hex
+
+        return $color;
+    }
     public function getPhotoAttribute($value)
     {
-        return (!empty($value) && !is_null($value)) ? asset($value) : null;
+        if (!empty($value) && !is_null($value)) {
+            return asset($value);
+        }
+
+        $randomColor = $this->getConsistentColor();
+        $name = $this->name ?? 'Imam';
+
+        return "https://api.dicebear.com/6.x/initials/svg?seed=" . urlencode($name) . "&backgroundColor=" . $randomColor;
     }
 
     public function getAccessibleRoutes()

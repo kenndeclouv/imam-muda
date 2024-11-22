@@ -146,7 +146,6 @@
                                             <th>Pengumuman</th>
                                             <th>Target</th>
                                             <th>Status</th>
-                                            <th>Aksi</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -162,12 +161,6 @@
                                                     @else
                                                         <span class="badge bg-label-danger">Tidak Aktif</span>
                                                     @endif
-                                                </td>
-                                                <td>
-                                                    <a href="{{ route('admin.pengumuman.edit', $announcement->id) }}"
-                                                        class="btn btn-sm btn-warning">
-                                                        <i class="fa fa-edit"></i>
-                                                    </a>
                                                 </td>
                                             </tr>
                                         @endforeach

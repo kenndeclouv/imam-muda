@@ -52,7 +52,7 @@ class AccountController extends Controller
         $user->update($validated);
 
         // Redirect back with a success message
-        return redirect()->route('account')->with('success', 'Profile updated successfully!');
+        return redirect()->route('account')->with('success', 'Profile berhasil diperbarui!');
     }
 
     public function storeShortcut(Request $request)

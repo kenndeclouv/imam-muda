@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreImamRequest;
 use App\Models\Imam;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -21,43 +22,36 @@ class ImamController extends Controller
         return view('Admin.imam.create');
     }
 
-    public function store(Request $request)
+    public function store(StoreImamRequest $request)
     {
-        $validated = $request->validate([
-            'username' => 'required|string|max:50',
-            'email' => 'nullable|email|max:255',
-            'password' => 'required|string|min:8',
-            'confirm_password' => 'required|same:password',
-            'photo' => 'nullable|file|mimes:jpeg,png,jpg,gif|max:5000',
+        $validated = $request->validated();
+
+        $validated['photo'] = $request->hasFile('photo')
+            ? $this->uploadPhoto($request->file('photo'))
+            : null;
+
+        // Simpan user
+        $user = User::create([
+            'username' => $validated['username'],
+            'email' => $validated['email'] ?? null,
+            'password' => $validated['password'],
+            'photo' => $validated['photo'],
+            'name' => $validated['fullname'],
+            'role_id' => 3,
         ]);
 
-        $validatedImam = $request->validate([
-            'fullname' => 'required|string|max:50',
-            'phone' => 'required|string|max:20',
-            'birthplace' => 'required|string|max:100',
-            'birthdate' => 'required|date',
-            'juz' => 'nullable|integer',
-            'school' => 'nullable|string|max:100',
-            'description' => 'nullable|string|max:255',
-            'address' => 'nullable|string|max:255',
+        // Simpan admin
+        Imam::create([
+            'user_id' => $user->id,
+            'fullname' => $validated['fullname'],
+            'phone' => $validated['phone'],
+            'birthplace' => $validated['birthplace'],
+            'birthdate' => $validated['birthdate'],
+            'juz' => $validated['juz'],
+            'school' => $validated['school'],
+            'description' => $validated['description'] ?? null,
+            'address' => $validated['address'] ?? null,
         ]);
-
-        $validated['name'] = $validatedImam['fullname'];
-        $validated['role_id'] = 3;
-
-        if ($request->hasFile('photo')) {
-            $filename = uniqid() . '_' . time() . '.' . $request->file('photo')->getClientOriginalExtension();
-            // Pindahkan file ke folder
-            $photoPath = $request->file('photo')->move(public_path('public/uploads/photo/'), $filename);
-            $validated['photo'] = 'public/uploads/photo/' . $filename;
-        }
-
-        $user = User::create($validated);
-
-        $validatedImam['user_id'] = $user->id;
-
-
-        Imam::create($validatedImam);
 
         return redirect()->route('admin.imam.index')->with('success', 'Imam berhasil ditambahkan.');
     }
@@ -77,36 +71,34 @@ class ImamController extends Controller
 
     public function update(Request $request, $id)
     {
-        $validated = $request->validate([
-            'username' => 'required|string|max:50',
-            'email' => 'nullable|email|max:255',
-            'password' => 'nullable|string|min:8',
-            'confirm_password' => 'nullable|same:password',
-            'photo' => 'nullable|file|mimes:jpeg,png,jpg,gif|max:5000',
-        ]);
-
-        $validatedImam = $request->validate([
-            'fullname' => 'required|string|max:50',
-            'phone' => 'required|string|max:20',
-            'birthplace' => 'required|string|max:100',
-            'birthdate' => 'required|date',
-            'juz' => 'nullable|integer',
-            'school' => 'nullable|string|max:100',
-            'description' => 'nullable|string|max:255',
-            'address' => 'nullable|string|max:255',
-        ]);
-
         $imam = Imam::findOrFail($id);
-        $imam->user->update($validated);
-        $validatedImam['user_id'] = $imam->user_id;
+        $user = User::findOrFail($imam->user_id);
+        $validated = $request->validated();
 
-        if ($request->hasFile('photo')) {
-            $photoPath = $request->file('photo')->store('photo/imam/', 'public');
-            $validatedImam['photo'] = $photoPath;
-        }
+        // Proses upload foto (kalau ada)
+        $validated['photo'] = $request->hasFile('photo')
+            ? $this->uploadPhoto($request->file('photo'))
+            : null;
 
-        $imam->update($validatedImam);
+        // Simpan user
+        $user->update([
+            'username' => $validated['username'],
+            'email' => $validated['email'] ?? null,
+            'photo' => $validated['photo'],
+            'name' => $validated['fullname'],
+        ]);
 
+        // Simpan admin
+        $imam->update([
+            'fullname' => $validated['fullname'],
+            'phone' => $validated['phone'],
+            'birthplace' => $validated['birthplace'],
+            'birthdate' => $validated['birthdate'],
+            'juz' => $validated['juz'],
+            'school' => $validated['school'],
+            'description' => $validated['description'] ?? null,
+            'address' => $validated['address'] ?? null,
+        ]);
         return redirect()->route('admin.imam.index', $imam->id)->with('success', 'Imam berhasil diperbarui.');
     }
 

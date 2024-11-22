@@ -43,8 +43,8 @@
             <!-- / Style Switcher-->
 
             <!-- Quick links  -->
-            <li class="nav-item dropdown-shortcuts navbar-dropdown dropdown me-2 me-xl-0"
-                data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Shortcuts">
+            <li class="nav-item dropdown-shortcuts navbar-dropdown dropdown me-2 me-xl-0" data-bs-toggle="tooltip"
+                data-bs-placement="bottom" data-bs-title="Shortcuts">
                 <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown"
                     data-bs-auto-close="outside" aria-expanded="false">
                     <i class="fa-solid fa-grid-2 fa-xl"></i>
@@ -76,8 +76,8 @@
             <!-- Quick links -->
 
             <!-- Notification -->
-            <li class="nav-item dropdown-notifications navbar-dropdown dropdown me-3 me-xl-2"
-                data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Notifikasi">
+            <li class="nav-item dropdown-notifications navbar-dropdown dropdown me-3 me-xl-2" data-bs-toggle="tooltip"
+                data-bs-placement="bottom" data-bs-title="Notifikasi">
                 <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown"
                     data-bs-auto-close="outside" aria-expanded="false">
                     <span class="position-relative">
@@ -136,15 +136,12 @@
             <!--/ Notification -->
 
             <!-- User -->
-            <li class="nav-item navbar-dropdown dropdown-user dropdown"
-                data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Akun">
-                <a class="nav-link dropdown-toggle hide-arrow p-0" href="javascript:void(0);" data-bs-toggle="dropdown">
+            <li class="nav-item navbar-dropdown dropdown-user dropdown" data-bs-toggle="tooltip"
+                data-bs-placement="bottom" data-bs-title="Akun">
+                <a class="nav-link dropdown-toggle hide-arrow p-0" href="javascript:void(0);"
+                    data-bs-toggle="dropdown">
                     <div class="avatar avatar-online">
-                        @if ($user->photo)
-                            <img src="{{ $user->photo }}" alt="" class="w-px-40 h-auto rounded-circle" />
-                        @else
-                            <img src="/assets/img/avatars/1.png" alt="" class="w-px-40 h-auto rounded-circle" />
-                        @endif
+                        <img src="{{ $user->photo }}" alt="Avatar" class="rounded-circle">
                     </div>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-end">
@@ -153,13 +150,8 @@
                             <div class="d-flex">
                                 <div class="flex-shrink-0 me-3">
                                     <div class="avatar avatar-online">
-                                        @if ($user->photo)
-                                            <img src="{{ $user->photo }}" alt=""
-                                                class="w-px-40 h-auto rounded-circle" />
-                                        @else
-                                            <img src="/assets/img/avatars/1.png" alt=""
-                                                class="w-px-40 h-auto rounded-circle" />
-                                        @endif
+                                        <img src="{{ $user->photo }}" alt="Avatar"
+                                            class="rounded-circle">
                                     </div>
                                 </div>
                                 <div class="flex-grow-1">
