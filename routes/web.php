@@ -125,6 +125,7 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'checkRole:admin'])-
         Route::get('/{schedule}/edit', [ScheduleController::class, 'edit'])->name('edit');
         Route::put('/{schedule}/edit', [ScheduleController::class, 'update'])->name('update');
         Route::delete('/{schedule}/delete', [ScheduleController::class, 'destroy'])->name('destroy');
+        Route::delete('/delete-selected', [ScheduleController::class, 'destroySelected'])->name('destroySelected');
     });
     Route::prefix('bayaran')->name('bayaran.')->group(function () {
         Route::get('/', [FeeController::class, 'index'])->name('index');

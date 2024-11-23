@@ -17,7 +17,7 @@
                         <h5 class="card-title">Log Statistik</h5>
                     </div>
                     <div class="card-body">
-                        <div class="d-flex gap-1">
+                        <div class="d-flex flex-wrap gap-1">
                             <span class="fs-5 badge bg-primary rounded-3">Local: {{ $stats['local'] }}</span>
                             <span class="fs-5 badge bg-success rounded-3">Production: {{ $stats['production'] }}</span>
                             <span class="fs-5 badge bg-danger rounded-3">Error: {{ $stats['error'] }}</span>
@@ -77,7 +77,11 @@
         <script src="https://cdn.datatables.net/2.1.8/js/jquery.dataTables.min.js"></script>
         <script>
             $(document).ready(function() {
-                $('#dataTable').DataTable();
+                $('#dataTable').DataTable({
+                    language: {
+                        url: "https://cdn.datatables.net/plug-ins/1.10.19/i18n/Indonesian.json"
+                    }
+                });
             });
         </script>
     </x-slot:js>

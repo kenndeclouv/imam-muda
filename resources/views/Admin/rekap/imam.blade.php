@@ -158,7 +158,11 @@
         {{-- <script src="{{ asset('assets/vendor/js/forms-picker.js') }}"></script> --}}
         <script>
             $(document).ready(function() {
-                $('.dataTable').DataTable();
+                $('.dataTable').DataTable({
+                    language: {
+                        url: "https://cdn.datatables.net/plug-ins/1.10.19/i18n/Indonesian.json"
+                    }
+                });
                 $('.select2').select2();
 
                 $('[id^="jadwal-container-"]').each(function() {

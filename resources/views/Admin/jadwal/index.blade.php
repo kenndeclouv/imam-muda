@@ -27,7 +27,6 @@
                         </div>
                     @endif
                     <div class="px-3 pt-2">
-                        <!-- inline calendar (flatpicker) -->
                         <div class="inline-calendar"></div>
                     </div>
                     <hr class="mb-6 mx-n4 mt-3">
@@ -206,21 +205,30 @@
                     id="dataTable" style="width: 100%;">
                     <thead>
                         <tr>
-                            <th>Nama Imam</th>
-                            <th>Shalat</th>
-                            <th>Nama Masjid</th>
+                            <th class="sorting_disabled dt-checkboxes-cell">
+                                <input type="checkbox" class="form-check-input" id="checkbox-all">
+                            </th>
                             <th>Tanggal</th>
+                            <th>Nama Imam</th>
+                            <th>Nama Masjid</th>
+                            <th>Shalat</th>
                             <th>Status</th>
-                            <th>Aksi</th>
+                            @if ($permissions->contains('jadwal_edit') || $permissions->contains('jadwal_delete'))
+                                <th>Aksi</th>
+                            @endif
                         </tr>
                     </thead>
                     <tbody>
                         @foreach ($jadwals as $jadwal)
                             <tr>
-                                <td>{{ $jadwal->Imam->fullname }}</td>
-                                <td>{{ $jadwal->Shalat->name }}</td>
-                                <td>{{ $jadwal->Masjid->name }}</td>
+                                <td>
+                                    <input type="checkbox" class="form-check-input" name="jadwal_id[]"
+                                        value="{{ $jadwal->id }}" id="checkbox-{{ $jadwal->id }}">
+                                </td>
                                 <td>{{ \Carbon\Carbon::parse($jadwal->date)->format('d F Y') }}</td>
+                                <td>{{ $jadwal->Imam->fullname }}</td>
+                                <td>{{ $jadwal->Masjid->name }}</td>
+                                <td>{{ $jadwal->Shalat->name }}</td>
                                 <td>
                                     @if ($jadwal->is_badal == 1 && $jadwal->badal_id == null)
                                         <span class="badge bg-label-danger">Membutuhkan Badal</span>
@@ -353,208 +361,7 @@
         @include('components.show')
         <script src="https://cdn.datatables.net/2.1.8/js/jquery.dataTables.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js"></script>
-        {{-- <script src="{{ asset('assets/vendor/libs/fullcalendar/fullcalendar.js') }}"></script> --}}
         <script src="https://cdn.jsdelivr.net/npm/flatpickr@4.6.13/dist/flatpickr.min.js"></script>
-        <script>
-            $(document).ready(function() {
-                function getUrlParams() {
-                    const params = new URLSearchParams(window.location.search);
-                    return {
-                        filter_imam: params.get('filter_imam') || '',
-                        filter_shalat: params.get('filter_shalat') || '',
-                        filter_masjid: params.get('filter_masjid') || ''
-                    };
-                }
-                const htmlStyle = document.documentElement.getAttribute('data-style');
-                const isDarkMode = htmlStyle === 'dark' || (htmlStyle !== 'light' && window.matchMedia(
-                    '(prefers-color-scheme: dark)').matches);
-                const calendarEl = $('#calendar')[0];
-
-                const calendar = new FullCalendar.Calendar(calendarEl, {
-                    initialView: 'dayGridMonth',
-                    moreLinkClick: "popover",
-                    headerToolbar: {
-                        left: 'prev,next',
-                        center: 'title',
-                        right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
-                    },
-                    events: {
-                        url: '/admin/jadwal/fetch',
-                        extraParams: getUrlParams,
-                        failure: function() {
-                            alert('There was an error fetching events!');
-                        },
-                    },
-                    eventTimeFormat: {
-                        hour: '2-digit',
-                        minute: '2-digit',
-                        meridiem: false
-                    },
-                    timeZone: 'UTC',
-                    selectable: true,
-                    dayMaxEventRows: false,
-                    dayMaxEvents: 3,
-                    eventMaxStack: 3,
-                    themeSystem: 'bootstrap5',
-                    dragScroll: true,
-                    navLinks: true,
-                    editable: true,
-                    select: function(info) {
-                        $('#eventDate').val(info.startStr);
-                        new bootstrap.Offcanvas($('#addEventSidebar')[0]).show();
-                        flatpickrInstance.setDate(info.startStr, true);
-                    },
-                    eventClick: function(info) {
-                        show('Detail Jadwal', [{
-                                label: 'Imam',
-                                value: info.event.extendedProps.imam
-                            },
-                            {
-                                label: 'Masjid',
-                                value: info.event.extendedProps.masjid
-                            },
-                            {
-                                label: 'Shalat',
-                                value: info.event.extendedProps.shalat
-                            }
-                        ]);
-                    },
-                    eventDidMount: function(info) {
-                        const shalatStyles = {
-                            1: {
-                                textColor: '#696cff',
-                                bgColor: '#696cff29'
-                            },
-                            2: {
-                                textColor: '#ff3e1d',
-                                bgColor: '#ff3e1d29'
-                            },
-                            3: {
-                                textColor: '#71dd37',
-                                bgColor: '#71dd3729'
-                            },
-                            4: {
-                                textColor: '#03c3ec',
-                                bgColor: '#03c3ec29'
-                            },
-                            5: {
-                                textColor: '#ffab00',
-                                bgColor: '#ffab0029'
-                            },
-                            default: {
-                                textColor: '#8592a3',
-                                bgColor: '#8592a329'
-                            }
-                        };
-
-                        const style = shalatStyles[info.event.extendedProps.shalat_id] || shalatStyles
-                            .default;
-
-                        $(info.el).css({
-                            '--fc-event-text-color': style.textColor,
-                            'background-color': style.bgColor,
-                            'color': style.textColor,
-                            'border': 'none',
-                            'border-radius': '4px',
-                            'padding': '4px',
-                            'z-index': '100'
-                        });
-                    },
-                    eventDataTransform: function(eventData) {
-                        eventData.title =
-                            `${eventData.extendedProps.shalat} - ${eventData.extendedProps.imam}`;
-                        eventData.start = eventData.start || `${eventData.date}`;
-                        return eventData;
-                    },
-                    eventDrop: updateEvent,
-                    eventResize: updateEvent,
-                });
-
-                function updateEvent(info) {
-                    const eventId = info.event.id;
-                    const shalatId = info.event.extendedProps.shalat_id;
-                    const masjidId = info.event.extendedProps.masjid_id;
-                    const newStart = info.event.start.toISOString();
-                    const newEnd = info.event.end ? info.event.end.toISOString() : null;
-
-                    $.ajax({
-                        url: '/admin/jadwal/updateJSON',
-                        method: 'POST',
-                        contentType: 'application/json',
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                        },
-                        data: JSON.stringify({
-                            id: eventId,
-                            shalat_id: shalatId,
-                            masjid_id: masjidId,
-                            start: newStart,
-                            end: newEnd,
-                        }),
-                        success: function(response) {
-                            if (!response.success) {
-                                info.revert(); // Error di backend
-                                Swal.fire({
-                                    icon: 'error',
-                                    title: 'Gagal!',
-                                    text: 'Terjadi kesalahan.',
-                                    background: isDarkMode ? '#2b2c40' : '#fff',
-                                    color: isDarkMode ? '#b2b2c4' : '#000',
-                                });
-                            } else {
-                                Swal.fire({
-                                    icon: 'success',
-                                    title: 'Berhasil!',
-                                    text: 'Jadwal berhasil diperbarui.',
-                                    background: isDarkMode ? '#2b2c40' : '#fff',
-                                    color: isDarkMode ? '#b2b2c4' : '#000',
-                                });
-                            }
-                        },
-                        error: function(error) {
-                            console.error(error);
-                            info.revert();
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Gagal!',
-                                text: 'Terjadi kesalahan saat memperbarui jadwal.',
-                                background: isDarkMode ? '#2b2c40' : '#fff',
-                                color: isDarkMode ? '#b2b2c4' : '#000',
-                            });
-                        }
-                    });
-                }
-
-                calendar.render();
-
-                var flatpickrInstance = $('.inline-calendar').flatpickr({
-                    inline: true,
-                    dateFormat: 'Y-m-d',
-                    enableTime: false,
-                    time_24hr: true,
-                    defaultDate: new Date(),
-                    UTC: true,
-                    onReady: function(selectedDates, dateStr, instance) {
-                        instance.jumpToDate(new Date());
-                    },
-                    onChange: function(selectedDates) {
-                        if (selectedDates.length > 0) {
-                            calendar.gotoDate(selectedDates[0]);
-                        }
-                    }
-                });
-
-                $('#dataTable').DataTable();
-
-                $('#jadwal-imam, #jadwal-shalat, #jadwal-masjid').select2({
-                    placeholder: "Pilih Opsi",
-                    dropdownParent: $('#addEventSidebar')
-                });
-
-                $('#filter_imam, #filter_shalat, #filter_masjid').select2({
-                    placeholder: "Pilih Filter",
-                });
-            });
-        </script>
+        <script src="{{ asset('assets/vendor/js/admin-jadwal-index.js') }}"></script>
     </x-slot:js>
 </x-app>

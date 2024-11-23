@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreScheduleRequest;
+use App\Http\Requests\UpdateScheduleRequest;
 use App\Models\Imam;
 use App\Models\Masjid;
 use App\Models\Schedule;
@@ -144,7 +145,7 @@ class ScheduleController extends Controller
         return view("{$role}.jadwal.edit", compact('schedule', 'masjids', 'shalats', 'imams'));
     }
 
-    public function update(StoreScheduleRequest $request, Schedule $schedule)
+    public function update(UpdateScheduleRequest $request, Schedule $schedule)
     {
         $role = Auth::user()->Role->code;
         $validated = $request->validated();
@@ -192,7 +193,7 @@ class ScheduleController extends Controller
         ]);
 
         $date = Carbon::parse($validated['start'])->format('Y-m-d');
-        
+
         if ($this->isScheduleConflict($date, $validated['masjid_id'], $validated['shalat_id'], $schedule->id ?? null)) {
             return response()->json(['error' => 'Jadwal bentrok.', 'success' => false]);
         }
@@ -238,5 +239,19 @@ class ScheduleController extends Controller
     {
         $schedule->update(['badal_id' => null]);
         return redirect()->route('imam.jadwal.index')->with('success', 'Badal berhasil dibatalkan.');
+    }
+
+    public function destroySelected(Request $request)
+    {
+        $jadwalIds = $request->input('jadwal_id', []); // array id yang diterima
+
+        if (empty($jadwalIds)) {
+            return redirect()->back()->with('error', 'Tidak ada data yang dipilih untuk dihapus.');
+        }
+
+        // hapus data berdasarkan id
+        Schedule::whereIn('id', $jadwalIds)->delete();
+
+        return redirect()->back()->with('success', 'Jadwal berhasil dihapus.');
     }
 }

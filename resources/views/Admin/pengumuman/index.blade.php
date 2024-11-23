@@ -82,7 +82,11 @@
     <x-slot:js>
         <script>
             $(document).ready(function() {
-                $('#dataTable').DataTable();
+                $('#dataTable').DataTable({
+                    language: {
+                        url: "https://cdn.datatables.net/plug-ins/1.10.19/i18n/Indonesian.json"
+                    }
+                });
             });
         </script>
     </x-slot:js>
