@@ -22,7 +22,7 @@ class MySeeder extends Seeder
     public function run(): void
     {
         Role::create([
-            'code' => 'super_admin',
+            'code' => 'superadmin',
             'name' => 'Super Admin',
         ]);
         Role::create([

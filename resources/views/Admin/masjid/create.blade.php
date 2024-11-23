@@ -39,7 +39,6 @@
         </div>
     </div>
     <x-slot:style>
-        <link rel="stylesheet" href="{{ asset('assets/vendor/libs/bs-stepper/bs-stepper.css') }}">
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
         <style>
             #map {
@@ -51,8 +50,6 @@
     </x-slot:style>
     <x-slot:js>
         <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-        <script src="{{ asset('assets/js/form-wizard-numbered.js') }}"></script>
-        <script src="{{ asset('assets/vendor/libs/bs-stepper/bs-stepper.js') }}"></script>
         <script>
             // inisialisasi map
             var map = L.map('map').setView([0, 0], 5);
@@ -63,7 +60,7 @@
                             latitude,
                             longitude
                         } = position.coords;
-                        map.setView([latitude, longitude], 10); // zoom ke lokasi user
+                        map.setView([latitude, longitude], 12); // zoom ke lokasi user
                     },
                     function() {
                         alert('Gagal mendeteksi lokasi, silakan pilih secara manual.');
@@ -74,7 +71,7 @@
             }
             // tambahkan tile layer ke map
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                attribution: '&copy; <a href="https://kenndeclouv.rf.gd">kenndeclouv</a>'
             }).addTo(map);
 
             // variabel marker (default null)

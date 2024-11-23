@@ -16,7 +16,7 @@ class CheckRole
      */
     public function handle(Request $request, Closure $next, $role): Response
     {
-        if (Auth::check() && Auth::user()->role === $role) {
+        if (Auth::check() && Auth::user()->Role->code === $role) {
             return $next($request);
         }
         return redirect('/login')->with('error', 'ngga punya akses yaa! 😬');

@@ -40,7 +40,6 @@
         </div>
     </div>
     <x-slot:style>
-        <link rel="stylesheet" href="{{ asset('assets/vendor/libs/bs-stepper/bs-stepper.css') }}">
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
         <style>
             #map {
@@ -51,8 +50,6 @@
         </style>
     </x-slot:style>
     <x-slot:js>
-        <script src="{{ asset('assets/js/form-wizard-numbered.js') }}"></script>
-        <script src="{{ asset('assets/vendor/libs/bs-stepper/bs-stepper.js') }}"></script>
         <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
         <script>
             // ambil koordinat dari database atau null kalau tidak ada
@@ -60,8 +57,25 @@
             var initialLng = {{ $masjid->longitude ?? 'null' }};
 
             // inisialisasi map
-            var map = L.map('map').setView([initialLat || -2.5489, initialLng || 118.0149], 18);
-
+            var map = L.map('map').setView([initialLat, initialLng], 12);
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    function(position) {
+                        const {
+                            latitude,
+                            longitude
+                        } = position.coords;
+                        if (initialLat === null || initialLng === null) {
+                            map.setView([latitude, longitude], 8); // zoom ke lokasi user
+                        }
+                    },
+                    function() {
+                        alert('Gagal mendeteksi lokasi, silakan pilih secara manual.');
+                    }
+                );
+            } else {
+                alert('Browser kamu tidak mendukung geolocation!');
+            }
             // tambahkan tile layer ke map
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 attribution: '&copy; <a href="https://kenndeclouv.rf.gd">kenndeclouv</a>'

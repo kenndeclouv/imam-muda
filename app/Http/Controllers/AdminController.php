@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\SuperAdmin;
+namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreAdminRequest;
@@ -23,12 +23,12 @@ class AdminController extends Controller
     public function index()
     {
         $admins = Admin::all();
-        return view('SuperAdmin.admin.index', compact('admins'));
+        return view('superadmin.admin.index', compact('admins'));
     }
 
     public function create()
     {
-        return view('SuperAdmin.admin.create');
+        return view('superadmin.admin.create');
     }
 
     // public function store(Request $request)
@@ -132,7 +132,7 @@ class AdminController extends Controller
     public function edit($id)
     {
         $admin = Admin::findOrFail($id);
-        return view('SuperAdmin.admin.edit', compact('admin'));
+        return view('superadmin.admin.edit', compact('admin'));
     }
 
     public function update(UpdateAdminRequest $request, $id)
@@ -180,7 +180,7 @@ class AdminController extends Controller
         $features = Feature::whereNotIn('id', $admin->User->Permissions->pluck('feature_id'))->get();
 
         $permissions = Permission::where('user_id', $admin->user_id)->get();
-        return view('SuperAdmin.admin.permissions', compact('admin', 'permissions', 'features'));
+        return view('superadmin.admin.permissions', compact('admin', 'permissions', 'features'));
     }
 
     public function permissionsStore(Request $request, $id)

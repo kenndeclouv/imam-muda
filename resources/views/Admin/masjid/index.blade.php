@@ -58,6 +58,13 @@
                                                 <x-confirm-delete :route="route('admin.masjid.destroy', $masjid->id)" title="Hapus Masjid"
                                                     message="Apakah anda yakin ingin menghapus masjid ini?" />
                                             @endif
+                                            @if ($masjid->latitude && $masjid->longitude)
+                                                <a href="https://www.google.com/maps/search/?api=1&query={{ $masjid->latitude }},{{ $masjid->longitude }}"
+                                                    class="btn btn-info" target="_blank" data-bs-toggle="tooltip"
+                                                    data-bs-placement="top" data-bs-title="Lihat di Google Maps">
+                                                    <i class="fa-solid fa-map"></i>
+                                                </a>
+                                            @endif
                                         </div>
                                     </td>
                                 @endif

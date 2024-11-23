@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Shalat;
@@ -11,12 +11,12 @@ class ShalatController extends Controller
     public function index()
     {
         $shalats = Shalat::all();
-        return view('Admin.shalat.index', compact('shalats'));
+        return view('admin.shalat.index', compact('shalats'));
     }
 
     public function create()
     {
-        return view('Admin.shalat.create');
+        return view('admin.shalat.create');
     }
 
     public function store(Request $request)
@@ -35,15 +35,15 @@ class ShalatController extends Controller
     public function edit($id)
     {
         $shalat = Shalat::findOrFail($id);
-        return view('Admin.shalat.edit', compact('shalat'));
+        return view('admin.shalat.edit', compact('shalat'));
     }
 
     public function update(Request $request, $id)
     {
         $validated = $request->validate([
             'name' => 'required|string|max:100',
-            'start' => 'required|date_format:H:i',
-            'end' => 'required|date_format:H:i',
+            'start' => 'required',
+            'end' => 'required',
         ]);
 
         $shalat = Shalat::findOrFail($id);

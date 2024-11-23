@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\MainController;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -14,7 +15,7 @@ class LoginController extends Controller
     {
         // Jika user sudah login, arahkan berdasarkan role-nya
         if (Auth::check()) {
-            return app(HomeController::class)->index($request);
+            return app(MainController::class)->dashboard();
         }
 
         return view('Auth.login');
@@ -38,7 +39,7 @@ class LoginController extends Controller
         // Lanjutkan login jika user aktif
         if (Auth::attempt($credentials, $remember)) {
             $request->session()->regenerate();
-            return app(HomeController::class)->index($request);
+            return app(MainController::class)->dashboard();
         }
 
         return back()->withErrors([

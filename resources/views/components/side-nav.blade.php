@@ -23,16 +23,16 @@
             <span class="menu-header-text">Menu</span>
         </li>
         @switch(Auth::user()->Role->code)
-            @case('super_admin')
-                @include('Sidebar.Superadmin')
+            @case('superadmin')
+                @include('sidebar.superadmin')
             @break
 
             @case('admin')
-                @include('Sidebar.Admin')
+                @include('sidebar.admin')
             @break
 
             @case('imam')
-                @include('Sidebar.Imam')
+                @include('sidebar.imam')
             @break
 
             @default

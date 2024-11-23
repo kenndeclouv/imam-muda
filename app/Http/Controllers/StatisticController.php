@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Imam;
@@ -14,6 +14,6 @@ class StatisticController extends Controller
 {
     public function statistik()
     {
-        return view('Admin.statistik.index');
+        return view('admin.statistik.index');
     }
 }

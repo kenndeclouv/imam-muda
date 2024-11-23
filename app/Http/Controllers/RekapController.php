@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Imam;
@@ -47,7 +47,7 @@ class RekapController extends Controller
 
 
         // Kirim data ke view
-        return view('Admin.rekap.imam', compact('imams', 'monthYear', 'defaultImam'));
+        return view('admin.rekap.imam', compact('imams', 'monthYear', 'defaultImam'));
     }
 
     public function exportImam(Request $request)

@@ -24,6 +24,14 @@
                         <input type="text" name="name" class="form-control" id="shalat-name" placeholder="Nama Shalat"
                             value="{{ old('name', $shalat->name) }}" required>
                     </div>
+                    <div class="mb-6">
+                        <label class="form-label" for="lama-shalat">Jam Mulai Shalat</label>
+                        <input type="time" min="1" name="start" class="form-control" id="lama-shalat" placeholder="5 Menit" value="{{ old('minutes', $shalat->start) }}" required>
+                    </div>
+                    <div class="mb-6">
+                        <label class="form-label" for="lama-shalat">Jam Selesai Shalat</label>
+                        <input type="time" min="1" name="end" class="form-control" id="lama-shalat" placeholder="5 Menit" value="{{ old('minutes', $shalat->end) }}" required>
+                    </div>
                     <button type="submit" class="btn btn-warning">Edit</button>
                 </form>
             </div>

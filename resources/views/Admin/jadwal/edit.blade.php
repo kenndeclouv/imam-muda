@@ -16,45 +16,45 @@
             </div>
             <div class="card-body">
                 @include('components.alert')
-                <form action="{{ route('admin.jadwal.update', $jadwal->id) }}" method="POST">
+                <form action="{{ route('admin.jadwal.update', $schedule->id) }}" method="POST">
                     @csrf
                     @method('PUT')
                     <div class="mb-6">
                         <label class="form-label" for="jadwal-imam">Nama Imam</label>
-                        <input class="form-control" type="text" value="{{ $jadwal->Imam->fullname }}" disabled>
+                        <input class="form-control" type="text" value="{{ $schedule->Imam->fullname }}" disabled>
                     </div>
                     <div class="mb-6">
                         <label class="form-label" for="jadwal-shalat">Shalat</label>
                         <select name="shalat_id" class="form-control select2" id="jadwal-shalat" required>
                             @foreach ($shalats as $shalat)
-                                <option value="{{ $shalat->id }}" {{ old('shalat_id', $jadwal->shalat_id) == $shalat->id ? 'selected' : '' }}>{{ $shalat->name }}</option>
+                                <option value="{{ $shalat->id }}" {{ old('shalat_id', $schedule->shalat_id) == $shalat->id ? 'selected' : '' }}>{{ $shalat->name }}</option>
                             @endforeach
                         </select>
                     </div>
                     <div class="mb-6">
                         <label class="form-label" for="jadwal-masjid">Masjid</label>
                         <select name="masjid_id" class="form-control select2" id="jadwal-masjid" required>
-                            <option value="" disabled {{ old('masjid_id', $jadwal->masjid_id) ? '' : 'selected' }}>Pilih Masjid</option>
+                            <option value="" disabled {{ old('masjid_id', $schedule->masjid_id) ? '' : 'selected' }}>Pilih Masjid</option>
                             @foreach ($masjids as $masjid)
-                                <option value="{{ $masjid->id }}" {{ old('masjid_id', $jadwal->masjid_id) == $masjid->id ? 'selected' : '' }}>{{ $masjid->name }}</option>
+                                <option value="{{ $masjid->id }}" {{ old('masjid_id', $schedule->masjid_id) == $masjid->id ? 'selected' : '' }}>{{ $masjid->name }}</option>
                             @endforeach
                         </select>
                     </div>
                     <div class="mb-6">
                         <label class="form-label" for="jadwal-date">Tanggal</label>
-                        <input type="datetime-local" name="date" class="form-control" id="jadwal-date" required value="{{ old('date', $jadwal->date) }}">
+                        <input type="datetime-local" name="date" class="form-control" id="jadwal-date" required value="{{ old('date', $schedule->date) }}">
                     </div>
                     <div class="mb-6">
                         <label class="form-label" for="jadwal-status">Status</label>
                         <div id="jadwal-status">
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="status" id="status-to_do" value="to_do" {{ old('status', $jadwal->status) == 'to_do' ? 'checked' : '' }} checked>
+                                <input class="form-check-input" type="radio" name="status" id="status-to_do" value="to_do" {{ old('status', $schedule->status) == 'to_do' ? 'checked' : '' }} checked>
                                 <label class="form-check-label" for="status-to_do">
                                     Akan
                                 </label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="status" id="status-done" value="done" {{ old('status', $jadwal->status) == 'done' ? 'checked' : '' }}>
+                                <input class="form-check-input" type="radio" name="status" id="status-done" value="done" {{ old('status', $schedule->status) == 'done' ? 'checked' : '' }}>
                                 <label class="form-check-label" for="status-done">
                                     Selesai
                                 </label>
@@ -65,13 +65,13 @@
                         <label class="form-label" for="jadwal-is_badal">Membutuhkan Badal?</label>
                         <div id="jadwal-is_badal">
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="is_badal" id="is_badal-yes" value="1" {{ old('is_badal', $jadwal->is_badal) == '1' ? 'checked' : '' }}>
+                                <input class="form-check-input" type="radio" name="is_badal" id="is_badal-yes" value="1" {{ old('is_badal', $schedule->is_badal) == '1' ? 'checked' : '' }}>
                                 <label class="form-check-label" for="is_badal-yes">
                                     Ya
                                 </label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="is_badal" id="is_badal-no" value="0" {{ old('is_badal', $jadwal->is_badal) == '0' ? 'checked' : '' }}>
+                                <input class="form-check-input" type="radio" name="is_badal" id="is_badal-no" value="0" {{ old('is_badal', $schedule->is_badal) == '0' ? 'checked' : '' }}>
                                 <label class="form-check-label" for="is_badal-no">
                                     Tidak
                                 </label>
@@ -81,15 +81,15 @@
                     <div class="mb-6">
                         <label class="form-label" for="jadwal-badal">Imam Badal</label>
                         <select name="badal_id" class="form-control select2" id="jadwal-badal">
-                            <option value="" disabled {{ old('badal_id', $jadwal->badal_id) ? '' : 'selected' }}>Pilih Imam Badal</option>
+                            <option value="" disabled {{ old('badal_id', $schedule->badal_id) ? '' : 'selected' }}>Pilih Imam Badal</option>
                             @foreach ($imams as $imam)
-                                <option value="{{ $imam->id }}" {{ old('badal_id', $jadwal->badal_id) == $imam->id ? 'selected' : '' }}>{{ $imam->fullname }}</option>
+                                <option value="{{ $imam->id }}" {{ old('badal_id', $schedule->badal_id) == $imam->id ? 'selected' : '' }}>{{ $imam->fullname }}</option>
                             @endforeach
                         </select>
                     </div>
                     <div class="mb-6">
                         <label class="form-label" for="jadwal-note">Keterangan</label>
-                        <input type="text" name="note" class="form-control" id="jadwal-note" value="{{ old('note', $jadwal->note) }}">
+                        <input type="text" name="note" class="form-control" id="jadwal-note" value="{{ old('note', $schedule->note) }}">
                     </div>
                     <button type="submit" class="btn btn-primary">Perbarui</button>
                 </form>

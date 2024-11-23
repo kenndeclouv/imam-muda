@@ -11,6 +11,8 @@ class Schedule extends Model
 
     protected $guarded = [];
 
+    protected $with = ['Shalat', 'Masjid', 'Badal'];
+    
     public function Imam()
     {
         return $this->belongsTo(Imam::class);
@@ -26,5 +28,19 @@ class Schedule extends Model
     public function Badal()
     {
         return $this->belongsTo(Imam::class, 'badal_id');
+    }
+    public function scopeFilterByImam($query, $imamId)
+    {
+        return $query->when($imamId, fn($q) => $q->where('imam_id', $imamId));
+    }
+
+    public function scopeFilterByShalat($query, $shalatId)
+    {
+        return $query->when($shalatId, fn($q) => $q->where('shalat_id', $shalatId));
+    }
+
+    public function scopeFilterByMasjid($query, $masjidId)
+    {
+        return $query->when($masjidId, fn($q) => $q->where('masjid_id', $masjidId));
     }
 }

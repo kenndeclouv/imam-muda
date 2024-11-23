@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Admin;
+use App\Models\Imam;
 use App\Models\User;
 use App\Models\UserShortcut;
 use Illuminate\Support\Facades\Auth;
@@ -69,5 +71,41 @@ class AccountController extends Controller
 
         // Lakukan penyimpanan data di sini...
         return back()->with('success', 'berhasil menambahkan shortcut');
+    }
+    public function updateImam(Request $request)
+    {
+        $validated = $request->validate([
+            'fullname' => 'required|string|max:50',
+            'phone' => 'required|string|max:20',
+            'birthplace' => 'required|string|max:100',
+            'birthdate' => 'required|date',
+            'juz' => 'nullable|integer',
+            'school' => 'nullable|string|max:100',
+            'description' => 'nullable|string|max:255',
+            'address' => 'nullable|string|max:255',
+        ]);
+
+        $imam = Imam::where('user_id', Auth::id())->firstOrFail();
+
+        $imam->update($validated);
+
+        return redirect()->route('account')->with('success', 'Imam berhasil diperbarui.');
+    }
+    public function updateAdmin(Request $request)
+    {
+        $validated = $request->validate([
+            'fullname' => 'required|string|max:50',
+            'phone' => 'required|string|max:20',
+            'birthplace' => 'required|string|max:100',
+            'birthdate' => 'required|date',
+            'description' => 'nullable|string|max:255',
+            'address' => 'nullable|string|max:255',
+        ]);
+
+        $admin = Admin::where('user_id', Auth::id())->firstOrFail();
+
+        $admin->update($validated);
+
+        return redirect()->route('account')->with('success', 'Admin berhasil diperbarui.');
     }
 }

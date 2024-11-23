@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Fee;
@@ -12,13 +12,13 @@ class FeeController extends Controller
     public function index()
     {
         $fees = Fee::all();
-        return view('Admin.bayaran.index', compact('fees'));
+        return view('admin.bayaran.index', compact('fees'));
     }
 
     public function create()
     {
         $imams = Imam::all();
-        return view('Admin.bayaran.create', compact('imams'));
+        return view('admin.bayaran.create', compact('imams'));
     }
 
     public function store(Request $request)
@@ -43,7 +43,7 @@ class FeeController extends Controller
     public function edit($id)
     {
         $fee = Fee::findOrFail($id);
-        return view('Admin.bayaran.edit', compact('fee'));
+        return view('admin.bayaran.edit', compact('fee'));
     }
 
     public function update(Request $request, $id)

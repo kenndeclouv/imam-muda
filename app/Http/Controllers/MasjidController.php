@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Masjid;
@@ -12,12 +12,12 @@ class MasjidController extends Controller
     public function index()
     {
         $masjids = Masjid::all();
-        return view('Admin.masjid.index', compact('masjids'));
+        return view('admin.masjid.index', compact('masjids'));
     }
 
     public function create()
     {
-        return view('Admin.masjid.create');
+        return view('admin.masjid.create');
     }
 
     public function store(Request $request)
@@ -37,7 +37,7 @@ class MasjidController extends Controller
     public function edit($id)
     {
         $masjid = Masjid::findOrFail($id);
-        return view('Admin.masjid.edit', compact('masjid'));
+        return view('admin.masjid.edit', compact('masjid'));
     }
 
     public function update(Request $request, $id)

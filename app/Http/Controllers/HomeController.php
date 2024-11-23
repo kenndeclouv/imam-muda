@@ -4,25 +4,81 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Imam;
+use App\Models\Masjid;
+use App\Models\Schedule;
+use App\Models\Announcement;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
 {
-    public function index(Request $request)
+    public function adminHome()
     {
-        $user = Auth::user();
-        if ($user === null) {
-            abort(404);
-        }
+        $imams = Imam::all()->count();
+        $masjids = Masjid::all()->count();
+        $startOfWeek = Carbon::now()->startOfWeek();
+        $endOfWeek = Carbon::now()->endOfWeek();
 
-        switch (optional($user->Role)->code) {
-            case 'admin':
-                return redirect()->route('admin.home');
-            case 'super_admin':
-                return redirect()->route('superadmin.home');
-            case 'imam':
-                return redirect()->route('imam.home');
-            default:
-                abort(403, 'Role tidak dikenali.');
-        }
+        $weeklyJadwal = DB::table('schedules')
+            ->selectRaw('DATE(date) as day, COUNT(*) as total')
+            ->whereBetween('date', [$startOfWeek, $endOfWeek])
+            ->count();
+
+        $bayaranImam = Schedule::where('status', 'done')
+            ->with('imam.fee')
+            ->get()
+            ->reduce(function ($carry, $schedule) {
+                $imamFee = $schedule->imam->Fee->fee ?? 0;
+                return $carry + $imamFee;
+            }, 0);
+
+        $schedules = Schedule::where('status', 'to_do')
+            ->where('is_badal', operator: 1)->where('badal_id', null)->get();
+
+        $announcements = Announcement::all();
+        return view('admin.index', compact('imams', 'masjids', 'weeklyJadwal', 'schedules', 'announcements', 'bayaranImam'));
+    }
+    public function superAdminHome()
+    {
+        $imams = Imam::all()->count();
+        $masjids = Masjid::all()->count();
+        $startOfWeek = Carbon::now()->startOfWeek();
+        $endOfWeek = Carbon::now()->endOfWeek();
+
+        $weeklyJadwal = DB::table('schedules')
+            ->selectRaw('DATE(date) as day, COUNT(*) as total')
+            ->whereBetween('date', [$startOfWeek, $endOfWeek])
+            ->count();
+
+        $bayaranImam = Schedule::where('status', 'done')
+            ->with('imam.fee')
+            ->get()
+            ->reduce(function ($carry, $schedule) {
+                $imamFee = $schedule->imam->Fee->fee ?? 0;
+                return $carry + $imamFee;
+            }, 0);
+
+        $schedules = Schedule::where('status', 'to_do')
+            ->where('is_badal', operator: 1)->where('badal_id', null)->get();
+
+        $announcements = Announcement::all();
+        return view('superadmin.index', compact('imams', 'masjids', 'weeklyJadwal', 'schedules', 'announcements', 'bayaranImam'));
+    }
+
+    public function imamHome()
+    {
+        $schedules = Schedule::where('status', 'to_do')
+            ->where('is_badal', true)
+            ->where('badal_id', null)
+            ->where('imam_id', '!=', Auth::user()->imam->id)
+            ->get();
+
+        $announcements = Announcement::where('is_active', 1)
+            ->where('target_id', Auth::user()->role->id)
+            ->whereMonth('date', now()->month)
+            // ->orWhereDate('date', '<=', now())
+            ->get();
+        return view('imam.index', compact('schedules', 'announcements'));
     }
 }

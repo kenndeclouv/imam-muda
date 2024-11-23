@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreImamRequest;
@@ -11,15 +11,20 @@ use Illuminate\Support\Facades\Auth;
 
 class ImamController extends Controller
 {
+    private function uploadPhoto($photo)
+    {
+        return $photo->store('imam', 'public');
+    }
+
     public function index()
     {
         $imams = Imam::all();
-        return view('Admin.imam.index', compact('imams'));
+        return view('admin.imam.index', compact('imams'));
     }
 
     public function create()
     {
-        return view('Admin.imam.create');
+        return view('admin.imam.create');
     }
 
     public function store(StoreImamRequest $request)
@@ -57,21 +62,18 @@ class ImamController extends Controller
     }
 
 
-    public function show($id)
+    public function show(Imam $imam)
     {
-        $imam = Imam::findOrFail($id);
-        return view('Admin.imam.show', compact('imam'));
+        return view('admin.imam.show', compact('imam'));
     }
 
-    public function edit($id)
+    public function edit(Imam $imam)
     {
-        $imam = Imam::findOrFail($id);
-        return view('Admin.imam.edit', compact('imam'));
+        return view('admin.imam.edit', compact('imam'));
     }
 
-    public function update(Request $request, $id)
+    public function update(StoreImamRequest $request, Imam $imam)
     {
-        $imam = Imam::findOrFail($id);
         $user = User::findOrFail($imam->user_id);
         $validated = $request->validated();
 
@@ -102,16 +104,13 @@ class ImamController extends Controller
         return redirect()->route('admin.imam.index', $imam->id)->with('success', 'Imam berhasil diperbarui.');
     }
 
-    public function destroy($id)
+    public function destroy(Imam $imam)
     {
-        $imam = Imam::findOrFail($id);
         $user = $imam->User; // Get the associated user
         $imam->delete();
-
         if ($user) {
             $user->delete(); // Delete the user as well
         }
-
         return redirect()->route('admin.imam.index')->with('success', 'Imam berhasil dihapus.');
     }
 }

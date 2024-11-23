@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Announcement;
@@ -13,13 +13,13 @@ class AnnouncementController extends Controller
     public function index()
     {
         $announcements = Announcement::all();
-        return view('Admin.pengumuman.index', compact('announcements'));
+        return view('admin.pengumuman.index', compact('announcements'));
     }
 
     public function create()
     {
         $targets = Role::where('code', '!=', 'super_admin')->get();
-        return view('Admin.pengumuman.create', compact('targets'));
+        return view('admin.pengumuman.create', compact('targets'));
     }
 
     public function store(Request $request)
@@ -69,7 +69,7 @@ class AnnouncementController extends Controller
     public function edit($id)
     {
         $announcement = Announcement::find($id);
-        return view('Admin.pengumuman.edit', compact('announcement'));
+        return view('admin.pengumuman.edit', compact('announcement'));
     }
 
     public function update(Request $request, $id)
