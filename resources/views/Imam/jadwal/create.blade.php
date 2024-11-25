@@ -40,7 +40,7 @@
                         <label class="form-label" for="jadwal-date">Tanggal</label>
                         <input type="date" name="date" class="form-control" id="jadwal-date" required value="{{ old('date') }}">
                     </div>
-                    <div class="mb-6">
+                    {{-- <div class="mb-6">
                         <label class="form-label" for="jadwal-status">Status</label>
                         <div id="jadwal-status">
                             <div class="form-check">
@@ -56,7 +56,7 @@
                                 </label>
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
                     <button type="submit" class="btn btn-primary">Tambahkan</button>
                 </form>
             </div>

@@ -10,4 +10,9 @@ class Shalat extends Model
     use HasFactory;
 
     protected $guarded = [];
+
+    public function ListFee()
+    {
+        return $this->hasOne(ListFee::class);
+    }
 }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreImamRequest;
 use App\Models\Imam;
+use App\Models\Schedule;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -112,5 +113,14 @@ class ImamController extends Controller
             $user->delete(); // Delete the user as well
         }
         return redirect()->route('admin.imam.index')->with('success', 'Imam berhasil dihapus.');
+    }
+
+    public function detail(Imam $imam)
+    {
+        // Fetch the associated user
+        $user = $imam->User;
+        $schedules = Schedule::where('imam_id', $imam->id)->get();
+        // Return the view with the imam and user details
+        return view('admin.imam.detail', compact('imam', 'user', 'schedules'));
     }
 }

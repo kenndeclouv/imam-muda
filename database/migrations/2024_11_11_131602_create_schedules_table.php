@@ -18,7 +18,7 @@ return new class extends Migration
             $table->foreignId('shalat_id')->constrained('shalats')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamp('date');
             $table->timestamp('end')->nullable();
-            $table->enum('status', ['to_do', 'done'])->default('to_do');
+            $table->enum('status', ['to_do', 'done'])->default('done');
             $table->boolean('is_badal')->default(false);
             $table->foreignId('badal_id')->nullable()->constrained('imams')->onDelete('cascade')->onUpdate('cascade');
             $table->text('note')->nullable();

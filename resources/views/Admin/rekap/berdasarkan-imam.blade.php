@@ -19,7 +19,7 @@
             </div>
             <div class="card-body pb-4">
                 @include('components.alert')
-                <form method="GET" action="{{ route('admin.rekap.imam.index') }}" class="mb-3">
+                <form method="GET" action="{{ route('admin.rekap.berdasarkan-imam.index') }}" class="mb-3">
                     <div class="row">
                         <div class="col-md-4">
                             <div class="form-group">
@@ -29,10 +29,6 @@
                                     {{ request('month') ? 'selected' : '' }}>
                             </div>
                         </div>
-                        {{-- <div class="col-md-4">
-                            <label for="bs-datepicker-basic" class="form-label">Pilih Bulan</label>
-                            <input type="text" id="bs-datepicker-basic" placeholder="MM/DD/YYYY" class="form-control flatpickr">
-                        </div> --}}
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="imam">Pilih Imam</label>
@@ -49,9 +45,7 @@
                         </div>
                         <div class="col-md-4 d-flex align-items-end">
                             <button type="submit" class="btn btn-primary">Filter</button>
-                            <a href="{{ route('admin.rekap.imam.index') }}" class="btn btn-secondary ms-2">Reset</a>
-                            <a href="{{ route('admin.rekap.imam.export', ['month' => request('month'), 'imam' => request('imam')]) }}"
-                                class="btn btn-success ms-2">Export</a>
+                            <a href="{{ route('admin.rekap.berdasarkan-imam.index') }}" class="btn btn-secondary ms-2">Reset</a>
                         </div>
                     </div>
                 </form>
@@ -80,7 +74,7 @@
                 $totalJadwalDone = $totalJadwalRegulerDone + $totalJadwalBadalDone;
 
                 $totalJadwal = $totalJadwalReguler + $totalJadwalBadal;
-                $totalBayaran = $totalJadwalDone * optional($imam->Fee)->fee;
+                // $totalBayaran = $totalJadwalDone * $imam->ListFee->Fee->amount;
             @endphp
             <div class="card mt-3 card-border-shadow-{{ ['primary', 'secondary', 'danger', 'warning', 'info'][array_rand(['primary', 'secondary', 'danger', 'warning', 'info'])] }}"
                 id="jadwal-container-{{ $imam->id }}">
@@ -88,7 +82,6 @@
                     <h5 class="d-inline-block px-3 py-1 rounded-3 bg-label-success ">{{ $imam->fullname }}</h5>
                     <h5 class="d-inline-block px-3 py-1 rounded-3 bg-label-warning ">Total Jadwal : {{ $totalJadwal }}</h5>
                     <h5 class="d-inline-block px-3 py-1 rounded-3 bg-label-secondary ">Total Jadwal Badal : {{ $totalJadwalBadal }}</h5>
-                    <h5 class="d-inline-block px-3 py-1 rounded-3 bg-label-info ">Total Bayaran : {{ $totalBayaran }}</h5>
                 </div>
                 <div class="card-datatable">
                     <table id="jadwalImam{{ $imam->id }}"

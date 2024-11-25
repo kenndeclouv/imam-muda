@@ -36,7 +36,6 @@ class ScheduleController extends Controller
                 'shalat_id' => $shalatId,
                 'date' => $validated['date'] . ' ' . $shalat->start,
                 'end' => $validated['date'] . ' ' . $shalat->end,
-                'status' => $validated['status'],
             ]);
         }
     }

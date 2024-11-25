@@ -27,7 +27,6 @@ class StoreScheduleRequest extends FormRequest
             'shalat_id' => 'required|array',
             'shalat_id.*' => 'exists:shalats,id',
             'date' => 'required|date',
-            'status' => 'required|in:to_do,done',
             'is_badal' => 'nullable|in:0,1',
             'badal_id' => 'nullable|exists:imams,id',
             'note' => 'nullable|string',

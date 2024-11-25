@@ -414,7 +414,7 @@
                         minute: '2-digit',
                         meridiem: false
                     },
-                    timeZone: 'UTC',
+                    timeZone: 'Asia/Jakarta',
                     selectable: false,
                     dayMaxEventRows: false,
                     dayMaxEvents: 3,

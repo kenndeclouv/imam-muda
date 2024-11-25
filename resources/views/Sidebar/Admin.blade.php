@@ -11,7 +11,7 @@
             </div>
         </a>
         <ul class="menu-sub">
-            <li class="menu-item {{ request()->routeIs('admin.imam.index', 'admin.imam.edit') ? 'active' : '' }}">
+            <li class="menu-item {{ request()->routeIs('admin.imam.index', 'admin.imam.edit', 'admin.imam.detail') ? 'active' : '' }}">
                 <a href="{{ route('admin.imam.index') }}" class="menu-link">
                     <div class="text-truncate">Daftar Imam</div>
                 </a>
@@ -112,9 +112,9 @@
         </a>
         <ul class="menu-sub">
             <li
-                class="menu-item {{ request()->routeIs('admin.bayaran.index', 'admin.bayaran.edit') ? 'active' : '' }}">
+                class="menu-item {{ request()->routeIs('admin.bayaran.index', 'admin.bayaran.edit', 'admin.bayaran.list.index') ? 'active' : '' }}">
                 <a href="{{ route('admin.bayaran.index') }}" class="menu-link">
-                    <div class="text-truncate">Daftar Bayaran</div>
+                    <div class="text-truncate">Grup Bayaran</div>
                 </a>
             </li>
             @if ($permissions->contains('bayaran_create'))
@@ -168,9 +168,14 @@
             </div>
         </a>
         <ul class="menu-sub">
-            <li class="menu-item {{ request()->routeIs('admin.rekap.imam.index') ? 'active' : '' }}">
-                <a href="{{ route('admin.rekap.imam.index') }}" class="menu-link">
-                    <div class="text-truncate">Rekap Imam</div>
+            <li class="menu-item {{ request()->routeIs('admin.rekap.berdasarkan-imam.index') ? 'active' : '' }}">
+                <a href="{{ route('admin.rekap.berdasarkan-imam.index') }}" class="menu-link">
+                    <div class="text-truncate">Rekap Berdasarkan Imam</div>
+                </a>
+            </li>
+            <li class="menu-item {{ request()->routeIs('admin.rekap.berdasarkan-shalat.index') ? 'active' : '' }}">
+                <a href="{{ route('admin.rekap.berdasarkan-shalat.index') }}" class="menu-link">
+                    <div class="text-truncate">Rekap Berdasarkan Shalat</div>
                 </a>
             </li>
         </ul>

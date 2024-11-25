@@ -15,4 +15,8 @@ class Masjid extends Model
     {
         return $this->hasMany(Schedule::class);
     }
+    public function ListFee()
+    {
+        return $this->hasOne(ListFee::class);
+    }
 }

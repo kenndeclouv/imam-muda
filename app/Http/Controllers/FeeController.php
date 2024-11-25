@@ -24,42 +24,32 @@ class FeeController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'imam_id' => 'required|array',
-            'imam_id.*' => 'exists:imams,id',
-            'fee' => 'required|numeric',
+            'name' => 'required',
+            'type' => 'required|in:imam,shalat,masjid',
+            'amount' => 'required|numeric',
         ]);
-
-        foreach ($request->imam_id as $imamId) {
-            $imamExists = Fee::where('imam_id', $imamId)->exists();
-            if ($imamExists) {
-                return back()->withErrors(['error' => 'Bayaran Imam ini sudah ditetapkan']);
-            }
-            Fee::create(['imam_id' => $imamId, 'fee' => $request->fee]);
-        }
-
+        Fee::create($request->all());
         return redirect()->route('admin.bayaran.index')->with('success', 'Bayaran berhasil dibuat.');
     }
 
-    public function edit($id)
+    public function edit(Fee $fee)
     {
-        $fee = Fee::findOrFail($id);
         return view('admin.bayaran.edit', compact('fee'));
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, Fee $fee)
     {
         $request->validate([
-            'fee' => 'required|numeric',
+            'name' => 'required',
+            'amount' => 'required|numeric',
         ]);
 
-        $fee = Fee::findOrFail($id);
         $fee->update($request->all());
         return redirect()->route('admin.bayaran.index')->with('success', 'Bayaran berhasil diupdate.');
     }
 
-    public function destroy($id)
+    public function destroy(Fee $fee)
     {
-        $fee = Fee::findOrFail($id);
         $fee->delete();
         return redirect()->route('admin.bayaran.index')->with('success', 'Bayaran berhasil dihapus.');
     }

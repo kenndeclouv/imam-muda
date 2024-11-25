@@ -8,11 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class Fee extends Model
 {
     use HasFactory;
-
     protected $guarded = [];
 
-    public function Imam()
+    public function ListFee()
     {
-        return $this->belongsTo(Imam::class);
+        return $this->hasMany(ListFee::class);
     }
 }

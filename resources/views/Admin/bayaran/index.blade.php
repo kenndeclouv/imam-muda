@@ -31,8 +31,9 @@
                     id="dataTable" style="width: 100%;">
                     <thead>
                         <tr>
-                            <th>Nama Imam</th>
+                            <th>Nama</th>
                             <th>Bayaran</th>
+                            <th>Jenis per</th>
                             <th>terakhir diubah</th>
                             @if ($permissions->contains('bayaran_edit') || $permissions->contains('bayaran_delete'))
                                 <th>aksi</th>
@@ -42,8 +43,9 @@
                     <tbody>
                         @foreach ($fees as $fee)
                             <tr>
-                                <td>{{ $fee->Imam->fullname }}</td>
-                                <td>{{ $fee->fee }}</td>
+                                <td>{{ $fee->name }}</td>
+                                <td>{{ $fee->amount }}</td>
+                                <td>{{ $fee->type }}</td>
                                 <td>{{ $fee->updated_at->format('d F Y H:i') }}</td>
                                 @if ($permissions->contains('bayaran_edit') || $permissions->contains('bayaran_delete'))
                                     <td>
@@ -60,6 +62,12 @@
                                                 <x-confirm-delete :route="route('admin.bayaran.destroy', $fee->id)" title="Hapus Bayaran"
                                                     message="Apakah anda yakin ingin menghapus bayaran ini?" />
                                             @endif
+                                            <a href="{{ route('admin.bayaran.list.index', $fee->id) }}"
+                                                class="btn btn-primary" data-bs-toggle="tooltip"
+                                                data-bs-toggle="tooltip" data-bs-placement="top"
+                                                data-bs-title="Grup Bayaran">
+                                                <i class="fa-solid fa-list"></i>
+                                            </a>
                                         </div>
                                     </td>
                                 @endif

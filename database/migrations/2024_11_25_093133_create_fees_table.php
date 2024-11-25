@@ -13,8 +13,9 @@ return new class extends Migration
     {
         Schema::create('fees', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('imam_id')->constrained('imams')->onDelete('cascade')->onUpdate('cascade');
-            $table->integer('fee');
+            $table->string('name');
+            $table->integer('amount');
+            $table->enum('type', ['imam', 'shalat', 'masjid']);
             $table->timestamps();
         });
     }

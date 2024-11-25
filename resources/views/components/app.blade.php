@@ -86,6 +86,7 @@
         {{-- <script src="{{ asset('assets/vendor/js/template-customizer.min.js') }}"></script> --}}
         <script src="{{ asset('assets/vendor/js/template-customizer.js') }}"></script>
         <script src="{{ asset('assets/js/config.js') }}"></script>
+        <script src="https://js.pusher.com/beams/1.0/push-notifications-cdn.js"></script>
     </head>
 
 
@@ -124,7 +125,8 @@
     <script src="{{ asset('assets/js/main.js') }}"></script>
 
     @if (isset($js))
-        {{ $js }} @endif
+        {{ $js }}
+    @endif
 </body>
 
 </html>

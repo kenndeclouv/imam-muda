@@ -30,9 +30,9 @@ class Imam extends Model
             ->whereMonth('date', explode('-', $monthYear)[1])
             ->union($this->badalSchedules()->toBase());
     }
-    public function Fee()
+    public function ListFee()
     {
-        return $this->hasOne(Fee::class);
+        return $this->hasOne(ListFee::class);
     }
     public function getPhotoAttribute($value)
     {

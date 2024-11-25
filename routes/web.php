@@ -1,6 +1,7 @@
 <?php
 //global
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\ListFeeController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\QuoteController;
 use App\Http\Controllers\LogViewerController;
@@ -98,22 +99,25 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'checkRole:admin'])-
         Route::get('/{imam}/edit', [ImamController::class, 'edit'])->name('edit');
         Route::put('/{imam}/edit', [ImamController::class, 'update'])->name('update');
         Route::delete('/{imam}/delete', [ImamController::class, 'destroy'])->name('destroy');
+
+        Route::get('/{imam}/detail', [ImamController::class, 'detail'])->name('detail');
+
     });
     Route::prefix('masjid')->name('masjid.')->group(function () {
         Route::get('/', [MasjidController::class, 'index'])->name('index');
         Route::get('/create', [MasjidController::class, 'create'])->name('create');
         Route::post('/create', [MasjidController::class, 'store'])->name('store');
-        Route::get('/edit/{id}', [MasjidController::class, 'edit'])->name('edit');
-        Route::put('/edit/{id}', [MasjidController::class, 'update'])->name('update');
-        Route::delete('/delete/{id}', [MasjidController::class, 'destroy'])->name('destroy');
+        Route::get('/{masjid}/edit', [MasjidController::class, 'edit'])->name('edit');
+        Route::put('/{masjid}/edit', [MasjidController::class, 'update'])->name('update');
+        Route::delete('/{masjid}/delete', [MasjidController::class, 'destroy'])->name('destroy');
     });
     Route::prefix('shalat')->name('shalat.')->group(function () {
         Route::get('/', [ShalatController::class, 'index'])->name('index');
         Route::get('/create', [ShalatController::class, 'create'])->name('create');
         Route::post('/create', [ShalatController::class, 'store'])->name('store');
-        Route::get('/edit/{id}', [ShalatController::class, 'edit'])->name('edit');
-        Route::put('/edit/{id}', [ShalatController::class, 'update'])->name('update');
-        Route::delete('/delete/{id}', [ShalatController::class, 'destroy'])->name('destroy');
+        Route::get('/{shalat}/edit', [ShalatController::class, 'edit'])->name('edit');
+        Route::put('/{shalat}/edit', [ShalatController::class, 'update'])->name('update');
+        Route::delete('/{shalat}/delete', [ShalatController::class, 'destroy'])->name('destroy');
     });
     Route::prefix('jadwal')->name('jadwal.')->group(function () {
         Route::get('/', [ScheduleController::class, 'index'])->name('index');
@@ -134,21 +138,27 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'checkRole:admin'])-
         Route::get('/{fee}/edit', [FeeController::class, 'edit'])->name('edit');
         Route::put('/{fee}/edit', [FeeController::class, 'update'])->name('update');
         Route::delete('/{fee}/delete', [FeeController::class, 'destroy'])->name('destroy');
+
+        Route::get('/{id}/list', [ListFeeController::class, 'index'])->name('list.index');
+        Route::post('/{id}/list/create', [ListFeeController::class, 'store'])->name('list.store');
+
+        Route::delete('/list/delete/{listFee}', [ListFeeController::class, 'destroy'])->name('list.destroy');
     });
     Route::prefix('statistik')->name('statistik.')->group(function () {
         Route::get('/', [StatisticController::class, 'statistik'])->name('index');
     });
     Route::prefix('rekap')->name('rekap.')->group(function () {
-        Route::get('/imam', [RekapController::class, 'imam'])->name('imam.index');
-        Route::get('/imam/export', [RekapController::class, 'exportImam'])->name('imam.export');
+        Route::get('/berdasarkan-imam', [RekapController::class, 'berdasarkanImam'])->name('berdasarkan-imam.index');
+        // Route::get('/berdasarkan-imam/export', [RekapController::class, 'exportBerdasarkanImam'])->name('berdasarkan-imam.export');
+        Route::get('/berdasarkan-shalat', [RekapController::class, 'berdasarkanShalat'])->name('berdasarkan-shalat.index');
     });
     Route::prefix('pengumuman')->name('pengumuman.')->group(function () {
         Route::get('/', [AnnouncementController::class, 'index'])->name('index');
         Route::get('/create', [AnnouncementController::class, 'create'])->name('create');
         Route::post('/create', [AnnouncementController::class, 'store'])->name('store');
-        Route::get('/edit/{id}', [AnnouncementController::class, 'edit'])->name('edit');
-        Route::put('/edit/{id}', [AnnouncementController::class, 'update'])->name('update');
-        Route::delete('/delete/{id}', [AnnouncementController::class, 'destroy'])->name('destroy');
+        Route::get('/{pengumuman}/edit', [AnnouncementController::class, 'edit'])->name('edit');
+        Route::put('/{pengumuman}/edit', [AnnouncementController::class, 'update'])->name('update');
+        Route::delete('/{pengumuman}/delete', [AnnouncementController::class, 'destroy'])->name('destroy');
     });
 });
 

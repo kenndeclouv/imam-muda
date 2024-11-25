@@ -20,25 +20,31 @@
                     @csrf
                     @method('PUT')
                     <div class="mb-6">
-                        <label class="form-label" for="imam-select">Nama Imam</label>
-                        <input type="text" class="form-control" id="imam-select"
-                            value="{{ $fee->Imam->fullname }}" disabled>
+                        <label class="form-label" for="name">Nama</label>
+                        <input type="text" name="name" class="form-control" id="name" placeholder="Nama"
+                            value="{{ old('name', $fee->name) }}" required>
                     </div>
                     <div class="mb-6">
-                        <label class="form-label" for="fee">Jumlah Bayaran</label>
-                        <input type="number" name="fee" class="form-control" id="fee" placeholder="Rp."
-                            value="{{ old('fee', $fee->fee) }}" required>
+                        <label class="form-label" for="type">Jenis bayaran per</label>
+                        <select name="type" class="form-select select2" id="type" disabled>
+                            <option value="imam" {{ $fee->type == 'imam' ? 'selected' : '' }}>Imam</option>
+                            <option value="shalat" {{ $fee->type == 'shalat' ? 'selected' : '' }}>Shalat</option>
+                            <option value="masjid" {{ $fee->type == 'masjid' ? 'selected' : '' }}>Masjid</option>
+                        </select>
+                    </div>
+                    <div class="mb-6">
+                        <label class="form-label" for="amount">Jumlah Bayaran</label>
+                        <input type="number" name="amount" class="form-control" id="amount" placeholder="Rp."
+                            value="{{ old('amount', $fee->amount) }}" required>
                     </div>
                     <button type="submit" class="btn btn-warning">Edit</button>
                 </form>
             </div>
         </div>
     </div>
-    <x-slot:style>
-
-    </x-slot:style>
     <x-slot:js>
-        <script src="{{ asset('assets/js/form-wizard-numbered.js') }}"></script>
-
+        <script>
+            $('.select2').select2();
+        </script>
     </x-slot:js>
 </x-app>
