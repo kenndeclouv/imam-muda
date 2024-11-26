@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\View\Component;
 use Illuminate\Contracts\View\View;
 
-class footer extends Component
+class ConfirmDelete extends Component
 {
     /**
      * Create a new component instance.
@@ -21,6 +21,10 @@ class footer extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.footer');
+        return <<<'blade'
+<div>
+    <!-- Nothing worth having comes easy. - Theodore Roosevelt -->
+</div>
+blade;
     }
 }

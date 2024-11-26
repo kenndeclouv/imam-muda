@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\View\Component;
 use Illuminate\Contracts\View\View;
 
-class confirm-delete extends Component
+class AuthApp extends Component
 {
     /**
      * Create a new component instance.
@@ -21,10 +21,6 @@ class confirm-delete extends Component
      */
     public function render(): View|Closure|string
     {
-        return <<<'blade'
-<div>
-    <!-- Nothing worth having comes easy. - Theodore Roosevelt -->
-</div>
-blade;
+        return view('components.auth-app');
     }
 }
