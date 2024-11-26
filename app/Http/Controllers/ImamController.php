@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreImamRequest;
+use App\Http\Requests\UpdateImamRequest;
 use App\Models\Imam;
 use App\Models\Schedule;
 use App\Models\User;
@@ -57,6 +58,11 @@ class ImamController extends Controller
             'school' => $validated['school'],
             'description' => $validated['description'] ?? null,
             'address' => $validated['address'] ?? null,
+            'join_date' => $validated['join_date'],
+            'no_rekening' => $validated['no_rekening'],
+            'status' => $validated['status'],
+            'child_count' => $validated['child_count'],
+            'wife_count' => $validated['wife_count'],
         ]);
 
         return redirect()->route('admin.imam.index')->with('success', 'Imam berhasil ditambahkan.');
@@ -73,7 +79,7 @@ class ImamController extends Controller
         return view('admin.imam.edit', compact('imam'));
     }
 
-    public function update(StoreImamRequest $request, Imam $imam)
+    public function update(UpdateImamRequest $request, Imam $imam)
     {
         $user = User::findOrFail($imam->user_id);
         $validated = $request->validated();
@@ -101,6 +107,11 @@ class ImamController extends Controller
             'school' => $validated['school'],
             'description' => $validated['description'] ?? null,
             'address' => $validated['address'] ?? null,
+            'join_date' => $validated['join_date'],
+            'no_rekening' => $validated['no_rekening'],
+            'status' => $validated['status'],
+            'child_count' => $validated['child_count'],
+            'wife_count' => $validated['wife_count'],
         ]);
         return redirect()->route('admin.imam.index', $imam->id)->with('success', 'Imam berhasil diperbarui.');
     }

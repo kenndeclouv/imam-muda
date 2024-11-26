@@ -153,8 +153,8 @@
                                     placeholder="Nomor Telepon" name="phone" value="{{ old('phone') }}">
                             </div>
                             <div class="col-sm-6">
-                                <label class="form-label" for="school">Sekolah</label>
-                                <input type="text" id="school" class="form-control" placeholder="Nama Sekolah"
+                                <label class="form-label" for="school">Pendidikan Terakhir</label>
+                                <input type="text" id="school" class="form-control" placeholder="Pendidikan Terakhir"
                                     name="school" value="{{ old('school') }}">
                             </div>
                             <div class="col-sm-6">
@@ -164,6 +164,38 @@
                                     value="{{ old('juz') }}">
                             </div>
                             <div class="col-sm-6">
+                                <label class="form-label" for="join_date">Tanggal Bergabung</label>
+                                <input type="date" id="join_date" class="form-control" name="join_date"
+                                    value="{{ old('join_date') }}">
+                            </div>
+                            <div class="col-sm-6">
+                                <label class="form-label" for="no_rekening">Nomor Rekening</label>
+                                <input type="text" id="no_rekening" class="form-control"
+                                    placeholder="Nomor Rekening" name="no_rekening" value="{{ old('no_rekening') }}">
+                            </div>
+                            <div class="col-sm-6">
+                                <label class="form-label" for="status">Status</label>
+                                <select id="status" class="form-select" name="status">
+                                    <option value="belum nikah" {{ old('status') == 'belum nikah' ? 'selected' : '' }}>
+                                        Belum Nikah
+                                    </option>
+                                    <option value="nikah" {{ old('status') == 'nikah' ? 'selected' : '' }}>Nikah
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="col-sm-6">
+                                <label class="form-label" for="child_count">Jumlah Anak</label>
+                                <input type="number" id="child_count" class="form-control"
+                                    placeholder="Jumlah Anak" min="0" name="child_count"
+                                    value="{{ old('child_count') }}">
+                            </div>
+                            <div class="col-sm-6">
+                                <label class="form-label" for="wife_count">Jumlah Istri</label>
+                                <input type="number" id="wife_count" class="form-control"
+                                    placeholder="Jumlah Istri" min="0" name="wife_count"
+                                    value="{{ old('wife_count') }}">
+                            </div>
+                            <div class="col-sm-12">
                                 <label class="form-label" for="address">Alamat</label>
                                 <input type="text" id="address" class="form-control"
                                     placeholder="Alamat Lengkap" name="address" value="{{ old('address') }}">
@@ -192,5 +224,10 @@
     <x-slot:js>
         <script src="{{ asset('assets/js/form-wizard-numbered.js') }}"></script>
         <script src="{{ asset('assets/vendor/libs/bs-stepper/bs-stepper.js') }}"></script>
+        <script>
+            $(document).ready(function() {
+                $('#status').select2();
+            });
+        </script>
     </x-slot:js>
 </x-app>

@@ -47,7 +47,7 @@
                                             Ingat saya
                                         </label>
                                     </div>
-                                    <a href="auth-forgot-password-basic.html">
+                                    <a href="{{ route('password.request') }}">
                                         <span>Lupa password?</span>
                                     </a>
                                 </div>

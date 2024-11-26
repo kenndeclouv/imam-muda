@@ -58,28 +58,43 @@ class HomeController extends Controller
 
     public function superAdminHome()
     {
-        $imams = Imam::all()->count();
-        $masjids = Masjid::all()->count();
+        // hitung total imam dan masjid
+        $imams = Imam::count();
+        $masjids = Masjid::count();
+
+        // dapatkan rentang minggu ini
         $startOfWeek = Carbon::now()->startOfWeek();
         $endOfWeek = Carbon::now()->endOfWeek();
 
-        $weeklyJadwal = DB::table('schedules')
-            ->selectRaw('DATE(date) as day, COUNT(*) as total')
-            ->whereBetween('date', [$startOfWeek, $endOfWeek])
-            ->count();
+        // hitung total jadwal mingguan
+        $weeklyJadwal = Schedule::whereBetween('date', [$startOfWeek, $endOfWeek])->count();
 
+        // hitung bayaran imam berdasarkan jadwal yang selesai
         $bayaranImam = Schedule::where('status', 'done')
-            ->with('imam.fee')
+            ->with(['Imam.ListFee.Fee']) // eager load relasi
             ->get()
             ->reduce(function ($carry, $schedule) {
-                $imamFee = $schedule->imam->Fee->fee ?? 0;
+                // cek fee spesial atau default untuk imam
+                $imamFee = $schedule->Imam->ListFee
+                    ->where('shalat_id', $schedule->shalat_id)
+                    ->first()->Fee->amount
+                    ?? $schedule->Imam->ListFee
+                    ->where('shalat_id', null)
+                    ->first()->Fee->amount
+                    ?? 0;
+
                 return $carry + $imamFee;
             }, 0);
 
+        // ambil jadwal badal yang belum ada pengganti
         $schedules = Schedule::where('status', 'to_do')
-            ->where('is_badal', operator: 1)->where('badal_id', null)->get();
+            ->where('is_badal', true)
+            ->whereNull('badal_id')
+            ->get();
 
+        // semua pengumuman
         $announcements = Announcement::all();
+
         return view('superadmin.index', compact('imams', 'masjids', 'weeklyJadwal', 'schedules', 'announcements', 'bayaranImam'));
     }
 

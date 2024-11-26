@@ -101,15 +101,13 @@
                         <div class="row g-6">
                             <div class="col-sm-6">
                                 <label class="form-label" for="first-name">Nama</label>
-                                <input type="text" id="first-name" class="form-control"
-                                    placeholder="Nama Lengkap" name="fullname"
-                                    value="{{ old('fullname', $imam->fullname) }}">
+                                <input type="text" id="first-name" class="form-control" placeholder="Nama Lengkap"
+                                    name="fullname" value="{{ old('fullname', $imam->fullname) }}">
                             </div>
                             <div class="col-sm-6">
                                 <label class="form-label" for="tempat-lahir">Tempat Lahir</label>
-                                <input type="text" id="tempat-lahir" class="form-control"
-                                    placeholder="Tempat Lahir" name="birthplace"
-                                    value="{{ old('birthplace', $imam->birthplace) }}">
+                                <input type="text" id="tempat-lahir" class="form-control" placeholder="Tempat Lahir"
+                                    name="birthplace" value="{{ old('birthplace', $imam->birthplace) }}">
                             </div>
                             <div class="col-sm-6">
                                 <label class="form-label" for="tanggal-lahir">Tanggal Lahir</label>
@@ -158,6 +156,41 @@
                                     value="{{ old('juz', $imam->juz) }}">
                             </div>
                             <div class="col-sm-6">
+                                <label class="form-label" for="join_date">Tanggal Bergabung</label>
+                                <input type="date" id="join_date" class="form-control" name="join_date"
+                                    value="{{ old('join_date', $imam->join_date) }}">
+                            </div>
+                            <div class="col-sm-6">
+                                <label class="form-label" for="no_rekening">Nomor Rekening</label>
+                                <input type="text" id="no_rekening" class="form-control"
+                                    placeholder="Nomor Rekening" name="no_rekening"
+                                    value="{{ old('no_rekening', $imam->no_rekening) }}">
+                            </div>
+                            <div class="col-sm-6">
+                                <label class="form-label" for="status">Status</label>
+                                <select id="status" class="form-select" name="status">
+                                    <option value="belum nikah"
+                                        {{ old('status', $imam->status) == 'belum nikah' ? 'selected' : '' }}>
+                                        Belum Nikah
+                                    </option>
+                                    <option value="nikah" {{ old('status', $imam->status) == 'nikah' ? 'selected' : '' }}>
+                                        Nikah
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="col-sm-6">
+                                <label class="form-label" for="child_count">Jumlah Anak</label>
+                                <input type="number" id="child_count" class="form-control"
+                                    placeholder="Jumlah Anak" min="0" name="child_count"
+                                    value="{{ old('child_count', $imam->child_count) }}">
+                            </div>
+                            <div class="col-sm-6">
+                                <label class="form-label" for="wife_count">Jumlah Istri</label>
+                                <input type="number" id="wife_count" class="form-control"
+                                    placeholder="Jumlah Istri" min="0" name="wife_count"
+                                    value="{{ old('wife_count', $imam->wife_count) }}">
+                            </div>
+                            <div class="col-sm-12">
                                 <label class="form-label" for="address">Alamat</label>
                                 <input type="text" id="address" class="form-control"
                                     placeholder="Alamat Lengkap" name="address"

@@ -83,6 +83,11 @@ class AccountController extends Controller
             'school' => 'nullable|string|max:100',
             'description' => 'nullable|string|max:255',
             'address' => 'nullable|string|max:255',
+            'join_date' => 'nullable|date',
+            'no_rekening' => 'nullable|string|max:255',
+            'status' => 'nullable|string|max:255',
+            'child_count' => 'nullable|integer',
+            'wife_count' => 'nullable|integer',
         ]);
 
         $imam = Imam::where('user_id', Auth::id())->firstOrFail();

@@ -17,11 +17,16 @@ return new class extends Migration
             $table->string('fullname');
             $table->string('phone')->nullable();
             $table->string('birthplace');
+            $table->string('no_rekening')->nullable();
             $table->date('birthdate');
+            $table->date('join_date');
             $table->integer('juz')->nullable();
             $table->string('school')->nullable();
             $table->text('address')->nullable();
             $table->text('description')->nullable();
+            $table->enum('status', ['nikah', 'belum nikah'])->default('belum nikah');
+            $table->integer('child_count')->default(0);
+            $table->integer('wife_count')->default(0);
             $table->timestamps();
         });
     }

@@ -7,6 +7,7 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\User;
 use App\Models\Admin;
+use App\Models\Feature;
 
 class AdminSeeder extends Seeder
 {
@@ -17,7 +18,7 @@ class AdminSeeder extends Seeder
     {
         User::create([
             'name' => 'Kenn',
-            'email' => 'kenn@gmail.com',
+            'email' => 'kenndeclouv@gmail.com',
             'username' => 'superadmin',
             'password' => 'superadmin',
             'role_id' => 1,
@@ -41,7 +42,7 @@ class AdminSeeder extends Seeder
             'description' => fake()->realText(20),
         ]);
 
-        for ($i = 1; $i <= 26; $i++) {
+        for ($i = 2; $i <= Feature::count(); $i++) {
             Permission::create([
                 'user_id' => 2,
                 'feature_id' => $i

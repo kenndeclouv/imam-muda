@@ -165,7 +165,6 @@ class User extends Authenticatable
             if ($codes->contains('all_feature')) {
                 return Feature::pluck('code');
             }
-
             return $codes;
         } else {
             return collect([]);

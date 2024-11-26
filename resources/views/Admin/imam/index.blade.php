@@ -47,11 +47,11 @@
                                 <td>{{ $imam->updated_at->format('d F Y H:i') }}</td>
                                 <td>
                                     <div class="d-flex gap-2" aria-label="Basic example">
-                                        <button type="button" class="btn btn-info" data-bs-toggle="tooltip"
-                                            data-bs-placement="top" data-bs-title="Detail Imam"
-                                            onclick="show('Detail Imam',[{label:'Nama',value:'{{ $imam->fullname }}'},{label:'Juz yang dihafal',value:'{{ $imam->juz }}'},{label:'No. Handphone',value:'{{ $imam->phone }}'},{label:'Alamat',value:'{{ $imam->address }}'}])">
+                                        <a href="{{ route('admin.imam.show', $imam->id) }}" class="btn btn-info"
+                                            data-bs-toggle="tooltip" data-bs-placement="top"
+                                            data-bs-title="Show Imam">
                                             <i class="fa-solid fa-eye"></i>
-                                        </button>
+                                        </a>
                                         @if ($permissions->contains('imam_edit'))
                                             <a href="{{ route('admin.imam.edit', $imam->id) }}" class="btn btn-warning"
                                                 data-bs-toggle="tooltip" data-bs-placement="top"

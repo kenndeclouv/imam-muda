@@ -1,6 +1,7 @@
 <?php
 //global
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\ForgotPassword;
 use App\Http\Controllers\ListFeeController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\QuoteController;
@@ -16,10 +17,10 @@ use App\Http\Controllers\FeeController;
 use App\Http\Controllers\StatisticController;
 use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\RekapController;
-
 // API
 use App\Http\Controllers\API\APIController;
 use App\Http\Controllers\UserNotificationController;
+use Illuminate\Support\Facades\Password;
 
 // use Arcanedev\LogViewer\Contracts\LogViewer as ContractsLogViewer;
 
@@ -43,17 +44,16 @@ Route::middleware(['apiKey', 'throttle:120,1'])->group(function () {
 
     Route::get('/api/random-quotes', [QuoteController::class, 'randomQuotes']);
     Route::get('/api/random-quote', [QuoteController::class, 'randomQuote']);
-
 });
-
-Route::post('/api/upload-combined-json', [QuoteController::class, 'uploadCombinedJson']);
-// Route::post('/api/upload-hadith-bukhari-json', [QuoteController::class, 'uploadHadithBukhariJson']);
-// Route::post('/api/upload-hadith-muslim-json', [QuoteController::class, 'uploadHadithMuslimJson']);
 
 // Routes untuk Login dan Logout
 Route::get('login', [LoginController::class, 'index'])->name('login.index');
 Route::post('login', [LoginController::class, 'login'])->name('login');
 Route::post('logout', [LoginController::class, 'logout'])->name('logout');
+Route::get('/forgot-password', [ForgotPassword::class, 'index'])->middleware('guest')->name('password.request');
+Route::post('/forgot-password', [ForgotPassword::class, 'email'])->middleware('guest')->name('password.email');
+Route::get('/reset-password/{token}', [ForgotPassword::class, 'reset'])->middleware('guest')->name('password.reset');
+Route::post('/reset-password', [ForgotPassword::class, 'update'])->middleware('guest')->name('password.update');
 
 // Routes untuk Account
 Route::middleware(['auth'])->group(function () {
@@ -83,7 +83,6 @@ Route::prefix('superadmin')->name('superadmin.')->middleware(['auth', 'checkRole
         Route::get('/permissions/edit/{id}', [AdminController::class, 'permissionsEdit'])->name('permissions.edit');
         Route::put('/permissions/edit/{id}', [AdminController::class, 'permissionsUpdate'])->name('permissions.update');
         Route::delete('/permissions/delete/{id}', [AdminController::class, 'permissionsDestroy'])->name('permissions.destroy');
-
     });
 });
 
@@ -92,73 +91,73 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'checkRole:admin'])-
     Route::get('/home', [HomeController::class, 'adminHome'])->name('home');
     Route::put('/account', [AccountController::class, 'updateAdmin'])->name('update');
 
-    Route::prefix('imam')->name('imam.')->group(function () {
+    Route::prefix('imam')->middleware(['auth', 'permission:imam_show'])->name('imam.')->group(function () {
         Route::get('/', [ImamController::class, 'index'])->name('index');
-        Route::get('/create', [ImamController::class, 'create'])->name('create');
-        Route::post('/create', [ImamController::class, 'store'])->name('store');
-        Route::get('/{imam}/edit', [ImamController::class, 'edit'])->name('edit');
-        Route::put('/{imam}/edit', [ImamController::class, 'update'])->name('update');
-        Route::delete('/{imam}/delete', [ImamController::class, 'destroy'])->name('destroy');
+        Route::get('/{imam}/show', [ImamController::class, 'show'])->name('show');
+        Route::get('/create', [ImamController::class, 'create'])->middleware(['auth', 'permission:imam_create'])->name('create');
+        Route::post('/create', [ImamController::class, 'store'])->middleware(['auth', 'permission:imam_create'])->name('store');
+        Route::get('/{imam}/edit', [ImamController::class, 'edit'])->middleware(['auth', 'permission:imam_edit'])->name('edit');
+        Route::put('/{imam}/edit', [ImamController::class, 'update'])->middleware(['auth', 'permission:imam_edit'])->name('update');
+        Route::delete('/{imam}/delete', [ImamController::class, 'destroy'])->middleware(['auth', 'permission:imam_delete'])->name('destroy');
 
-        Route::get('/{imam}/detail', [ImamController::class, 'detail'])->name('detail');
-
+        Route::get('/{imam}/detail', [ImamController::class, 'detail'])->middleware(['auth', 'permission:imam_detail'])->name('detail');
     });
-    Route::prefix('masjid')->name('masjid.')->group(function () {
+    Route::prefix('masjid')->middleware(['auth', 'permission:masjid_show'])->name('masjid.')->group(function () {
         Route::get('/', [MasjidController::class, 'index'])->name('index');
-        Route::get('/create', [MasjidController::class, 'create'])->name('create');
-        Route::post('/create', [MasjidController::class, 'store'])->name('store');
-        Route::get('/{masjid}/edit', [MasjidController::class, 'edit'])->name('edit');
-        Route::put('/{masjid}/edit', [MasjidController::class, 'update'])->name('update');
-        Route::delete('/{masjid}/delete', [MasjidController::class, 'destroy'])->name('destroy');
+        Route::get('/create', [MasjidController::class, 'create'])->middleware(['auth', 'permission:masjid_create'])->name('create');
+        Route::post('/create', [MasjidController::class, 'store'])->middleware(['auth', 'permission:masjid_create'])->name('store');
+        Route::get('/{masjid}/edit', [MasjidController::class, 'edit'])->middleware(['auth', 'permission:masjid_edit'])->name('edit');
+        Route::put('/{masjid}/edit', [MasjidController::class, 'update'])->middleware(['auth', 'permission:masjid_edit'])->name('update');
+        Route::delete('/{masjid}/delete', [MasjidController::class, 'destroy'])->middleware(['auth', 'permission:masjid_delete'])->name('destroy');
     });
-    Route::prefix('shalat')->name('shalat.')->group(function () {
+    Route::prefix('shalat')->middleware(['auth', 'permission:shalat_show'])->name('shalat.')->group(function () {
         Route::get('/', [ShalatController::class, 'index'])->name('index');
-        Route::get('/create', [ShalatController::class, 'create'])->name('create');
-        Route::post('/create', [ShalatController::class, 'store'])->name('store');
-        Route::get('/{shalat}/edit', [ShalatController::class, 'edit'])->name('edit');
-        Route::put('/{shalat}/edit', [ShalatController::class, 'update'])->name('update');
-        Route::delete('/{shalat}/delete', [ShalatController::class, 'destroy'])->name('destroy');
+        Route::get('/create', [ShalatController::class, 'create'])->middleware(['auth', 'permission:shalat_create'])->name('create');
+        Route::post('/create', [ShalatController::class, 'store'])->middleware(['auth', 'permission:shalat_create'])->name('store');
+        Route::get('/{shalat}/edit', [ShalatController::class, 'edit'])->middleware(['auth', 'permission:shalat_edit'])->name('edit');
+        Route::put('/{shalat}/edit', [ShalatController::class, 'update'])->middleware(['auth', 'permission:shalat_edit'])->name('update');
+        Route::delete('/{shalat}/delete', [ShalatController::class, 'destroy'])->middleware(['auth', 'permission:shalat_delete'])->name('destroy');
     });
-    Route::prefix('jadwal')->name('jadwal.')->group(function () {
+    Route::prefix('jadwal')->middleware(['auth', 'permission:jadwal_show'])->name('jadwal.')->group(function () {
         Route::get('/', [ScheduleController::class, 'index'])->name('index');
         Route::get('/fetch', [ScheduleController::class, 'fetch'])->name('fetch');
-        Route::get('/create', [ScheduleController::class, 'create'])->name('create');
-        Route::post('/create', [ScheduleController::class, 'store'])->name('store');
+        Route::get('/create', [ScheduleController::class, 'create'])->middleware(['auth', 'permission:jadwal_create'])->name('create');
+        Route::post('/create', [ScheduleController::class, 'store'])->middleware(['auth', 'permission:jadwal_create'])->name('store');
 
         Route::post('/updateJSON', [ScheduleController::class, 'updateJSON'])->name('updateJSON');
-        Route::get('/{schedule}/edit', [ScheduleController::class, 'edit'])->name('edit');
-        Route::put('/{schedule}/edit', [ScheduleController::class, 'update'])->name('update');
-        Route::delete('/{schedule}/delete', [ScheduleController::class, 'destroy'])->name('destroy');
-        Route::delete('/delete-selected', [ScheduleController::class, 'destroySelected'])->name('destroySelected');
+        Route::get('/{schedule}/edit', [ScheduleController::class, 'edit'])->middleware(['auth', 'permission:jadwal_edit'])->name('edit');
+        Route::put('/{schedule}/edit', [ScheduleController::class, 'update'])->middleware(['auth', 'permission:jadwal_edit'])->name('update');
+        Route::delete('/{schedule}/delete', [ScheduleController::class, 'destroy'])->middleware(['auth', 'permission:jadwal_delete'])->name('destroy');
+        Route::delete('/delete-selected', [ScheduleController::class, 'destroySelected'])->middleware(['auth', 'permission:jadwal_delete'])->name('destroySelected');
     });
-    Route::prefix('bayaran')->name('bayaran.')->group(function () {
+    Route::prefix('bayaran')->middleware(['auth', 'permission:bayaran_show'])->name('bayaran.')->group(function () {
         Route::get('/', [FeeController::class, 'index'])->name('index');
-        Route::get('/create', [FeeController::class, 'create'])->name('create');
-        Route::post('/create', [FeeController::class, 'store'])->name('store');
-        Route::get('/{fee}/edit', [FeeController::class, 'edit'])->name('edit');
-        Route::put('/{fee}/edit', [FeeController::class, 'update'])->name('update');
-        Route::delete('/{fee}/delete', [FeeController::class, 'destroy'])->name('destroy');
+        Route::get('/create', [FeeController::class, 'create'])->middleware(['auth', 'permission:bayaran_create'])->name('create');
+        Route::post('/create', [FeeController::class, 'store'])->middleware(['auth', 'permission:bayaran_create'])->name('store');
+        Route::get('/{fee}/edit', [FeeController::class, 'edit'])->middleware(['auth', 'permission:bayaran_edit'])->name('edit');
+        Route::put('/{fee}/edit', [FeeController::class, 'update'])->middleware(['auth', 'permission:bayaran_edit'])->name('update');
+        Route::delete('/{fee}/delete', [FeeController::class, 'destroy'])->middleware(['auth', 'permission:bayaran_delete'])->name('destroy');
 
-        Route::get('/{id}/list', [ListFeeController::class, 'index'])->name('list.index');
-        Route::post('/{id}/list/create', [ListFeeController::class, 'store'])->name('list.store');
+        Route::get('/{id}/list', [ListFeeController::class, 'index'])->middleware(['auth', 'permission:bayaran_list'])->name('list.index');
+        Route::post('/{id}/list/create', [ListFeeController::class, 'store'])->middleware(['auth', 'permission:bayaran_list'])->name('list.store');
 
-        Route::delete('/list/delete/{listFee}', [ListFeeController::class, 'destroy'])->name('list.destroy');
+        Route::delete('/list/delete/{listFee}', [ListFeeController::class, 'destroy'])->middleware(['auth', 'permission:bayaran_list'])->name('list.destroy');
     });
-    Route::prefix('statistik')->name('statistik.')->group(function () {
+    Route::prefix('statistik')->middleware(['auth', 'permission:statistik_show'])->name('statistik.')->group(function () {
         Route::get('/', [StatisticController::class, 'statistik'])->name('index');
     });
-    Route::prefix('rekap')->name('rekap.')->group(function () {
-        Route::get('/berdasarkan-imam', [RekapController::class, 'berdasarkanImam'])->name('berdasarkan-imam.index');
+    Route::prefix('rekap')->middleware(['auth', 'permission:rekap_show'])->name('rekap.')->group(function () {
+        Route::get('/berdasarkan-imam', [RekapController::class, 'berdasarkanImam'])->middleware(['auth', 'permission:rekap_berdasarkan_imam'])->name('berdasarkan-imam.index');
         // Route::get('/berdasarkan-imam/export', [RekapController::class, 'exportBerdasarkanImam'])->name('berdasarkan-imam.export');
-        Route::get('/berdasarkan-shalat', [RekapController::class, 'berdasarkanShalat'])->name('berdasarkan-shalat.index');
+        Route::get('/berdasarkan-shalat', [RekapController::class, 'berdasarkanShalat'])->middleware(['auth', 'permission:rekap_berdasarkan_shalat'])->name('berdasarkan-shalat.index');
     });
-    Route::prefix('pengumuman')->name('pengumuman.')->group(function () {
+    Route::prefix('pengumuman')->middleware(['auth', 'permission:pengumuman_show'])->name('pengumuman.')->group(function () {
         Route::get('/', [AnnouncementController::class, 'index'])->name('index');
-        Route::get('/create', [AnnouncementController::class, 'create'])->name('create');
-        Route::post('/create', [AnnouncementController::class, 'store'])->name('store');
-        Route::get('/{pengumuman}/edit', [AnnouncementController::class, 'edit'])->name('edit');
-        Route::put('/{pengumuman}/edit', [AnnouncementController::class, 'update'])->name('update');
-        Route::delete('/{pengumuman}/delete', [AnnouncementController::class, 'destroy'])->name('destroy');
+        Route::get('/create', [AnnouncementController::class, 'create'])->middleware(['auth', 'permission:pengumuman_create'])->name('create');
+        Route::post('/create', [AnnouncementController::class, 'store'])->middleware(['auth', 'permission:pengumuman_create'])->name('store');
+        Route::get('/{pengumuman}/edit', [AnnouncementController::class, 'edit'])->middleware(['auth', 'permission:pengumuman_edit'])->name('edit');
+        Route::put('/{pengumuman}/edit', [AnnouncementController::class, 'update'])->middleware(['auth', 'permission:pengumuman_edit'])->name('update');
+        Route::delete('/{pengumuman}/delete', [AnnouncementController::class, 'destroy'])->middleware(['auth', 'permission:pengumuman_delete'])->name('destroy');
     });
 });
 

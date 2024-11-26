@@ -243,8 +243,43 @@
                                                 class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback">
                                             </div>
                                         </div>
+                                        <div class="col-sm-6">
+                                            <label class="form-label" for="join_date">Tanggal Bergabung</label>
+                                            <input type="date" id="join_date" class="form-control" name="join_date"
+                                                value="{{ old('join_date', $user->Imam->join_date) }}" disabled>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <label class="form-label" for="no_rekening">Nomor Rekening</label>
+                                            <input type="text" id="no_rekening" class="form-control"
+                                                placeholder="Nomor Rekening" name="no_rekening"
+                                                value="{{ old('no_rekening', $user->Imam->no_rekening) }}">
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <label class="form-label" for="status">Status</label>
+                                            <select id="status" class="form-select" name="status">
+                                                <option value="belum nikah"
+                                                    {{ old('status', $user->Imam->status) == 'belum nikah' ? 'selected' : '' }}>
+                                                    Belum Nikah
+                                                </option>
+                                                <option value="nikah" {{ old('status', $user->Imam->status) == 'nikah' ? 'selected' : '' }}>
+                                                    Nikah
+                                                </option>
+                                            </select>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <label class="form-label" for="child_count">Jumlah Anak</label>
+                                            <input type="number" id="child_count" class="form-control"
+                                                placeholder="Jumlah Anak" min="0" name="child_count"
+                                                value="{{ old('child_count', $user->Imam->child_count) }}">
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <label class="form-label" for="wife_count">Jumlah Istri</label>
+                                            <input type="number" id="wife_count" class="form-control"
+                                                placeholder="Jumlah Istri" min="0" name="wife_count"
+                                                value="{{ old('wife_count', $user->Imam->wife_count) }}">
+                                        </div>
                                         <div class="col-md-6 fv-plugins-icon-container">
-                                            <label for="school" class="form-label">School</label>
+                                            <label for="school" class="form-label">Pendidikan Terakhir</label>
                                             <input class="form-control" type="text" id="school" name="school"
                                                 value="{{ $user->Imam->school ?? '-' }}">
                                             <div
@@ -252,16 +287,9 @@
                                             </div>
                                         </div>
                                         <div class=" fv-plugins-icon-container">
-                                            <label for="address" class="form-label">Address</label>
+                                            <label for="address" class="form-label">Alamat</label>
                                             <input class="form-control" type="text" id="address" name="address"
                                                 value="{{ $user->Imam->address ?? '-' }}">
-                                            <div
-                                                class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback">
-                                            </div>
-                                        </div>
-                                        <div class="fv-plugins-icon-container">
-                                            <label for="description" class="form-label">Description</label>
-                                            <textarea class="form-control" id="description" name="description">{{ $user->Imam->description ?? '-' }}</textarea>
                                             <div
                                                 class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback">
                                             </div>

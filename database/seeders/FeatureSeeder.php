@@ -34,6 +34,10 @@ class FeatureSeeder extends Seeder
             'code' => 'imam_delete',
         ]);
         Feature::create([
+            'name' => 'Detail Imam',
+            'code' => 'imam_detail',
+        ]);
+        Feature::create([
             'name' => 'Tampilkan Shalat',
             'code' => 'shalat_show',
         ]);
@@ -98,6 +102,10 @@ class FeatureSeeder extends Seeder
             'code' => 'bayaran_delete',
         ]);
         Feature::create([
+            'name' => 'Tampilkan List Bayaran',
+            'code' => 'bayaran_list',
+        ]);
+        Feature::create([
             'name' => 'Tampilkan Pengumuman',
             'code' => 'pengumuman_show',
         ]);
@@ -116,6 +124,14 @@ class FeatureSeeder extends Seeder
         Feature::create([
             'name' => 'Tampilkan Rekap',
             'code' => 'rekap_show',
+        ]);
+        Feature::create([
+            'name' => 'Rekap Berdasarkan Imam',
+            'code' => 'rekap_berdasarkan_imam',
+        ]);
+        Feature::create([
+            'name' => 'Rekap Berdasarkan Shalat',
+            'code' => 'rekap_berdasarkan_shalat',
         ]);
         Feature::create([
             'name' => 'Tampilkan Statistik',

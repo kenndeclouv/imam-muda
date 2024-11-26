@@ -2354,27 +2354,27 @@
                         var e, i;
                     })();
                 (E.STYLES = [
-                    { name: "light", title: "Light" },
-                    { name: "dark", title: "Dark" },
-                    { name: "system", title: "System" },
+                    { name: "light", title: "Terang" },
+                    { name: "dark", title: "Gelap" },
+                    { name: "system", title: "Sistem" },
                 ]),
                     (E.THEMES = [
-                        { name: "theme-default", title: "Default" },
-                        { name: "theme-bordered", title: "Bordered" },
-                        { name: "theme-semi-dark", title: "Semi Dark" },
+                        { name: "theme-default", title: "Normal" },
+                        { name: "theme-bordered", title: "Bergaris" },
+                        { name: "theme-semi-dark", title: "Semi Gelap" },
                     ]),
                     (E.LAYOUTS = [
-                        { name: "expanded", title: "Expanded" },
-                        { name: "collapsed", title: "Collapsed" },
+                        { name: "expanded", title: "Diperluas" },
+                        { name: "collapsed", title: "Dikurangi" },
                     ]),
                     (E.NAVBAR_OPTIONS = [
                         { name: "sticky", title: "Sticky" },
-                        { name: "static", title: "Static" },
-                        { name: "hidden", title: "Hidden" },
+                        { name: "static", title: "Statis" },
+                        { name: "hidden", title: "Sembunyikan" },
                     ]),
                     (E.HEADER_TYPES = [
-                        { name: "fixed", title: "Fixed" },
-                        { name: "static", title: "Static" },
+                        { name: "fixed", title: "Tetap" },
+                        { name: "static", title: "Statis" },
                     ]),
                     (E.CONTENT = [
                         { name: "compact", title: "Compact" },

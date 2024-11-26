@@ -170,12 +170,12 @@
         <ul class="menu-sub">
             <li class="menu-item {{ request()->routeIs('admin.rekap.berdasarkan-imam.index') ? 'active' : '' }}">
                 <a href="{{ route('admin.rekap.berdasarkan-imam.index') }}" class="menu-link">
-                    <div class="text-truncate">Rekap Berdasarkan Imam</div>
+                    <div class="text-truncate">Berdasarkan Imam</div>
                 </a>
             </li>
             <li class="menu-item {{ request()->routeIs('admin.rekap.berdasarkan-shalat.index') ? 'active' : '' }}">
                 <a href="{{ route('admin.rekap.berdasarkan-shalat.index') }}" class="menu-link">
-                    <div class="text-truncate">Rekap Berdasarkan Shalat</div>
+                    <div class="text-truncate">Berdasarkan Shalat</div>
                 </a>
             </li>
         </ul>

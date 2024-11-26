@@ -35,6 +35,11 @@ class StoreImamRequest extends FormRequest
             'school' => 'nullable|string|max:100',
             'description' => 'nullable|string|max:255',
             'address' => 'nullable|string|max:255',
+            'join_date' => 'required|date',
+            'no_rekening' => 'nullable|string|max:50',
+            'status' => 'required|in:nikah,belum nikah',
+            'child_count' => 'nullable|integer',
+            'wife_count' => 'nullable|integer',
         ];
     }
     public function messages()
@@ -64,6 +69,13 @@ class StoreImamRequest extends FormRequest
             'address.max' => 'Alamat maksimal 255 karakter.',
             'juz.integer' => 'Juz harus berupa angka.',
             'school.max' => 'Sekolah maksimal 100 karakter.',
+            'join_date.required' => 'Tanggal bergabung harus diisi.',
+            'join_date.date' => 'Tanggal bergabung harus berupa tanggal yang valid.',
+            'no_rekening.string' => 'Nomor rekening harus berupa string.',
+            'no_rekening.max' => 'Nomor rekening maksimal 50 karakter.',
+            'status.in' => 'Status harus berupa nikah atau belum nikah.',
+            'child_count.integer' => 'Jumlah anak harus berupa angka.',
+            'wife_count.integer' => 'Jumlah istri harus berupa angka.',
         ];
     }
 }

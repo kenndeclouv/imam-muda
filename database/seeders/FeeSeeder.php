@@ -16,12 +16,22 @@ class FeeSeeder extends Seeder
         Fee::create([
             'name' => 'Grade A',
             'type' => 'imam',
-            'amount' => 30000,
+            'amount' => 35000,
         ]);
         Fee::create([
             'name' => 'Grade B',
             'type' => 'imam',
-            'amount' => 35000,
+            'amount' => 30000,
+        ]);
+        Fee::create([
+            'name' => 'Jumat - Abdullah',
+            'type' => 'shalat',
+            'amount' => 100000,
+        ]);
+        Fee::create([
+            'name' => 'Jumat - Syuhada Karanglo',
+            'type' => 'shalat',
+            'amount' => 125000,
         ]);
     }
 }
