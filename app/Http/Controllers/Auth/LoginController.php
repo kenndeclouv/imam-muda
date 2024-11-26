@@ -18,7 +18,7 @@ class LoginController extends Controller
             return app(MainController::class)->dashboard();
         }
 
-        return view('Auth.login');
+        return view('auth.login');
     }
 
     public function login(Request $request)

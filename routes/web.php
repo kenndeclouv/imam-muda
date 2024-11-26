@@ -74,15 +74,15 @@ Route::prefix('superadmin')->name('superadmin.')->middleware(['auth', 'checkRole
         Route::get('/', [AdminController::class, 'index'])->name('index');
         Route::get('/create', [AdminController::class, 'create'])->name('create');
         Route::post('/create', [AdminController::class, 'store'])->name('store');
-        Route::get('/edit/{id}', [AdminController::class, 'edit'])->name('edit');
-        Route::put('/edit/{id}', [AdminController::class, 'update'])->name('update');
-        Route::delete('/delete/{id}', [AdminController::class, 'destroy'])->name('destroy');
+        Route::get('/{admin}/edit', [AdminController::class, 'edit'])->name('edit');
+        Route::put('/{admin}/edit', [AdminController::class, 'update'])->name('update');
+        Route::delete('/{admin}/delete', [AdminController::class, 'destroy'])->name('destroy');
 
-        Route::get('/permissions/{id}', [AdminController::class, 'permissions'])->name('permissions');
-        Route::post('/permissions/{id}', [AdminController::class, 'permissionsStore'])->name('permissions.store');
-        Route::get('/permissions/edit/{id}', [AdminController::class, 'permissionsEdit'])->name('permissions.edit');
-        Route::put('/permissions/edit/{id}', [AdminController::class, 'permissionsUpdate'])->name('permissions.update');
-        Route::delete('/permissions/delete/{id}', [AdminController::class, 'permissionsDestroy'])->name('permissions.destroy');
+        Route::get('/{admin}/permissions', [AdminController::class, 'permissions'])->name('permissions');
+        Route::post('/{admin}/permissions', [AdminController::class, 'permissionsStore'])->name('permissions.store');
+        Route::get('/{admin}/permissions/edit', [AdminController::class, 'permissionsEdit'])->name('permissions.edit');
+        Route::put('/{admin}/permissions/edit', [AdminController::class, 'permissionsUpdate'])->name('permissions.update');
+        Route::delete('/{admin}/permissions/delete', [AdminController::class, 'permissionsDestroy'])->name('permissions.destroy');
     });
 });
 
@@ -92,7 +92,7 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'checkRole:admin'])-
     Route::put('/account', [AccountController::class, 'updateAdmin'])->name('update');
 
     Route::prefix('imam')->middleware(['auth', 'permission:imam_show'])->name('imam.')->group(function () {
-        Route::get('/', [ImamController::class, 'index'])->name('index');
+        Route::get('/', [ImamController::class, 'index'])->name('index');   
         Route::get('/{imam}/show', [ImamController::class, 'show'])->name('show');
         Route::get('/create', [ImamController::class, 'create'])->middleware(['auth', 'permission:imam_create'])->name('create');
         Route::post('/create', [ImamController::class, 'store'])->middleware(['auth', 'permission:imam_create'])->name('store');

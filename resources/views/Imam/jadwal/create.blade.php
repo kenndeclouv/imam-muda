@@ -5,7 +5,8 @@
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb m-0">
                         <li class="breadcrumb-item"><a href="{{ route('imam.home') }}">Dashboard</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Daftar Jadwal</li>
+                        <li class="breadcrumb-item"><a href="{{ route('imam.jadwal.index') }}">Daftar Jadwal</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Tambah Jadwal</li>
                     </ol>
                 </nav>
             </div>
@@ -40,23 +41,6 @@
                         <label class="form-label" for="jadwal-date">Tanggal</label>
                         <input type="date" name="date" class="form-control" id="jadwal-date" required value="{{ old('date') }}">
                     </div>
-                    {{-- <div class="mb-6">
-                        <label class="form-label" for="jadwal-status">Status</label>
-                        <div id="jadwal-status">
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="status" id="status-to_do" value="to_do" {{ old('status') == 'to_do' ? 'checked' : '' }} checked>
-                                <label class="form-check-label" for="status-to_do">
-                                    Akan
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="status" id="status-done" value="done" {{ old('status') == 'done' ? 'checked' : '' }}>
-                                <label class="form-check-label" for="status-done">
-                                    Selesai
-                                </label>
-                            </div>
-                        </div>
-                    </div> --}}
                     <button type="submit" class="btn btn-primary">Tambahkan</button>
                 </form>
             </div>

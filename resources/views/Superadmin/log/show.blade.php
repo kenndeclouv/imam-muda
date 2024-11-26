@@ -5,7 +5,8 @@
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb m-0">
                         <li class="breadcrumb-item"><a href="{{ route('superadmin.home') }}">Dashboard</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Daftar Log</li>
+                        <li class="breadcrumb-item"><a href="{{ route('superadmin.logs') }}">Daftar Log</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Log {{ $filename }}</li>
                     </ol>
                 </nav>
             </div>

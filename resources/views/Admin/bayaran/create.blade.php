@@ -5,7 +5,8 @@
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb m-0">
                         <li class="breadcrumb-item"><a href="{{ route('admin.home') }}">Dashboard</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Daftar Bayaran</li>
+                        <li class="breadcrumb-item"><a href="{{ route('admin.bayaran.index') }}">Grup Bayaran</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Tambah Bayaran</li>
                     </ol>
                 </nav>
             </div>

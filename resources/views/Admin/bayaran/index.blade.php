@@ -8,14 +8,14 @@
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb m-0">
                         <li class="breadcrumb-item"><a href="{{ route('admin.home') }}">Dashboard</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Daftar Bayaran</li>
+                        <li class="breadcrumb-item active" aria-current="page">Grup Bayaran</li>
                     </ol>
                 </nav>
             </div>
         </div>
         <div class="card">
             <div class="card-header border-bottom mb-4">
-                <h5 class="card-title">Daftar Bayaran</h5>
+                <h5 class="card-title">Grup Bayaran</h5>
             </div>
             <div class="card-body pb-0">
                 @include('components.alert')

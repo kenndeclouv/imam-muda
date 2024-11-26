@@ -5,6 +5,7 @@
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb m-0">
                         <li class="breadcrumb-item"><a href="{{ route('superadmin.home') }}">Dashboard</a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('superadmin.admin.index') }}">Daftar Admin</a></li>
                         <li class="breadcrumb-item active" aria-current="page">Edit Admin</li>
                     </ol>
                 </nav>

@@ -5,6 +5,7 @@
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb m-0">
                         <li class="breadcrumb-item"><a href="{{ route('imam.home') }}">Dashboard</a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('imam.jadwal.index') }}">Daftar Jadwal</a></li>
                         <li class="breadcrumb-item active" aria-current="page">Edit Jadwal</li>
                     </ol>
                 </nav>

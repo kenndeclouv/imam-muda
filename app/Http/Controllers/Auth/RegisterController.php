@@ -11,7 +11,7 @@ class RegisterController extends Controller
 {
     public function loginView()
     {
-        return view('Auth.login', ["title" => "Login"]);
+        return view('auth.login', ["title" => "Login"]);
     }
     public function registerView()
     {

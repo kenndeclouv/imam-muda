@@ -5,6 +5,7 @@
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb m-0">
                         <li class="breadcrumb-item"><a href="{{ route('admin.home') }}">Dashboard</a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('admin.shalat.index') }}">Daftar Shalat</a></li>
                         <li class="breadcrumb-item active" aria-current="page">Edit Shalat</li>
                     </ol>
                 </nav>

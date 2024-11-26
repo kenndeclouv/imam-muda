@@ -129,15 +129,13 @@ class AdminController extends Controller
     }
 
 
-    public function edit($id)
+    public function edit(Admin $admin)
     {
-        $admin = Admin::findOrFail($id);
         return view('superadmin.admin.edit', compact('admin'));
     }
 
-    public function update(UpdateAdminRequest $request, $id)
+    public function update(UpdateAdminRequest $request, Admin $admin)
     {
-        $admin = Admin::findOrFail($id);
         $user = User::findOrFail($admin->user_id);
         $validated = $request->validated();
 
@@ -167,25 +165,22 @@ class AdminController extends Controller
         return redirect()->route('superadmin.admin.index')->with('success', 'Admin berhasil diperbarui.');
     }
 
-    public function destroy($id)
+    public function destroy(Admin $admin)
     {
-        $admin = Admin::findOrFail($id);
         $admin->delete();
         return redirect()->route('superadmin.admin.index')->with('success', 'Admin berhasil dihapus.');
     }
 
-    public function permissions($id)
+    public function permissions(Admin $admin)
     {
-        $admin = Admin::findOrFail($id);
         $features = Feature::whereNotIn('id', $admin->User->Permissions->pluck('feature_id'))->get();
 
         $permissions = Permission::where('user_id', $admin->user_id)->get();
         return view('superadmin.admin.permissions', compact('admin', 'permissions', 'features'));
     }
 
-    public function permissionsStore(Request $request, $id)
+    public function permissionsStore(Request $request, Admin $admin)
     {
-        $admin = Admin::findOrFail($id);
         foreach ($request->feature_id as $feature) {
             $permissionExist = Permission::where('user_id', $admin->user_id)->where('feature_id', $feature)->first();
             if ($permissionExist) {
@@ -206,9 +201,8 @@ class AdminController extends Controller
         }
         return redirect()->route('superadmin.admin.permissions', $admin->id)->with('success', 'Ijin Akses berhasil ditambahkan.');
     }
-    public function permissionsDestroy($id)
+    public function permissionsDestroy(Permission $permission)
     {
-        $permission = Permission::findOrFail($id);
         $permission->delete();
         return back()->with('success', 'Ijin Akses berhasil dihapus.');
     }

@@ -5,6 +5,7 @@
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb m-0">
                         <li class="breadcrumb-item"><a href="{{ route('admin.home') }}">Dashboard</a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('admin.masjid.index') }}">Daftar Masjid</a></li>
                         <li class="breadcrumb-item active" aria-current="page">Edit Masjid</li>
                     </ol>
                 </nav>
@@ -52,12 +53,14 @@
     <x-slot:js>
         <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
         <script>
-            // ambil koordinat dari database atau null kalau tidak ada
+            // Retrieve coordinates from the database or set to null if not available
             var initialLat = {{ $masjid->latitude ?? 'null' }};
             var initialLng = {{ $masjid->longitude ?? 'null' }};
 
-            // inisialisasi map
-            var map = L.map('map').setView([initialLat, initialLng], 12);
+            // Initialize the map
+            var map = L.map('map').setView([initialLat || 0, initialLng || 0], 12);
+
+            // Check for geolocation support
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(
                     function(position) {
@@ -65,120 +68,98 @@
                             latitude,
                             longitude
                         } = position.coords;
-                        if (initialLat === null || initialLng === null) {
-                            map.setView([latitude, longitude], 8); // zoom ke lokasi user
+                        if (!initialLat || !initialLng) {
+                            map.setView([latitude, longitude], 12);
                         }
                     },
                     function() {
-                        alert('Gagal mendeteksi lokasi, silakan pilih secara manual.');
+                        alert('Gagal mendeteksi lokasi, pilih lokasi secara manual.');
                     }
                 );
             } else {
-                alert('Browser kamu tidak mendukung geolocation!');
+                alert('Browser kamu tidak mendukung geolokasi!');
             }
-            // tambahkan tile layer ke map
+
+            // Add tile layer
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 attribution: '&copy; <a href="https://kenndeclouv.rf.gd">kenndeclouv</a>'
             }).addTo(map);
 
-            // hanya tambahkan marker kalau koordinat ada
-            if (initialLat !== null && initialLng !== null) {
-                // buat marker di lokasi awal (draggable)
-                var marker = L.marker([initialLat, initialLng], {
+            // Function to update coordinate inputs
+            function updateLatLngInput(lat, lng) {
+                document.getElementById('latitude').value = lat;
+                document.getElementById('longitude').value = lng;
+            }
+
+            // Function to fetch address from Nominatim API
+            function updateAddress(lat, lng) {
+                fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lng}&accept-language=id`)
+                    .then(response => response.json())
+                    .then(data => {
+                        const address = data?.display_name || 'Alamat tidak ditemukan';
+                        document.getElementById('masjid-address').value = address;
+                    })
+                    .catch(error => {
+                        console.error('Error fetching address:', error);
+                        document.getElementById('masjid-address').value = 'Error mengambil alamat';
+                    });
+            }
+
+            // Marker initialization
+            let marker;
+
+            if (initialLat && initialLng) {
+                // Create marker at initial coordinates
+                marker = L.marker([initialLat, initialLng], {
                     draggable: true
                 }).addTo(map);
 
-                // fungsi untuk memperbarui input koordinat
-                function updateLatLngInput(lat, lng) {
-                    document.getElementById('latitude').value = lat;
-                    document.getElementById('longitude').value = lng;
-                }
-
-                // fungsi untuk mendapatkan alamat dari API Nominatim
-                function updateAddress(lat, lng) {
-                    fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lng}&accept-language=id`)
-                        .then(response => response.json())
-                        .then(data => {
-                            if (data && data.display_name) {
-                                document.getElementById('masjid-address').value = data.display_name; // isi alamat otomatis
-                            } else {
-                                document.getElementById('masjid-address').value = 'Alamat tidak ditemukan';
-                            }
-                        })
-                        .catch(error => {
-                            console.error('Error fetching address:', error);
-                            document.getElementById('masjid-address').value = 'Error mendapatkan alamat';
-                        });
-                }
-
-                // event ketika marker dipindah secara manual (drag)
-                marker.on('moveend', function(e) {
-                    var latlng = e.target.getLatLng();
-                    updateLatLngInput(latlng.lat, latlng.lng);
-                    updateAddress(latlng.lat, latlng.lng); // update alamat otomatis
-                });
-
-                // event ketika map diklik
-                map.on('click', function(e) {
-                    var latlng = e.latlng;
-                    marker.setLatLng(latlng); // pindahkan marker ke lokasi klik
-                    updateLatLngInput(latlng.lat, latlng.lng); // update koordinat di form
-                    updateAddress(latlng.lat, latlng.lng); // update alamat otomatis
-                });
-
-                // set nilai awal input koordinat dari database
+                // Set initial values
                 updateLatLngInput(initialLat, initialLng);
                 updateAddress(initialLat, initialLng);
-            } else {
-                // tambahkan event klik untuk menambahkan marker kalau koordinat kosong
-                map.on('click', function(e) {
-                    var latlng = e.latlng;
 
-                    // tambahkan marker ke map
-                    var marker = L.marker(latlng, {
+                // Marker drag event
+                marker.on('moveend', function(e) {
+                    const {
+                        lat,
+                        lng
+                    } = e.target.getLatLng();
+                    updateLatLngInput(lat, lng);
+                    updateAddress(lat, lng);
+                });
+            }
+
+            // Add marker on map click if none exists
+            map.on('click', function(e) {
+                const {
+                    lat,
+                    lng
+                } = e.latlng;
+
+                if (!marker) {
+                    // Create marker
+                    marker = L.marker([lat, lng], {
                         draggable: true
                     }).addTo(map);
 
-                    // fungsi untuk memperbarui input koordinat
-                    function updateLatLngInput(lat, lng) {
-                        document.getElementById('latitude').value = lat;
-                        document.getElementById('longitude').value = lng;
-                    }
-
-                    // fungsi untuk mendapatkan alamat dari API Nominatim
-                    function updateAddress(lat, lng) {
-                        fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lng}`)
-                            .then(response => response.json())
-                            .then(data => {
-                                if (data && data.display_name) {
-                                    document.getElementById('masjid-address').value = data
-                                        .display_name; // isi alamat otomatis
-                                } else {
-                                    document.getElementById('masjid-address').value = 'Alamat tidak ditemukan';
-                                }
-                            })
-                            .catch(error => {
-                                console.error('Error fetching address:', error);
-                                document.getElementById('masjid-address').value = 'Error mendapatkan alamat';
-                            });
-                    }
-
-                    // update koordinat dan alamat
-                    updateLatLngInput(latlng.lat, latlng.lng);
-                    updateAddress(latlng.lat, latlng.lng);
-
-                    // tambahkan event drag untuk marker baru
+                    // Marker drag event
                     marker.on('moveend', function(e) {
-                        var latlng = e.target.getLatLng();
-                        updateLatLngInput(latlng.lat, latlng.lng);
-                        updateAddress(latlng.lat, latlng.lng);
+                        const {
+                            lat,
+                            lng
+                        } = e.target.getLatLng();
+                        updateLatLngInput(lat, lng);
+                        updateAddress(lat, lng);
                     });
+                } else {
+                    // Move existing marker
+                    marker.setLatLng([lat, lng]);
+                }
 
-                    // matikan event klik agar tidak menambahkan marker lagi
-                    map.off('click');
-                });
-            }
+                // Update inputs and address
+                updateLatLngInput(lat, lng);
+                updateAddress(lat, lng);
+            });
         </script>
-
     </x-slot:js>
 </x-app>
