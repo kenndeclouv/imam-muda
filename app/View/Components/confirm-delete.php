@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\View\Component;
 use Illuminate\Contracts\View\View;
 
-class ConfirmDelete extends Component
+class confirm-delete extends Component
 {
     /**
      * Create a new component instance.

@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\View\Component;
 use Illuminate\Contracts\View\View;
 
-class SideNav extends Component
+class side-nav extends Component
 {
     /**
      * Create a new component instance.

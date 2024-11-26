@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\View\Component;
 use Illuminate\Contracts\View\View;
 
-class AuthApp extends Component
+class auth-app extends Component
 {
     /**
      * Create a new component instance.
