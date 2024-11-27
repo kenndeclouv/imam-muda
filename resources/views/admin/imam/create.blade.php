@@ -85,7 +85,7 @@
                                 <div class="input-group input-group-merge">
                                     <input type="password" id="confirm-password" class="form-control"
                                         placeholder="············" aria-describedby="confirm-password2"
-                                        name="confirm_password">
+                                        name="password_confirmation">
                                     <span class="input-group-text cursor-pointer" id="confirm-password2"><i
                                             class="fa fa-eye-slash"></i></span>
                                 </div>

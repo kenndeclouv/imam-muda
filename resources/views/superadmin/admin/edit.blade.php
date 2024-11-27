@@ -94,23 +94,18 @@
                                 <label class="form-label" for="first-name">Nama</label>
                                 <input type="text" id="first-name" class="form-control"
                                     placeholder="Nama Lengkap" name="fullname"
-                                    value="{{ old('fullname', $admin   ->fullname) }}">
+                                    value="{{ old('fullname', $admin->fullname) }}">
                             </div>
                             <div class="col-sm-6">
                                 <label class="form-label" for="tempat-lahir">Tempat Lahir</label>
                                 <input type="text" id="tempat-lahir" class="form-control"
                                     placeholder="Tempat Lahir" name="birthplace"
-                                    value="{{ old('birthplace', $admin ->birthplace) }}">
+                                    value="{{ old('birthplace', $admin->birthplace) }}">
                             </div>
                             <div class="col-sm-6">
                                 <label class="form-label" for="tanggal-lahir">Tanggal Lahir</label>
                                 <input type="date" id="tanggal-lahir" class="form-control" name="birthdate"
-                                    value="{{ old('birthdate', $admin  ->birthdate) }}">
-                            </div>
-                            <div class="col-sm-6">
-                                <label class="form-label" for="photo">Foto</label>
-                                <input type="file" id="photo" class="form-control" accept="image/*"
-                                    name="photo">
+                                    value="{{ old('birthdate', $admin->birthdate) }}">
                             </div>
                             <div class="col-12 d-flex justify-content-between">
                                 <button class="btn btn-primary btn-prev" type="button">
@@ -135,7 +130,7 @@
                                 <label class="form-label" for="phone">Phone</label>
                                 <input type="text" id="phone" class="form-control"
                                     placeholder="Nomor Telepon" name="phone"
-                                    value="{{ old('phone', $admin  ->phone) }}">
+                                    value="{{ old('phone', $admin->phone) }}">
                             </div>
                             <div class="col-sm-6">
                                 <label class="form-label" for="address">Alamat</label>

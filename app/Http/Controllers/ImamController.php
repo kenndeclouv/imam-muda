@@ -15,7 +15,12 @@ class ImamController extends Controller
 {
     private function uploadPhoto($photo)
     {
-        return $photo->store('imam', 'public');
+        if ($photo && file_exists(public_path($photo))) {
+            unlink(public_path($photo));
+        }
+        $filename = uniqid() . '_' . time() . '.' . $photo->getClientOriginalExtension();
+        $photo->move(public_path('public/uploads/photo/'), $filename);
+        return 'public/uploads/photo/' . $filename;
     }
 
     public function index()
@@ -37,7 +42,7 @@ class ImamController extends Controller
             ? $this->uploadPhoto($request->file('photo'))
             : null;
 
-        // Simpan user
+
         $user = User::create([
             'username' => $validated['username'],
             'email' => $validated['email'] ?? null,
@@ -47,7 +52,7 @@ class ImamController extends Controller
             'role_id' => 3,
         ]);
 
-        // Simpan admin
+
         Imam::create([
             'user_id' => $user->id,
             'fullname' => $validated['fullname'],
@@ -84,12 +89,12 @@ class ImamController extends Controller
         $user = User::findOrFail($imam->user_id);
         $validated = $request->validated();
 
-        // Proses upload foto (kalau ada)
+
         $validated['photo'] = $request->hasFile('photo')
             ? $this->uploadPhoto($request->file('photo'))
             : null;
 
-        // Simpan user
+
         $user->update([
             'username' => $validated['username'],
             'email' => $validated['email'] ?? null,
@@ -97,7 +102,7 @@ class ImamController extends Controller
             'name' => $validated['fullname'],
         ]);
 
-        // Simpan admin
+
         $imam->update([
             'fullname' => $validated['fullname'],
             'phone' => $validated['phone'],
@@ -118,20 +123,20 @@ class ImamController extends Controller
 
     public function destroy(Imam $imam)
     {
-        $user = $imam->User; // Get the associated user
+        $user = $imam->User;
         $imam->delete();
         if ($user) {
-            $user->delete(); // Delete the user as well
+            $user->delete();
         }
         return redirect()->route('admin.imam.index')->with('success', 'Imam berhasil dihapus.');
     }
 
     public function detail(Imam $imam)
     {
-        // Fetch the associated user
+
         $user = $imam->User;
         $schedules = Schedule::where('imam_id', $imam->id)->get();
-        // Return the view with the imam and user details
+
         return view('admin.imam.detail', compact('imam', 'user', 'schedules'));
     }
 }

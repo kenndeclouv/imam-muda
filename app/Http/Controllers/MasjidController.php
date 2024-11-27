@@ -34,13 +34,12 @@ class MasjidController extends Controller
         return redirect()->route('admin.masjid.index')->with('success', 'Masjid berhasil ditambahkan.');
     }
 
-    public function edit($id)
+    public function edit(Masjid $masjid)
     {
-        $masjid = Masjid::findOrFail($id);
         return view('admin.masjid.edit', compact('masjid'));
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, Masjid $masjid)
     {
         $validated = $request->validate([
             'name' => 'required|string|max:50',
@@ -48,18 +47,13 @@ class MasjidController extends Controller
             'latitude' => 'nullable|numeric',
             'longitude' => 'nullable|numeric',
         ]);
-
-        $masjid = Masjid::findOrFail($id);
         $masjid->update($validated);
-
         return redirect()->route('admin.masjid.index', $masjid->id)->with('success', 'Masjid berhasil diperbarui.');
     }
 
-    public function destroy($id)
+    public function destroy(Masjid $masjid)
     {
-        $masjid = Masjid::findOrFail($id);
         $masjid->delete();
-
         return redirect()->route('admin.masjid.index')->with('success', 'Masjid berhasil dihapus.');
     }
 }

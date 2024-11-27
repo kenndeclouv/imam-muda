@@ -32,13 +32,12 @@ class ShalatController extends Controller
         return redirect()->route('admin.shalat.index')->with('success', 'Shalat berhasil ditambahkan.');
     }
 
-    public function edit($id)
+    public function edit(Shalat $shalat)
     {
-        $shalat = Shalat::findOrFail($id);
         return view('admin.shalat.edit', compact('shalat'));
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, Shalat $shalat)
     {
         $validated = $request->validate([
             'name' => 'required|string|max:100',
@@ -46,17 +45,14 @@ class ShalatController extends Controller
             'end' => 'required',
         ]);
 
-        $shalat = Shalat::findOrFail($id);
         $shalat->update($validated);
 
         return redirect()->route('admin.shalat.index')->with('success', 'Shalat berhasil diperbarui.');
     }
 
-    public function destroy($id)
+    public function destroy(Shalat $shalat)
     {
-        $shalat = Shalat::findOrFail($id);
         $shalat->delete();
-
         return redirect()->route('admin.shalat.index')->with('success', 'Shalat berhasil dihapus.');
     }
 }

@@ -85,7 +85,7 @@
                                 <div class="input-group input-group-merge">
                                     <input type="password" id="confirm-password" class="form-control"
                                         placeholder="············" aria-describedby="confirm-password2"
-                                        name="confirm_password">
+                                        name="password_confirmation">
                                     <span class="input-group-text cursor-pointer" id="confirm-password2"><i
                                             class="fa fa-eye-slash"></i></span>
                                 </div>
@@ -123,11 +123,6 @@
                                 <label class="form-label" for="tanggal-lahir">Tanggal Lahir</label>
                                 <input type="date" id="tanggal-lahir" class="form-control" name="birthdate"
                                     value="{{ old('birthdate') }}">
-                            </div>
-                            <div class="col-sm-6">
-                                <label class="form-label" for="photo">Foto</label>
-                                <input type="file" id="photo" class="form-control" accept="image/*"
-                                    name="photo">
                             </div>
                             <div class="col-12 d-flex justify-content-between">
                                 <button class="btn btn-primary btn-prev" type="button">

@@ -52,8 +52,10 @@
                                     </a>
                                 </div>
                             </div>
-                            <div class="mb-6">
+                            <div class="mb-2">
                                 <button class="btn btn-primary d-grid w-100" type="submit">Login</button>
+                                <hr>
+                                <p class="text-center mt-2">Belum punya akun? <a href="{{ route('register') }}" class="text-center mt-2">Daftar</a></p>
                             </div>
                         </form>
                     </div>

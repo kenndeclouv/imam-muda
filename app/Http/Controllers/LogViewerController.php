@@ -51,9 +51,8 @@ class LogViewerController extends Controller
         foreach ($logFiles as $file) {
             $logs[] = [
                 'name' => $file->getFilename(),
-                'size' => round($file->getSize() / 1024, precision: 2), // ukuran KB
+                'size' => round($file->getSize() / 1024, precision: 2),
                 'modified' => $file->getMTime(),
-
             ];
         }
 
@@ -100,10 +99,10 @@ class LogViewerController extends Controller
         preg_match('/^\[(.*?)\] (\w+)\.(\w+): (.+)$/s', $entry, $matches);
 
         return [
-            'timestamp' => $matches[1] ?? 'Unknown',    // timestamp di [2024-11-22 14:13:44]
-            'env' => $matches[2] ?? 'Unknown',         // tipe environment (local, production)
-            'type' => $matches[3] ?? 'Unknown',        // tipe log (ERROR, INFO, dll.)
-            'message' => $matches[4] ?? $entry,        // isi log
+            'timestamp' => $matches[1] ?? 'Unknown',
+            'env' => $matches[2] ?? 'Unknown',
+            'type' => $matches[3] ?? 'Unknown',
+            'message' => $matches[4] ?? $entry,
         ];
     }
 

@@ -24,8 +24,7 @@ class StoreImamRequest extends FormRequest
         return [
             'username' => 'required|string|max:50',
             'email' => 'nullable|email|max:255',
-            'password' => 'required|string|min:8',
-            'confirm_password' => 'required|same:password',
+            'password' => 'required|string|min:8|confirmed',
             'photo' => 'nullable|file|mimes:jpeg,png,jpg,gif|max:5000',
             'fullname' => 'required|string|max:50',
             'phone' => 'required|string|max:20',

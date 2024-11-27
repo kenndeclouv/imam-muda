@@ -9,51 +9,45 @@ use App\Models\User;
 use App\Models\UserShortcut;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
-// use Illuminate\Support\Facades\Auth;
-
-// use Illuminate\Support\Facades\Auth;
 
 class AccountController extends Controller
 {
-    public function index(Request $request)
+    private function uploadPhoto($photo)
+    {
+        if ($photo && file_exists(public_path($photo))) {
+            unlink(public_path($photo));
+        }
+        $filename = uniqid() . '_' . time() . '.' . $photo->getClientOriginalExtension();
+        $photo->move(public_path('public/uploads/photo/'), $filename);
+        return 'public/uploads/photo/' . $filename;
+    }
+
+    public function index()
     {
         return view('account.index');
     }
+
     public function update(Request $request, $id)
     {
-        // Validate the incoming request data
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'username' => 'required|string|max:255',
             'email' => 'required|string|email|max:255',
             'photo' => 'nullable|file|mimes:jpeg,png,jpg,gif|max:5000',
+            'password' => 'nullable|string|min:8|confirmed',
         ]);
-        if ($request->input('password')) {
-            $validated = $request->validate([
-                'password' => 'nullable|string|min:8',
-                'confirm_password' => 'nullable|same:password',
-            ]);
-        }
 
-        // Update the authenticated user's information
         $user = User::findOrFail($id);
 
         if ($request->hasFile('photo')) {
-            // Hapus foto lama jika ada
             if ($user->photo && file_exists(public_path($user->photo))) {
                 unlink(public_path($user->photo));
             }
-            // Generate nama unik untuk file
-            $filename = uniqid() . '_' . time() . '.' . $request->file('photo')->getClientOriginalExtension();
-
-            // Pindahkan file ke folder
-            $photoPath = $request->file('photo')->move(public_path('public/uploads/photo/'), $filename);
-            $validated['photo'] = 'public/uploads/photo/' . $filename;
+            $validated['photo'] = $this->uploadPhoto($request->file('photo'));
         }
 
         $user->update($validated);
 
-        // Redirect back with a success message
         return redirect()->route('account')->with('success', 'Profile berhasil diperbarui!');
     }
 
@@ -65,13 +59,12 @@ class AccountController extends Controller
             'icon' => 'nullable|string',
             'description' => 'nullable|string',
         ]);
-        $validated['user_id'] = Auth::user()->id;
 
-        UserShortcut::create($validated);
+        UserShortcut::create(array_merge($validated, ['user_id' => Auth::id()]));
 
-        // Lakukan penyimpanan data di sini...
         return back()->with('success', 'berhasil menambahkan shortcut');
     }
+
     public function updateImam(Request $request)
     {
         $validated = $request->validate([
@@ -90,12 +83,11 @@ class AccountController extends Controller
             'wife_count' => 'nullable|integer',
         ]);
 
-        $imam = Imam::where('user_id', Auth::id())->firstOrFail();
-
-        $imam->update($validated);
+        Imam::where('user_id', Auth::id())->firstOrFail()->update($validated);
 
         return redirect()->route('account')->with('success', 'Imam berhasil diperbarui.');
     }
+
     public function updateAdmin(Request $request)
     {
         $validated = $request->validate([
@@ -107,9 +99,7 @@ class AccountController extends Controller
             'address' => 'nullable|string|max:255',
         ]);
 
-        $admin = Admin::where('user_id', Auth::id())->firstOrFail();
-
-        $admin->update($validated);
+        Admin::where('user_id', Auth::id())->firstOrFail()->update($validated);
 
         return redirect()->route('account')->with('success', 'Admin berhasil diperbarui.');
     }

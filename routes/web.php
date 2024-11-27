@@ -19,15 +19,10 @@ use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\RekapController;
 // API
 use App\Http\Controllers\API\APIController;
+use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\UserNotificationController;
-use Illuminate\Support\Facades\Password;
 
-// use Arcanedev\LogViewer\Contracts\LogViewer as ContractsLogViewer;
-
-// Route untuk Landing Page
-Route::get('/', function () {
-    return view('index');
-})->name('landingpage');
+Route::redirect('/', '/login');
 
 //API
 Route::middleware(['auth'])->group(function () {
@@ -49,6 +44,9 @@ Route::middleware(['apiKey', 'throttle:120,1'])->group(function () {
 // Routes untuk Login dan Logout
 Route::get('login', [LoginController::class, 'index'])->name('login.index');
 Route::post('login', [LoginController::class, 'login'])->name('login');
+Route::get('register', [RegisterController::class, 'index'])->name('register');
+Route::post('register', [RegisterController::class, 'store'])->name('register.store');
+
 Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 Route::get('/forgot-password', [ForgotPassword::class, 'index'])->middleware('guest')->name('password.request');
 Route::post('/forgot-password', [ForgotPassword::class, 'email'])->middleware('guest')->name('password.email');
@@ -64,6 +62,7 @@ Route::middleware(['auth'])->group(function () {
 
 // Routes untuk SuperAdmin
 Route::prefix('superadmin')->name('superadmin.')->middleware(['auth', 'checkRole:superadmin'])->group(function () {
+    Route::redirect('/', '/superadmin/home');
     Route::get('/home', [HomeController::class, 'superAdminHome'])->name('home');
     Route::get('/log-viewer', [LogViewerController::class, 'index'])->name('logs');
     Route::get('/log-viewer/show/{filename}', [LogViewerController::class, 'show'])->name('logs.show');
@@ -88,11 +87,12 @@ Route::prefix('superadmin')->name('superadmin.')->middleware(['auth', 'checkRole
 
 // Routes untuk Admin
 Route::prefix('admin')->name('admin.')->middleware(['auth', 'checkRole:admin'])->group(function () {
+    Route::redirect('/', '/admin/home');
     Route::get('/home', [HomeController::class, 'adminHome'])->name('home');
     Route::put('/account', [AccountController::class, 'updateAdmin'])->name('update');
 
     Route::prefix('imam')->middleware(['auth', 'permission:imam_show'])->name('imam.')->group(function () {
-        Route::get('/', [ImamController::class, 'index'])->name('index');   
+        Route::get('/', [ImamController::class, 'index'])->name('index');
         Route::get('/{imam}/show', [ImamController::class, 'show'])->name('show');
         Route::get('/create', [ImamController::class, 'create'])->middleware(['auth', 'permission:imam_create'])->name('create');
         Route::post('/create', [ImamController::class, 'store'])->middleware(['auth', 'permission:imam_create'])->name('store');
@@ -155,14 +155,15 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'checkRole:admin'])-
         Route::get('/', [AnnouncementController::class, 'index'])->name('index');
         Route::get('/create', [AnnouncementController::class, 'create'])->middleware(['auth', 'permission:pengumuman_create'])->name('create');
         Route::post('/create', [AnnouncementController::class, 'store'])->middleware(['auth', 'permission:pengumuman_create'])->name('store');
-        Route::get('/{pengumuman}/edit', [AnnouncementController::class, 'edit'])->middleware(['auth', 'permission:pengumuman_edit'])->name('edit');
-        Route::put('/{pengumuman}/edit', [AnnouncementController::class, 'update'])->middleware(['auth', 'permission:pengumuman_edit'])->name('update');
-        Route::delete('/{pengumuman}/delete', [AnnouncementController::class, 'destroy'])->middleware(['auth', 'permission:pengumuman_delete'])->name('destroy');
+        Route::get('/{announcement}/edit', [AnnouncementController::class, 'edit'])->middleware(['auth', 'permission:pengumuman_edit'])->name('edit');
+        Route::put('/{announcement}/edit', [AnnouncementController::class, 'update'])->middleware(['auth', 'permission:pengumuman_edit'])->name('update');
+        Route::delete('/{announcement}/delete', [AnnouncementController::class, 'destroy'])->middleware(['auth', 'permission:pengumuman_delete'])->name('destroy');
     });
 });
 
 // Routes untuk Imam
 Route::prefix('imam')->name('imam.')->middleware(['auth', 'checkRole:imam'])->group(function () {
+    Route::redirect('/', '/imam/home');
     Route::get('/home', [HomeController::class, 'imamHome'])->name('home');
     Route::put('/account', [AccountController::class, 'updateImam'])->name('update');
 

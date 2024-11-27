@@ -24,8 +24,7 @@ class StoreAdminRequest extends FormRequest
         return [
             'username' => 'required|string|max:50',
             'email' => 'nullable|email|max:255',
-            'password' => 'required|string|min:8',
-            'confirm_password' => 'required|same:password',
+            'password' => 'required|string|min:8|confirmed',
             'photo' => 'nullable|file|mimes:jpeg,png,jpg,gif|max:5000',
             'fullname' => 'required|string|max:50',
             'phone' => 'required|string|max:20',
@@ -44,8 +43,6 @@ class StoreAdminRequest extends FormRequest
             'password.required' => 'Password harus diisi.',
             'password.string' => 'Password harus berupa string.',
             'password.min' => 'Password minimal 8 karakter.',
-            'confirm_password.required' => 'Konfirmasi password harus diisi.',
-            'confirm_password.same' => 'Konfirmasi password harus sama dengan password.',
             'email.email' => 'Email harus berupa email yang valid.',
             'fullname.required' => 'Nama harus diisi.',
             'fullname.string' => 'Nama harus berupa string.',

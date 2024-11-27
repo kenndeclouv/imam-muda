@@ -220,9 +220,6 @@
                 fetch('/api/get-imam-schedule-data?range=7')
                     .then(response => response.json())
                     .then(data => {
-                        // Pastikan format data sudah sesuai
-                        console.log(data); // Debugging data jika perlu
-
                         const today = new Date().toISOString().split('T')[0];
                         const todayIndex = data.days.indexOf(today);
                         // Konfigurasi ApexCharts
@@ -263,7 +260,7 @@
                             },
                             series: [{
                                 name: 'Jadwal Imam',
-                                data: data.totals // Data dinamis dari API
+                                data: data.totals
                             }],
                             xaxis: {
                                 show: false,
@@ -327,21 +324,6 @@
                             'Allah tidak membebani seseorang melainkan sesuai dengan kesanggupannya.';
                         document.getElementById('quotes-author').textContent = 'QS. Al-Baqarah: 286';
                     });
-                // fetch('/api/quote', {
-                //         headers: {
-                //             'Authorization': 'kenndeclouv'
-                //         }
-                //     })
-                //     .then(response => response.json())
-                //     .then(data => {
-                //         document.getElementById('quotes').textContent = data.content;
-                //         document.getElementById('quotes-author').textContent = data.source;
-                //     })
-                //     .catch(err => {
-                //         document.getElementById('quotes').textContent =
-                //             'Allah tidak membebani seseorang melainkan sesuai dengan kesanggupannya.';
-                //         document.getElementById('quotes-author').textContent = 'QS. Al-Baqarah: 286';
-                //     });
             });
         </script>
     </x-slot:js>

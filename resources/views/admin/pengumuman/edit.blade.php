@@ -45,44 +45,6 @@
                             value="{{ $announcement->link }}">
                     </div>
                     <div class="mb-6">
-                        <label class="form-label" for="pengumuman-photo">Foto</label>
-                        <div class="row">
-                            <div class="col">
-                                <input type="file" name="photo" class="form-control" id="pengumuman-photo">
-                            </div>
-                            <div class="col">
-                                @if ($announcement->photo)
-                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                        data-bs-target="#photoModal">
-                                        Lihat Foto
-                                    </button>
-
-                                    <!-- Modal -->
-                                    <div class="modal fade" id="photoModal" tabindex="-1"
-                                        aria-labelledby="photoModalLabel" aria-hidden="true">
-                                        <div class="modal-dialog modal-dialog-centered">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title" id="photoModalLabel">Foto Pengumuman</h5>
-                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                        aria-label="Close"></button>
-                                                </div>
-                                                <div class="modal-body d-flex justify-content-center border-top border-bottom my-4">
-                                                    <img src="{{ $announcement->photo }}" class="rounded-3"
-                                                        alt="Foto Pengumuman" style="max-width: 350px;">
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary"
-                                                        data-bs-dismiss="modal">Tutup</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                @endif
-                            </div>
-                        </div>
-                    </div>
-                    <div class="mb-6">
                         <label class="form-label" for="pengumuman-status">Status</label>
                         <select name="is_active" class="form-control select2" id="pengumuman-status" required>
                             <option value="1" {{ $announcement->is_active ? 'selected' : '' }}>Aktif</option>

@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Auth;
 
 class ScheduleController extends Controller
 {
-    // PRIVATE FUNCTION
+
     protected $scheduleService;
 
     public function __construct(ScheduleService $scheduleService)
@@ -62,7 +62,7 @@ class ScheduleController extends Controller
         return $query->exists();
     }
 
-    // PUBLIC FUNCTION
+
     public function index(Request $request)
     {
         $role = Auth::user()->Role->code;
@@ -242,13 +242,13 @@ class ScheduleController extends Controller
 
     public function destroySelected(Request $request)
     {
-        $jadwalIds = $request->input('jadwal_id', []); // array id yang diterima
+        $jadwalIds = $request->input('jadwal_id', []);
 
         if (empty($jadwalIds)) {
             return redirect()->back()->with('error', 'Tidak ada data yang dipilih untuk dihapus.');
         }
 
-        // hapus data berdasarkan id
+
         Schedule::whereIn('id', $jadwalIds)->delete();
 
         return redirect()->back()->with('success', 'Jadwal berhasil dihapus.');

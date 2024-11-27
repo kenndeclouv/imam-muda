@@ -316,7 +316,7 @@
                                 <div class="card-body pt-4">
                                     <div class="row g-6">
                                         <div class="col-md-6 fv-plugins-icon-container">
-                                            <label for="fullname" class="form-label">Full Name</label>
+                                            <label for="fullname" class="form-label">Nama</label>
                                             <input class="form-control" type="text" id="fullname" name="fullname"
                                                 value="{{ $user->Admin->fullname ?? '-' }}">
                                             <div
@@ -324,7 +324,7 @@
                                             </div>
                                         </div>
                                         <div class="col-md-6 fv-plugins-icon-container">
-                                            <label for="phone" class="form-label">Phone</label>
+                                            <label for="phone" class="form-label">No. Telp</label>
                                             <input class="form-control" type="text" id="phone" name="phone"
                                                 value="{{ $user->Admin->phone ?? '-' }}">
                                             <div
@@ -332,7 +332,7 @@
                                             </div>
                                         </div>
                                         <div class="col-md-6 fv-plugins-icon-container">
-                                            <label for="birthplace" class="form-label">Birthplace</label>
+                                            <label for="birthplace" class="form-label">Tempat Lahir</label>
                                             <input class="form-control" type="text" id="birthplace" name="birthplace"
                                                 value="{{ $user->Admin->birthplace ?? '-' }}">
                                             <div
@@ -340,7 +340,7 @@
                                             </div>
                                         </div>
                                         <div class="col-md-6 fv-plugins-icon-container">
-                                            <label for="birthdate" class="form-label">Birthdate</label>
+                                            <label for="birthdate" class="form-label">Tanggal Lahir</label>
                                             <input class="form-control" type="date" id="birthdate" name="birthdate"
                                                 value="{{ $user->Admin->birthdate ?? '-' }}">
                                             <div
@@ -349,7 +349,7 @@
                                         </div>
 
                                         <div class=" fv-plugins-icon-container">
-                                            <label for="address" class="form-label">Address</label>
+                                            <label for="address" class="form-label">Alamat</label>
                                             <input class="form-control" type="text" id="address" name="address"
                                                 value="{{ $user->Admin->address ?? '-' }}">
                                             <div
@@ -357,7 +357,7 @@
                                             </div>
                                         </div>
                                         <div class="fv-plugins-icon-container">
-                                            <label for="description" class="form-label">Description</label>
+                                            <label for="description" class="form-label">Deskripsi</label>
                                             <textarea class="form-control" id="description" name="description">{{ $user->Admin->description ?? '-' }}</textarea>
                                             <div
                                                 class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback">

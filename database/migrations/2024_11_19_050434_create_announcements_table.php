@@ -16,7 +16,6 @@ return new class extends Migration
             $table->foreignId('target_id')->constrained('roles')->onDelete('cascade')->onUpdate('cascade');
             $table->string('link')->nullable();
             $table->string('title');
-            $table->string('photo')->nullable();
             $table->text('content')->nullable();
             $table->boolean('is_active')->default(true);
             $table->date('date')->nullable();

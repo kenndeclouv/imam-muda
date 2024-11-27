@@ -56,7 +56,7 @@ class ListFeeController extends Controller
                     ListFee::create(['shalat_id' => $dataId, 'fee_id' => $id]);
                     break;
                 default:
-                    // handle tipe tidak valid, kalau perlu
+
                     break;
             }
         }
@@ -78,7 +78,6 @@ class ListFeeController extends Controller
 
 
         return redirect()->route('admin.bayaran.list.index', $fee->id)->with('success', 'Bayaran berhasil dibuat.');
-        // return back()->with('success', 'Bayaran berhasil dibuat.');
     }
 
     public function destroy(ListFee $listFee)

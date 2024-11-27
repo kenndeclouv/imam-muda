@@ -44,10 +44,6 @@
                         <input type="text" name="link" class="form-control" id="pengumuman-link" value="{{ old('link') }}">
                     </div>
                     <div class="mb-6">
-                        <label class="form-label" for="pengumuman-photo">Foto</label>
-                        <input type="file" name="photo" class="form-control" id="pengumuman-photo">
-                    </div>
-                    <div class="mb-6">
                         <label class="form-label" for="pengumuman-status">Status</label>
                         <select name="is_active" class="form-control select2" id="pengumuman-status" required>
                             <option value="0" {{ old('is_active') == 0 ? 'selected' : '' }}>Tidak Aktif</option>

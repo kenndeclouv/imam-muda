@@ -80,7 +80,6 @@
                                             <th>Tanggal</th>
                                             <th>Judul</th>
                                             <th>Pengumuman</th>
-                                            <th>Aksi</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -89,12 +88,6 @@
                                                 <td>{{ \Carbon\Carbon::parse($announcement->date)->format('d F Y') }}</td>
                                                 <td>{{ $announcement->title }}</td>
                                                 <td>{{ $announcement->content }}</td>
-                                                <td>
-                                                    <a href=""
-                                                        class="btn btn-sm btn-info">
-                                                        <i class="fa fa-eye"></i>
-                                                    </a>
-                                                </td>
                                             </tr>
                                         @endforeach
                                     </tbody>
