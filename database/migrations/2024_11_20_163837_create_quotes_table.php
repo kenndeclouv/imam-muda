@@ -15,8 +15,7 @@ return new class extends Migration
             $table->id();
             $table->longText('content');
             $table->string('source');
-            $table->enum('tags', ['hadits', 'quran', 'perkataan ulama']);
-            $table->integer('length');
+            $table->boolean('status')->default(false);
             $table->timestamps();
         });
     }

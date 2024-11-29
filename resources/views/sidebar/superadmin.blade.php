@@ -16,7 +16,6 @@
 <li class="menu-header small text-uppercase">
     <span class="menu-header-text">Tools</span>
 </li>
-
 <li class="menu-item {{ request()->routeIs('superadmin.logs*') ? 'active' : '' }}">
     <a href="{{ route('superadmin.logs') }}" class="menu-link">
         <i class="menu-icon fa fa-file-alt fs-6"></i>

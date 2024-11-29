@@ -199,3 +199,28 @@
         </ul>
     </li>
 @endif
+
+@if ($permissions->contains('quote_show'))
+    <li class="menu-item {{ request()->routeIs('admin.quote.*') ? 'open active' : '' }}">
+        <a href="javascript:void(0);" class="menu-link menu-toggle">
+            <i class="menu-icon fa-solid fa-quote-left fs-6"></i>
+            <div class="text-truncate">
+                Quote
+            </div>
+        </a>
+        <ul class="menu-sub">
+            <li class="menu-item {{ request()->routeIs('admin.quote.index', 'admin.quote.edit') ? 'active' : '' }}">
+                <a href="{{ route('admin.quote.index') }}" class="menu-link">
+                    <div class="text-truncate">Daftar Quote</div>
+                </a>
+            </li>
+            @if ($permissions->contains('quote_create'))
+                <li class="menu-item {{ request()->routeIs('admin.quote.create') ? 'active' : '' }}">
+                    <a href="{{ route('admin.quote.create') }}" class="menu-link">
+                        <div class="text-truncate">Tambah Quote</div>
+                    </a>
+                </li>
+            @endif
+        </ul>
+    </li>
+@endif

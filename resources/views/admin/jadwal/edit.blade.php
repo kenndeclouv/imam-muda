@@ -92,7 +92,7 @@
                         <label class="form-label" for="jadwal-note">Keterangan</label>
                         <input type="text" name="note" class="form-control" id="jadwal-note" value="{{ old('note', $schedule->note) }}">
                     </div>
-                    <button type="submit" class="btn btn-primary">Perbarui</button>
+                    <button type="submit" class="btn btn-primary">Edit</button>
                 </form>
             </div>
         </div>

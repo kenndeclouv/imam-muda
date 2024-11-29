@@ -106,7 +106,7 @@
                 updateAddress(latlng.lat, latlng.lng);
             });
 
-            // fungsi untuk memperbarui input koordinat
+            // fungsi untuk memEdit input koordinat
             function updateLatLngInput(lat, lng) {
                 document.getElementById('latitude').value = lat;
                 document.getElementById('longitude').value = lng;

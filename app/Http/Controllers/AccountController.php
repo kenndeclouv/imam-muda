@@ -14,45 +14,31 @@ class AccountController extends Controller
 {
     private function uploadPhoto($photo, $oldPhoto = null)
     {
-        // Hapus foto lama jika ada dan valid path
         if ($oldPhoto && file_exists(public_path($oldPhoto))) {
             unlink(public_path($oldPhoto));
         }
-
         if ($photo) {
-            // Cek apakah input berupa base64 (hasil cropper.js)
             if (preg_match('/^data:image\/(\w+);base64,/', $photo, $type)) {
                 $photo = substr($photo, strpos($photo, ',') + 1);
-                $type = strtolower($type[1]); // tipe file (jpg, png, dll.)
-
-                // Validasi tipe file
-                if (!in_array($type, ['jpg', 'jpeg', 'png'])) {
+                $type = strtolower($type[1]);
+                if (!in_array($type, ['jpg', 'jpeg', 'png', 'gif'])) {
                     throw new \Exception('Invalid image type');
                 }
-
                 $photo = base64_decode($photo);
                 if ($photo === false) {
                     throw new \Exception('Base64 decode failed');
                 }
-
-                // Generate nama file unik
                 $filename = uniqid() . '_' . time() . '.' . $type;
-
-                // Simpan file ke public/uploads/photo/
                 $path = public_path('uploads/photo/') . $filename;
                 file_put_contents($path, $photo);
-
-                // Return path relatif
                 return 'uploads/photo/' . $filename;
             } elseif ($photo instanceof \Illuminate\Http\UploadedFile) {
-                // Jika input adalah file upload biasa
                 $filename = uniqid() . '_' . time() . '.' . $photo->getClientOriginalExtension();
                 $photo->move(public_path('uploads/photo/'), $filename);
                 return 'uploads/photo/' . $filename;
             }
         }
-
-        return null; // Kalau tidak ada file
+        return null;
     }
 
     public function index()
@@ -73,29 +59,26 @@ class AccountController extends Controller
             'username.unique' => 'Username sudah ada',
             'email.required' => 'Email harus diisi',
             'email.unique' => 'Email sudah ada',
+            'photo.mimes' => 'Foto harus berupa gambar dengan format jpeg, png, jpg, atau gif.',
+            'photo.max' => 'Foto maksimal 5MB.',
         ]);
 
         if ($request->password) {
-            $request->validate(['password' => 'required|string|min:8|confirmed'], [
+            $request->validate(['password' => 'required|string|min:8|confirmed|regex:/^(?=.*[A-Z]).+$/'], [
                 'password.required' => 'Password harus diisi',
                 'password.min' => 'Password minimal 8 karakter',
                 'password.confirmed' => 'Password tidak cocok',
+                'password.regex' => 'Password harus mengandung setidaknya satu huruf besar',
             ]);
             $validated['password'] = $request->password;
         }
-
-        // dd($validated); // hasilnya password langsung string
-
-
         if ($request->hasFile('photo')) {
             if ($user->photo && file_exists(public_path($user->photo))) {
                 unlink(public_path($user->photo));
             }
             $validated['photo'] = $this->uploadPhoto($request->file('photo'));
         }
-
         $user->update($validated);
-
         return redirect()->route('account')->with('success', 'Profile berhasil diperbarui!');
     }
 
@@ -107,9 +90,7 @@ class AccountController extends Controller
             'icon' => 'nullable|string',
             'description' => 'nullable|string',
         ]);
-
         UserShortcut::create(array_merge($validated, ['user_id' => Auth::id()]));
-
         return back()->with('success', 'berhasil menambahkan shortcut');
     }
 

@@ -13,16 +13,6 @@ use Illuminate\Support\Facades\Auth;
 
 class ImamController extends Controller
 {
-    private function uploadPhoto($photo)
-    {
-        if ($photo && file_exists(public_path($photo))) {
-            unlink(public_path($photo));
-        }
-        $filename = uniqid() . '_' . time() . '.' . $photo->getClientOriginalExtension();
-        $photo->move(public_path('public/uploads/photo/'), $filename);
-        return 'public/uploads/photo/' . $filename;
-    }
-
     public function index()
     {
         $imams = Imam::all();
@@ -37,22 +27,13 @@ class ImamController extends Controller
     public function store(StoreImamRequest $request)
     {
         $validated = $request->validated();
-
-        $validated['photo'] = $request->hasFile('photo')
-            ? $this->uploadPhoto($request->file('photo'))
-            : null;
-
-
         $user = User::create([
             'username' => $validated['username'],
             'email' => $validated['email'] ?? null,
             'password' => $validated['password'],
-            'photo' => $validated['photo'],
             'name' => $validated['fullname'],
             'role_id' => 3,
         ]);
-
-
         Imam::create([
             'user_id' => $user->id,
             'fullname' => $validated['fullname'],
@@ -88,21 +69,11 @@ class ImamController extends Controller
     {
         $user = User::findOrFail($imam->user_id);
         $validated = $request->validated();
-
-
-        $validated['photo'] = $request->hasFile('photo')
-            ? $this->uploadPhoto($request->file('photo'))
-            : null;
-
-
         $user->update([
             'username' => $validated['username'],
             'email' => $validated['email'] ?? null,
-            'photo' => $validated['photo'],
             'name' => $validated['fullname'],
         ]);
-
-
         $imam->update([
             'fullname' => $validated['fullname'],
             'phone' => $validated['phone'],

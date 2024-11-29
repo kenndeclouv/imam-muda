@@ -1,6 +1,6 @@
 <x-auth-app>
     <div class="container-lg d-flex justify-content-center align-items-center my-5 min-vh-100">
-        <div class="bs-stepper wizard-numbered mt-2">
+        <div class="bs-stepper wizard-numbered mt-2 w-100">
             <div class="bs-stepper-header">
                 <div class="step active" data-target="#account-details">
                     <button type="button" class="step-trigger" aria-selected="true">
@@ -37,7 +37,7 @@
                     </button>
                 </div>
             </div>
-            <div class="bs-stepper-content">
+            <div class="bs-stepper-content w-100">
                 <form action="{{ route('register.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <!-- Detail Akun -->
@@ -92,7 +92,7 @@
                         </div>
                     </div>
                     <!-- Info Pribadi -->
-                    <div id="personal-info" class="content">
+                    <div id="personal-info" class="content w-100">
                         <div class="content-header mb-4">
                             <h6 class="mb-0">Info Pribadi</h6>
                             <small>Masukkan Info Pribadi Anda.</small>
@@ -112,11 +112,6 @@
                                 <label class="form-label" for="tanggal-lahir">Tanggal Lahir</label>
                                 <input type="date" id="tanggal-lahir" class="form-control" name="birthdate"
                                     value="{{ old('birthdate') }}">
-                            </div>
-                            <div class="col-sm-6">
-                                <label class="form-label" for="photo">Foto</label>
-                                <input type="file" id="photo" class="form-control" accept="image/*"
-                                    name="photo">
                             </div>
                             <div class="col-12 d-flex justify-content-between">
                                 <button class="btn btn-primary btn-prev" type="button">
@@ -201,7 +196,7 @@
                                     <i class="fa fa-chevron-left fa-sm ms-sm-n2 me-sm-2"></i>
                                     <span class="align-middle d-sm-inline-block d-none">Sebelumnya</span>
                                 </button>
-                                <button class="btn btn-primary" type="submit">Tambahkan</button>
+                                <button class="btn btn-primary" type="submit">Daftar</button>
                             </div>
                         </div>
                     </div>

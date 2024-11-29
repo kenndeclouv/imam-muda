@@ -5,7 +5,7 @@ use App\Http\Controllers\Auth\EmailVerificationController;
 use App\Http\Controllers\ForgotPassword;
 use App\Http\Controllers\ListFeeController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Api\QuoteController;
+use App\Http\Controllers\QuoteController;
 use App\Http\Controllers\LogViewerController;
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\Auth\LoginController;
@@ -35,10 +35,6 @@ Route::middleware(['auth'])->group(function () {
 });
 // Islamic Quote
 Route::middleware(['apiKey', 'throttle:120,1'])->group(function () {
-    Route::get('/api/quotes', [QuoteController::class, 'quotes']);
-    Route::get('/api/quote', [QuoteController::class, 'quote']);
-
-    Route::get('/api/random-quotes', [QuoteController::class, 'randomQuotes']);
     Route::get('/api/random-quote', [QuoteController::class, 'randomQuote']);
 });
 
@@ -163,6 +159,16 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'checkRole:admin'])-
         Route::get('/{announcement}/edit', [AnnouncementController::class, 'edit'])->middleware(['auth', 'permission:pengumuman_edit'])->name('edit');
         Route::put('/{announcement}/edit', [AnnouncementController::class, 'update'])->middleware(['auth', 'permission:pengumuman_edit'])->name('update');
         Route::delete('/{announcement}/delete', [AnnouncementController::class, 'destroy'])->middleware(['auth', 'permission:pengumuman_delete'])->name('destroy');
+    });
+    Route::prefix('quote')->middleware(['auth', 'permission:quote_show'])->name('quote.')->group(function () {
+        Route::get('/', [QuoteController::class, 'index'])->name('index');
+
+        Route::get('/create', [QuoteController::class, 'create'])->middleware(['auth', 'permission:quote_create'])->name('create');
+        Route::post('/create', [QuoteController::class, 'store'])->middleware(['auth', 'permission:quote_create'])->name('store');
+        Route::get('/{quote}/edit', [QuoteController::class, 'edit'])->middleware(['auth', 'permission:quote_edit'])->name('edit');
+        Route::put('/{quote}/edit', [QuoteController::class, 'update'])->middleware(['auth', 'permission:quote_edit'])->name('update');
+        Route::delete('/{quote}/delete', [QuoteController::class, 'destroy'])->middleware(['auth', 'permission:quote_delete'])->name('destroy');
+        Route::put('/{quote}/status', [QuoteController::class, 'toggleStatus'])->middleware(['auth', 'permission:quote_edit'])->name('status');
     });
 });
 

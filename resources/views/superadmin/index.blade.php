@@ -90,8 +90,11 @@
                                 <div class="card-title mb-3 mb-md-6">
                                     <h5 class="text-nowrap mb-1">Quotes</h5>
                                 </div>
-                                <h5 class="mb-0" id="quotes"></h5>
-                                <span class="badge bg-label-primary mt-2 fs-6" id="quotes-author"></span>
+                                <h5 class="mb-0" id="quotes">
+                                    {{ $quote->content ?? 'Allah tidak membebani seseorang melainkan sesuai dengan kesanggupannya.' }}
+                                </h5>
+                                <span class="badge bg-label-primary mt-2 fs-6"
+                                    id="quotes-author">{{ $quote->source ?? 'QS. Al-Baqarah: 286' }}</span>
                             </div>
                         </div>
                     </div>
@@ -309,17 +312,17 @@
                     });
 
 
-                fetch('https://api.quotable.io/random?minLength=80&maxLength=220')
-                    .then(response => response.json())
-                    .then(data => {
-                        document.getElementById('quotes').textContent = data.content;
-                        document.getElementById('quotes-author').textContent = data.author;
-                    })
-                    .catch(err => {
-                        document.getElementById('quotes').textContent =
-                            'Allah tidak membebani seseorang melainkan sesuai dengan kesanggupannya.';
-                        document.getElementById('quotes-author').textContent = 'QS. Al-Baqarah: 286';
-                    });
+                // fetch('https://api.quotable.io/random?minLength=80&maxLength=220')
+                //     .then(response => response.json())
+                //     .then(data => {
+                //         document.getElementById('quotes').textContent = data.content;
+                //         document.getElementById('quotes-author').textContent = data.author;
+                //     })
+                //     .catch(err => {
+                //         document.getElementById('quotes').textContent =
+                //             'Allah tidak membebani seseorang melainkan sesuai dengan kesanggupannya.';
+                //         document.getElementById('quotes-author').textContent = 'QS. Al-Baqarah: 286';
+                //     });
             });
         </script>
     </x-slot:js>

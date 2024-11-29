@@ -25,7 +25,6 @@ class UpdateScheduleRequest extends FormRequest
             'masjid_id' => 'required|exists:masjids,id',
             'shalat_id' => 'exists:shalats,id',
             'date' => 'required|date',
-
             'is_badal' => 'nullable|in:0,1',
             'badal_id' => 'nullable|exists:imams,id',
             'note' => 'nullable|string',

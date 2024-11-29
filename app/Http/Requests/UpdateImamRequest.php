@@ -24,7 +24,6 @@ class UpdateImamRequest extends FormRequest
         return [
             'username' => 'required|string|max:50',
             'email' => 'nullable|email|max:255',
-            'photo' => 'nullable|file|mimes:jpeg,png,jpg,gif|max:5000',
             'fullname' => 'required|string|max:50',
             'phone' => 'required|string|max:20',
             'birthplace' => 'required|string|max:100',
@@ -57,8 +56,6 @@ class UpdateImamRequest extends FormRequest
             'birthplace.string' => 'Tempat lahir harus berupa string.',
             'birthplace.max' => 'Tempat lahir maksimal 100 karakter.',
             'birthdate.required' => 'Tanggal lahir harus diisi.',
-            'photo.mimes' => 'Foto harus berupa gambar dengan format jpeg, png, jpg, atau gif.',
-            'photo.max' => 'Foto maksimal 5MB.',
             'address.max' => 'Alamat maksimal 255 karakter.',
             'juz.integer' => 'Juz harus berupa angka.',
             'school.max' => 'Sekolah maksimal 100 karakter.',

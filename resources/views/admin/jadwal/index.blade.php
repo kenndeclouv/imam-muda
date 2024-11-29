@@ -513,7 +513,7 @@
                                 Swal.fire({
                                     icon: 'success',
                                     title: 'Berhasil!',
-                                    text: 'Jadwal berhasil diperbarui.',
+                                    text: 'Jadwal berhasil diEdit.',
                                     background: isDarkMode ? '#2b2c40' : '#fff',
                                     color: isDarkMode ? '#b2b2c4' : '#000',
                                 });
@@ -525,7 +525,7 @@
                             Swal.fire({
                                 icon: 'error',
                                 title: 'Gagal!',
-                                text: 'Terjadi kesalahan saat memperbarui jadwal.',
+                                text: 'Terjadi kesalahan saat memEdit jadwal.',
                                 background: isDarkMode ? '#2b2c40' : '#fff',
                                 color: isDarkMode ? '#b2b2c4' : '#000',
                             });

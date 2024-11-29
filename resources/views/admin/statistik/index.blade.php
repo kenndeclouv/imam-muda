@@ -77,7 +77,7 @@
                     series: [
                         {
                             name: "Jumlah Jadwal Imam",
-                            data: totals 
+                            data: totals
                         }
                     ],
                     xaxis: {
@@ -117,7 +117,7 @@
                 imamChart.render();
             }
 
-            // Perbarui data grafik Imam
+            // Edit data grafik Imam
             function updateImamChart(days, totals) {
                 imamChart.updateSeries([{
                     name: "Jumlah Jadwal Imam",

@@ -8,6 +8,7 @@ use App\Models\Imam;
 use App\Models\Masjid;
 use App\Models\Schedule;
 use App\Models\Announcement;
+use App\Models\Quote;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
@@ -20,8 +21,6 @@ class HomeController extends Controller
         $startOfWeek = Carbon::now()->startOfWeek();
         $endOfWeek = Carbon::now()->endOfWeek();
         $weeklyJadwal = Schedule::whereBetween('date', [$startOfWeek, $endOfWeek])->count();
-
-
         $bayaranImam = Schedule::where('status', 'done')
             ->with(['Imam.ListFee.Fee'])
             ->get()
@@ -37,18 +36,13 @@ class HomeController extends Controller
 
                 return $carry + $imamFee;
             }, 0);
-
-
         $schedules = Schedule::where('status', 'to_do')
             ->where('is_badal', true)
             ->whereNull('badal_id')
             ->get();
-
-
         $announcements = Announcement::all();
-
-
-        return view('admin.index', compact('imams', 'masjids', 'weeklyJadwal', 'schedules', 'announcements', 'bayaranImam'));
+        $quote = Quote::where('status', true)->first();
+        return view('admin.index', compact('imams', 'masjids', 'weeklyJadwal', 'schedules', 'announcements', 'bayaranImam', 'quote'));
     }
 
     public function superAdminHome()
@@ -89,8 +83,8 @@ class HomeController extends Controller
 
 
         $announcements = Announcement::all();
-
-        return view('superadmin.index', compact('imams', 'masjids', 'weeklyJadwal', 'schedules', 'announcements', 'bayaranImam'));
+        $quote = Quote::where('status', true)->first();
+        return view('superadmin.index', compact('imams', 'masjids', 'weeklyJadwal', 'schedules', 'announcements', 'bayaranImam', 'quote'));
     }
 
     public function imamHome()
@@ -106,6 +100,7 @@ class HomeController extends Controller
             ->whereMonth('date', now()->month)
 
             ->get();
-        return view('imam.index', compact('schedules', 'announcements'));
+        $quote = Quote::where('status', true)->first();
+        return view('imam.index', compact('schedules', 'announcements', 'quote'));
     }
 }

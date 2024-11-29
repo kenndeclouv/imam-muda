@@ -21,6 +21,7 @@ class AdminSeeder extends Seeder
             'email' => 'kenndeclouv@gmail.com',
             'username' => 'superadmin',
             'password' => 'superadmin',
+            'email_verified_at' => now(),
             'role_id' => 1,
         ]);
 
@@ -29,6 +30,7 @@ class AdminSeeder extends Seeder
             'email' => 'rujian@gmail.com',
             'username' => 'rujian',
             'password' => 'rujian',
+            'email_verified_at' => now(),
             'role_id' => 2,
         ]);
 
@@ -42,11 +44,9 @@ class AdminSeeder extends Seeder
             'description' => fake()->realText(20),
         ]);
 
-        for ($i = 2; $i <= Feature::count(); $i++) {
-            Permission::create([
-                'user_id' => 2,
-                'feature_id' => $i
-            ]);
-        }
+        Permission::create([
+            'user_id' => 2,
+            'feature_id' => 1
+        ]);
     }
 }
