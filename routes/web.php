@@ -94,7 +94,7 @@ Route::prefix('superadmin')->name('superadmin.')->middleware(['auth', 'checkRole
 Route::prefix('admin')->name('admin.')->middleware(['auth', 'checkRole:admin'])->group(function () {
     Route::redirect('/', '/admin/home');
     Route::get('/home', [HomeController::class, 'adminHome'])->name('home');
-    Route::put('/account', [AccountController::class, 'updateAdmin'])->name('update');
+    Route::put('/account', [AccountController::class, 'updateAdmin'])->middleware('verified')->name('update');
 
     Route::prefix('imam')->middleware(['auth', 'permission:imam_show'])->name('imam.')->group(function () {
         Route::get('/', [ImamController::class, 'index'])->name('index');
@@ -170,7 +170,7 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'checkRole:admin'])-
 Route::prefix('imam')->name('imam.')->middleware(['auth', 'checkRole:imam'])->group(function () {
     Route::redirect('/', '/imam/home');
     Route::get('/home', [HomeController::class, 'imamHome'])->name('home');
-    Route::put('/account', [AccountController::class, 'updateImam'])->name('update');
+    Route::put('/account', [AccountController::class, 'updateImam'])->middleware('verified')->name('update');
 
     Route::prefix('jadwal')->name('jadwal.')->group(function () {
         Route::get('/', [ScheduleController::class, 'index'])->name('index');
