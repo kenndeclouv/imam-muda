@@ -1,6 +1,7 @@
 <?php
 //global
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\Auth\EmailVerificationController;
 use App\Http\Controllers\ForgotPassword;
 use App\Http\Controllers\ListFeeController;
 use Illuminate\Support\Facades\Route;
@@ -53,11 +54,15 @@ Route::post('/forgot-password', [ForgotPassword::class, 'email'])->middleware('g
 Route::get('/reset-password/{token}', [ForgotPassword::class, 'reset'])->middleware('guest')->name('password.reset');
 Route::post('/reset-password', [ForgotPassword::class, 'update'])->middleware('guest')->name('password.update');
 
+Route::get('/email/verify', [EmailVerificationController::class, 'notice'])->middleware('auth')->name('verification.notice');
+Route::post('/email/verification-notification', [EmailVerificationController::class, 'resend', 'throttle:6,1'])->middleware('auth')->name('verification.send');
+Route::get('/email/verify/{id}/{hash}', [EmailVerificationController::class, 'verify'])->middleware('auth')->name('verification.verify');
+
 // Routes untuk Account
 Route::middleware(['auth'])->group(function () {
     Route::get('/account', [AccountController::class, 'index'])->name('account');
     Route::post('/account/shortcut', [AccountController::class, 'storeShortcut'])->name('account.shortcut');
-    Route::put('/account/update/{id}', [AccountController::class, 'update'])->name('account.update');
+    Route::put('/account/{user}/update', [AccountController::class, 'update'])->middleware('verified')->name('account.update');
 });
 
 // Routes untuk SuperAdmin
@@ -81,7 +86,7 @@ Route::prefix('superadmin')->name('superadmin.')->middleware(['auth', 'checkRole
         Route::post('/{admin}/permissions', [AdminController::class, 'permissionsStore'])->name('permissions.store');
         Route::get('/{admin}/permissions/edit', [AdminController::class, 'permissionsEdit'])->name('permissions.edit');
         Route::put('/{admin}/permissions/edit', [AdminController::class, 'permissionsUpdate'])->name('permissions.update');
-        Route::delete('/{admin}/permissions/delete', [AdminController::class, 'permissionsDestroy'])->name('permissions.destroy');
+        Route::delete('/{admin}/permissions/{permission}/delete', [AdminController::class, 'permissionsDestroy'])->name('permissions.destroy');
     });
 });
 

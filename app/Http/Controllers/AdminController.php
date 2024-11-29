@@ -27,17 +27,16 @@ class AdminController extends Controller
     {
         $validated = $request->validated();
 
-        
+
         $user = User::create([
             'username' => $validated['username'],
             'email' => $validated['email'] ?? null,
             'password' => $validated['password'],
-            'photo' => $validated['photo'],
             'name' => $validated['fullname'],
             'role_id' => 2,
         ]);
 
-        
+
         Admin::create([
             'user_id' => $user->id,
             'fullname' => $validated['fullname'],
@@ -61,15 +60,14 @@ class AdminController extends Controller
         $user = User::findOrFail($admin->user_id);
         $validated = $request->validated();
 
-        
+
         $user->update([
             'username' => $validated['username'],
             'email' => $validated['email'] ?? null,
-            'photo' => $validated['photo'],
             'name' => $validated['fullname'],
         ]);
 
-        
+
         $admin->update([
             'fullname' => $validated['fullname'],
             'phone' => $validated['phone'],
@@ -110,7 +108,7 @@ class AdminController extends Controller
         return redirect()->route('superadmin.admin.permissions', $admin->id)->with('success', 'Ijin Akses berhasil ditambahkan.');
     }
 
-    public function permissionsDestroy(Permission $permission)
+    public function permissionsDestroy(Admin $admin, Permission $permission)
     {
         $permission->delete();
         return back()->with('success', 'Ijin Akses berhasil dihapus.');

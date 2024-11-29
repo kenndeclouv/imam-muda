@@ -17,12 +17,9 @@ class PermissionMiddleware
     public function handle(Request $request, Closure $next, $permission): Response
     {
         $user = Auth::user();
-        // cek apakah user login
         if (!$user) {
             return redirect()->route('login')->with('error', 'Anda harus login terlebih dahulu.');
         }
-
-        // cek izin user berdasarkan database kamu
         if (!$user->getPermissionCodes()->contains($permission)) {
             abort(403, 'Anda tidak memiliki izin untuk mengakses halaman ini.');
         }

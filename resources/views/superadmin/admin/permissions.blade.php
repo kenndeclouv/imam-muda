@@ -79,7 +79,7 @@
                                 <td>{{ $permission->updated_at->format('d F Y H:i') }}</td>
                                 <td>
                                     <div class="d-flex gap-2" aria-label="Basic example">
-                                        <x-confirm-delete :route="route('superadmin.admin.permissions.destroy', $permission->id)" title="Hapus Ijin Akses" />
+                                        <x-confirm-delete :route="route('superadmin.admin.permissions.destroy', ['admin' => $admin->id, 'permission' => $permission->id])" title="Hapus Ijin Akses" />
                                     </div>
                                 </td>
                             </tr>

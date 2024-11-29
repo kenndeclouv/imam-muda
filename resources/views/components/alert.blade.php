@@ -27,6 +27,16 @@
         Swal.fire(getSwalOptions('error', 'Error!', '{{ session('error') }}'));
     </script>
 @endif
+@if (session('info'))
+    <script>
+        Swal.fire(getSwalOptions('info', 'Info!', '{{ session('info') }}'));
+    </script>
+@endif
+@if (session('warning'))
+    <script>
+        Swal.fire(getSwalOptions('warning', 'Peringatan!', '{{ session('warning') }}'));
+    </script>
+@endif
 
 @if ($errors->any())
     <script>

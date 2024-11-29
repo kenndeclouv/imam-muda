@@ -83,9 +83,27 @@
                     </div>
                 </div>
                 <!--/ About User -->
+                @if (!$user->hasVerifiedEmail())
+                    <div class="card mb-6">
+                        <div class="card-body">
+                            <h5 class="card-title">Verifikasi Email</h5>
+                            <div class="alert alert-warning alert-dismissible mt-4" role="alert">
+                                {{-- <h5 class="alert-heading mb-1">Pastikan bahwa persyaratan ini terpenuhi</h5> --}}
+                                <span>Email kamu belum diverifikasi. Silahkan klik tombol dibawah ini untuk verifikasi
+                                    email.</span>
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                    aria-label="Tutup"></button>
+                            </div>
+                            <a href="{{ route('verification.notice') }}" class="btn btn-primary">
+                                Verifikasi Email
+                            </a>
+                        </div>
+                    </div>
+                @endif
             </div>
             <div class="col-xl-8 col-lg-7 col-md-7">
-                <form action="{{ route('account.update', $user->id) }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('account.update', $user->id) }}" method="POST" enctype="multipart/form-data"
+                    id="AccountForm">
                     @csrf
                     @method('PUT')
                     <!-- Activity Timeline -->
@@ -97,7 +115,7 @@
                                     class="d-block w-px-100 h-px-100 rounded" id="uploadedAvatar">
                                 <div class="button-wrapper">
                                     <label for="upload" class="btn btn-primary me-3 mb-4" tabindex="0">
-                                        <span class="d-none d-sm-block">Upload new photo</span>
+                                        <span class="d-none d-sm-block">Upload foto baru</span>
                                         <i class="fa fa-upload d-block d-sm-none"></i>
                                         <input type="file" id="upload" class="account-file-input" hidden=""
                                             name="photo" accept="photo/*">
@@ -133,7 +151,6 @@
                                         class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback">
                                     </div>
                                 </div>
-
                             </div>
                             <div class="mt-6">
                                 <button type="submit" class="btn btn-primary me-3">Simpan Perubahan</button>
@@ -173,7 +190,7 @@
                                         <label class="form-label" for="confirmPassword">Confirm New
                                             Password</label>
                                         <div class="input-group input-group-merge has-validation">
-                                            <input class="form-control" type="password" name="password_confirm"
+                                            <input class="form-control" type="password" name="password_confirmation"
                                                 id="confirmPassword" placeholder="············">
                                             <span class="input-group-text cursor-pointer"><i
                                                     class="fa fa-eye-slash"></i></span>
@@ -261,7 +278,8 @@
                                                     {{ old('status', $user->Imam->status) == 'belum nikah' ? 'selected' : '' }}>
                                                     Belum Nikah
                                                 </option>
-                                                <option value="nikah" {{ old('status', $user->Imam->status) == 'nikah' ? 'selected' : '' }}>
+                                                <option value="nikah"
+                                                    {{ old('status', $user->Imam->status) == 'nikah' ? 'selected' : '' }}>
                                                     Nikah
                                                 </option>
                                             </select>
@@ -381,28 +399,35 @@
             </div>
         </div>
         <!--/ User Profile Content -->
-
+    </div>
+    <!-- Modal untuk Crop Gambar -->
+    <div class="modal fade" id="cropModal" tabindex="-1" aria-labelledby="cropModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header pb-4">
+                    <h5 class="modal-title" id="cropModalLabel">Crop Image</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <img id="imagePreview">
+                <div class="modal-footer pt-4">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                    <button type="button" class="btn btn-primary" id="cropButton">Crop dan Upload</button>
+                </div>
+            </div>
+        </div>
     </div>
     <x-slot:style>
         <link rel="stylesheet" href="{{ asset('assets/vendor/css/pages/page-profile.css') }}">
+        <link rel="stylesheet" href="{{ asset('assets/vendor/libs/cropper-js/cropper-js.css') }}">
     </x-slot:style>
     <x-slot:js>
+        <script src="{{ asset('assets/vendor/libs/cropper-js/cropper-js.js') }}"></script>
         <script>
-            document.getElementById('upload').addEventListener('change', function(event) {
-                const file = event.target.files[0];
-                if (file) {
-                    const reader = new FileReader();
-                    reader.onload = function(e) {
-                        document.getElementById('uploadedAvatar').src = e.target.result;
-                    };
-                    reader.readAsDataURL(file);
-                }
-            });
+            const htmlStyle = document.documentElement.getAttribute('data-style');
+            const isDarkMode = htmlStyle === 'dark' || (htmlStyle !== 'light' && window.matchMedia(
+                '(prefers-color-scheme: dark)').matches);
 
             function showLogoutConfirm() {
-                const htmlStyle = document.documentElement.getAttribute('data-style');
-                const isDarkMode = htmlStyle === 'dark' || (htmlStyle !== 'light' && window.matchMedia(
-                    '(prefers-color-scheme: dark)').matches);
                 Swal.fire({
                     title: 'Konfirmasi Logout',
                     text: 'Apakah anda yakin ingin logout dari akun ini?',
@@ -420,6 +445,114 @@
                     }
                 });
             }
+            $(document).ready(function() {
+                let cropper;
+
+                // Event listener untuk upload file
+                document.getElementById('upload').addEventListener('change', function(event) {
+                    const files = event.target.files;
+
+                    if (files && files.length > 0) {
+                        const reader = new FileReader();
+                        reader.onload = function(e) {
+                            const imagePreview = document.getElementById('imagePreview');
+                            imagePreview.src = e.target.result; // Tampilkan gambar di modal
+                            $('#cropModal').modal('show'); // Tampilkan modal crop
+                        };
+                        reader.readAsDataURL(files[0]);
+                    }
+                });
+
+                // Inisialisasi cropper saat modal ditampilkan
+                $('#cropModal')
+                    .on('shown.bs.modal', function() {
+                        const image = document.getElementById('imagePreview');
+
+                        cropper = new Cropper(image, {
+                            aspectRatio: 1, // Ratio 1:1, sesuaikan sesuai kebutuhan
+                            viewMode: 1, // Crop di dalam boundary
+                            autoCropArea: 1, // Full area crop
+                            responsive: true, // Responsive untuk perubahan layar
+                        });
+                    })
+                    .on('hidden.bs.modal', function() {
+                        // Hancurkan cropper untuk mencegah memory leak
+                        if (cropper) {
+                            cropper.destroy();
+                            cropper = null;
+                        }
+                    });
+
+                // Event listener untuk tombol crop
+                document.getElementById('cropButton').addEventListener('click', function() {
+                    const accountForm = document.getElementById('AccountForm');
+
+                    // Validasi form
+                    if (!accountForm) {
+                        console.error('Form dengan ID "AccountForm" tidak ditemukan.');
+                        alert('Form tidak valid. Silakan periksa kembali.');
+                        return;
+                    }
+
+                    if (cropper) {
+                        const canvas = cropper.getCroppedCanvas({
+                            width: 400,
+                            height: 400,
+                        });
+
+                        canvas.toBlob((blob) => {
+                            const formData = new FormData();
+
+                            // Tambahkan foto hasil crop ke formData
+                            formData.append('photo', blob, 'photo.png');
+
+                            // Tambahkan data form lainnya
+                            const accountFormData = new FormData(accountForm);
+                            for (const [key, value] of accountFormData.entries()) {
+                                if (key !== 'photo') {
+                                    formData.append(key, value);
+                                }
+                            }
+
+                            // Kirim data dengan fetch
+                            fetch(accountForm.action, {
+                                    method: 'POST',
+                                    headers: {
+                                        'X-CSRF-TOKEN': document.querySelector(
+                                            'meta[name="csrf-token"]').getAttribute('content'),
+                                    },
+                                    body: formData,
+                                })
+                                .then((response) => {
+                                    if (response.ok) {
+                                        window.location.href = '{{ route('account') }}';
+                                    } else {
+                                        Swal.fire({
+                                            title: 'Upload Gagal',
+                                            text: 'Terjadi kesalahan saat mengupload file.',
+                                            icon: 'error',
+                                            confirmButtonText: 'Ya',
+                                            confirmButtonColor: 'var(--bs-primary)',
+                                            background: isDarkMode ? '#2b2c40' : '#fff',
+                                            color: isDarkMode ? '#b2b2c4' : '#000',
+                                        })
+                                    }
+                                })
+                                .catch((error) => {
+                                    Swal.fire({
+                                        title: 'Upload Gagal',
+                                        text: 'Terjadi kesalahan saat mengupload file.',
+                                        icon: 'error',
+                                        confirmButtonText: 'Ya',
+                                        confirmButtonColor: 'var(--bs-primary)',
+                                        background: isDarkMode ? '#2b2c40' : '#fff',
+                                        color: isDarkMode ? '#b2b2c4' : '#000',
+                                    })
+                                });
+                        });
+                    }
+                });
+            });
         </script>
     </x-slot:js>
 </x-app>
