@@ -102,6 +102,9 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'checkRole:admin'])-
         Route::delete('/{imam}/delete', [ImamController::class, 'destroy'])->middleware(['auth', 'permission:imam_delete'])->name('destroy');
 
         Route::get('/{imam}/detail', [ImamController::class, 'detail'])->middleware(['auth', 'permission:imam_detail'])->name('detail');
+        Route::get('/active', [ImamController::class, 'isActive'])->name('is_active');
+        Route::put('/active/{imam}', [ImamController::class, 'isActiveUpdate'])->name('is_active.update');
+        Route::put('/active/{imam}/false', [ImamController::class, 'isActiveUpdateFalse'])->name('is_active.update.false');
     });
     Route::prefix('masjid')->middleware(['auth', 'permission:masjid_show'])->name('masjid.')->group(function () {
         Route::get('/', [MasjidController::class, 'index'])->name('index');

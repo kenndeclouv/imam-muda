@@ -27,7 +27,7 @@ class RekapController extends Controller
 
         $imamId = $request->input('imam');
 
-        $defaultImam = Imam::all();
+        $defaultImam = Imam::where('is_active', true)->get();
         // Ambil data imam dengan jadwal (schedules dan badalSchedules) menggunakan eager loading
         $imams = Imam::with([
             'Schedules' => function ($query) use ($year, $month) {
@@ -64,7 +64,7 @@ class RekapController extends Controller
         [$year, $month] = explode('-', $monthYear);
 
         $defaultShalat = Shalat::all();
-        $defaultImam = Imam::all();
+        $defaultImam = Imam::where('is_active', true)->get();
 
         // ambil schedule untuk bulan dan tahun yang dipilih
         $schedules = Schedule::whereYear('date', $year)

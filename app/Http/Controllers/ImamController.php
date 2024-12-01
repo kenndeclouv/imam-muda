@@ -15,7 +15,7 @@ class ImamController extends Controller
 {
     public function index()
     {
-        $imams = Imam::all();
+        $imams = Imam::where('is_active', true)->get();
         return view('admin.imam.index', compact('imams'));
     }
 
@@ -49,6 +49,7 @@ class ImamController extends Controller
             'status' => $validated['status'],
             'child_count' => $validated['child_count'],
             'wife_count' => $validated['wife_count'],
+            'is_active' => true,
         ]);
 
         return redirect()->route('admin.imam.index')->with('success', 'Imam berhasil ditambahkan.');
@@ -109,5 +110,21 @@ class ImamController extends Controller
         $schedules = Schedule::where('imam_id', $imam->id)->get();
 
         return view('admin.imam.detail', compact('imam', 'user', 'schedules'));
+    }
+    public function isActive()
+    {
+        $imams = Imam::where('is_active', false)->get();
+        return view('admin.imam.is_active', compact('imams'));
+    }
+
+    public function isActiveUpdate(Imam $imam)
+    {
+        $imam->update(['is_active' => true]);
+        return redirect()->route('admin.imam.is_active')->with('success', 'Imam berhasil diaktifkan.');
+    }
+    public function isActiveUpdateFalse(Imam $imam)
+    {
+        $imam->update(['is_active' => false]);
+        return redirect()->route('admin.imam.index')->with('success', 'Imam berhasil dinonaktifkan.');
     }
 }

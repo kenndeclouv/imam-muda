@@ -16,7 +16,7 @@ class HomeController extends Controller
 {
     public function adminHome()
     {
-        $imams = Imam::count();
+        $imams = Imam::where('is_active', true)->count();
         $masjids = Masjid::count();
         $startOfWeek = Carbon::now()->startOfWeek();
         $endOfWeek = Carbon::now()->endOfWeek();
@@ -25,7 +25,6 @@ class HomeController extends Controller
             ->with(['Imam.ListFee.Fee'])
             ->get()
             ->reduce(function ($carry, $schedule) {
-
                 $imamFee = $schedule->Imam->ListFee
                     ->where('shalat_id', $schedule->shalat_id)
                     ->first()->Fee->amount
@@ -47,18 +46,11 @@ class HomeController extends Controller
 
     public function superAdminHome()
     {
-
-        $imams = Imam::count();
+        $imams = Imam::where('is_active', true)->count();
         $masjids = Masjid::count();
-
-
         $startOfWeek = Carbon::now()->startOfWeek();
         $endOfWeek = Carbon::now()->endOfWeek();
-
-
         $weeklyJadwal = Schedule::whereBetween('date', [$startOfWeek, $endOfWeek])->count();
-
-
         $bayaranImam = Schedule::where('status', 'done')
             ->with(['Imam.ListFee.Fee'])
             ->get()

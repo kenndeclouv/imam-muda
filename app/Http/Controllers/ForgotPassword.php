@@ -15,26 +15,17 @@ class ForgotPassword extends Controller
     {
         return view('auth.forgot-password');
     }
-
     public function email(Request $request)
     {
         $request->validate(['email' => 'required|email']);
-
         $user = \App\Models\User::where('email', $request->email)->first();
-
         if (!$user) {
             return back()->withErrors(['error' => 'Email tidak ditemukan']);
         }
-
-        // Generate token tanpa mengirim email bawaan
         $token = Password::createToken($user);
-
-        // Kirim email custom
         Mail::to($user->email)->send(new ResetPasswordMail($user, $token));
-
         return back()->with('success', 'Link reset password berhasil dikirim ke email kamu!');
     }
-
     public function reset($token)
     {
         return view('auth.reset-password', ['token' => $token]);
@@ -47,7 +38,6 @@ class ForgotPassword extends Controller
             'email' => 'required|email',
             'password' => 'required|confirmed|min:8',
         ]);
-
         $status = Password::reset(
             $request->only('email', 'password', 'password_confirmation', 'token'),
             function ($user, $password) {
@@ -58,11 +48,9 @@ class ForgotPassword extends Controller
                 $user->setRememberToken(Str::random(60));
             }
         );
-
         if ($status === Password::INVALID_TOKEN) {
             return back()->withErrors(['error' => 'Link reset password sudah kadaluarsa.']);
         }
-
         return $status === Password::PASSWORD_RESET
             ? redirect()->route('login')->with('status', __($status))
             : back()->withErrors(['error' => [__($status)]]);

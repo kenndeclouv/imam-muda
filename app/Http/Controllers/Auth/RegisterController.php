@@ -12,19 +12,6 @@ use Illuminate\Support\Facades\Auth;
 
 class RegisterController extends Controller
 {
-    private function uploadPhoto($photo)
-    {
-        // Define the logic for uploading the photo
-        if ($photo && file_exists(public_path($photo))) {
-            unlink(public_path($photo));
-        }
-        // Generate nama unik untuk file
-        $filename = uniqid() . '_' . time() . '.' . $photo->getClientOriginalExtension();
-
-        // Pindahkan file ke folder
-        $photoPath = $photo->move(public_path('public/uploads/photo/'), $filename);
-        return 'public/uploads/photo/' . $filename;
-    }
     public function index()
     {
         return view('auth.register');
@@ -34,16 +21,11 @@ class RegisterController extends Controller
     {
         $validated = $request->validated();
 
-        $validated['photo'] = $request->hasFile('photo')
-            ? $this->uploadPhoto($request->file('photo'))
-            : null;
-
         // Simpan user
         $user = User::create([
             'username' => $validated['username'],
             'email' => $validated['email'] ?? null,
             'password' => $validated['password'],
-            'photo' => $validated['photo'],
             'name' => $validated['fullname'],
             'role_id' => 3,
         ]);
@@ -64,6 +46,7 @@ class RegisterController extends Controller
             'status' => $validated['status'],
             'child_count' => $validated['child_count'],
             'wife_count' => $validated['wife_count'],
+            'is_active' => false,
         ]);
 
         return redirect()->route('login')->with('success', 'Akun berhasil dibuat.');

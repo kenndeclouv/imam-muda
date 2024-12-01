@@ -23,6 +23,11 @@
                     </a>
                 </li>
             @endif
+            <li class="menu-item {{ request()->routeIs('admin.imam.is_active') ? 'active' : '' }}">
+                <a href="{{ route('admin.imam.is_active') }}" class="menu-link">
+                    <div class="text-truncate">List Imam Tidak Aktif</div>
+                </a>
+            </li>
         </ul>
     </li>
 @endif

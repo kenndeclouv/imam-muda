@@ -131,6 +131,7 @@ class ImamSeeder extends Seeder
                 'status' => fake()->randomElement(['nikah', 'belum nikah']),
                 'child_count' => rand(0, 5),
                 'wife_count' => rand(0, 3),
+                'is_active' => true,
             ]);
 
             ListFee::create([
@@ -160,6 +161,7 @@ class ImamSeeder extends Seeder
                 'status' => fake()->randomElement(['nikah', 'belum nikah']),
                 'child_count' => rand(0, 5),
                 'wife_count' => rand(0, 3),
+                'is_active' => true,
             ]);
 
             ListFee::create([

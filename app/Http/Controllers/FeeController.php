@@ -17,7 +17,7 @@ class FeeController extends Controller
 
     public function create()
     {
-        $imams = Imam::all();
+        $imams = Imam::where('is_active', true)->get();
         return view('admin.bayaran.create', compact('imams'));
     }
 

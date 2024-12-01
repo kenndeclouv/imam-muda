@@ -18,14 +18,11 @@ use Illuminate\Support\Facades\Auth;
 
 class ScheduleController extends Controller
 {
-
     protected $scheduleService;
-
     public function __construct(ScheduleService $scheduleService)
     {
         $this->scheduleService = $scheduleService;
     }
-
     private function createSchedule($validated)
     {
         foreach ($validated['shalat_id'] as $shalatId) {
@@ -62,7 +59,6 @@ class ScheduleController extends Controller
         return $query->exists();
     }
 
-
     public function index(Request $request)
     {
         $role = Auth::user()->Role->code;
@@ -72,7 +68,7 @@ class ScheduleController extends Controller
             case 'admin':
                 return view("{$role}.jadwal.index", [
                     'jadwals' => $schedules,
-                    'imams' => Imam::all(),
+                    'imams' => Imam::where('is_active', true)->get(),
                     'masjids' => Masjid::all(),
                     'shalats' => Shalat::all(),
                 ]);
@@ -88,7 +84,7 @@ class ScheduleController extends Controller
     {
         $role = Auth::user()->Role->code;
 
-        $imams = Imam::all();
+        $imams = Imam::where('is_active', true)->get();
         $masjids = Masjid::all();
         $shalats = Shalat::all();
         return view("{$role}.jadwal.create", compact('imams', 'masjids', 'shalats'));
@@ -122,7 +118,9 @@ class ScheduleController extends Controller
     {
         $role = Auth::user()->Role->code;
         $validated = $request->validated();
-
+        if ($role === 'imam' && Auth::user()->Imam->is_active == false) {
+            return back()->withErrors(['error' => 'Akun anda tidak aktif silakan hubungi admin']);
+        }
         foreach ($validated['shalat_id'] as $shalatId) {
             if ($this->isScheduleConflict($validated['date'], $validated['masjid_id'], $validated['shalat_id'], $schedule->id ?? null)) {
                 return back()->withErrors(['error' => 'Jadwal bentrok.']);
@@ -139,7 +137,9 @@ class ScheduleController extends Controller
         $role = Auth::user()->Role->code;
         $shalats = Shalat::all();
         $masjids = Masjid::all();
-        $imams = Imam::where('id', '!=', $schedule->imam_id)->get();
+        $imams = Imam::where('id', '!=', $schedule->imam_id)
+            ->where('is_active', true)
+            ->get();
 
         return view("{$role}.jadwal.edit", compact('schedule', 'masjids', 'shalats', 'imams'));
     }
@@ -148,7 +148,9 @@ class ScheduleController extends Controller
     {
         $role = Auth::user()->Role->code;
         $validated = $request->validated();
-
+        if ($role === 'imam' && Auth::user()->Imam->is_active == false) {
+            return back()->withErrors(['error' => 'Akun anda tidak aktif silakan hubungi admin']);
+        }
         $inputDate = Carbon::parse($validated['date'])->toDateString();
 
         if ($this->isScheduleConflict($validated['date'], $validated['masjid_id'], $validated['shalat_id'], $schedule->id ?? null)) {
@@ -172,12 +174,13 @@ class ScheduleController extends Controller
         return redirect()->route("{$role}.jadwal.index")->with('success', 'Jadwal berhasil diperbarui.');
     }
 
-    public function destroy($id)
+    public function destroy(Schedule $schedule)
     {
         $role = Auth::user()->Role->code;
-        $jadwal = Schedule::findOrFail($id);
-        $jadwal->delete();
-
+        if ($role === 'imam' && Auth::user()->Imam->is_active == false) {
+            return back()->withErrors(['error' => 'Akun anda tidak aktif silakan hubungi admin']);
+        }
+        $schedule->delete();
         return redirect()->route("{$role}.jadwal.index")->with('success', 'Jadwal berhasil dihapus.');
     }
 
@@ -247,10 +250,7 @@ class ScheduleController extends Controller
         if (empty($jadwalIds)) {
             return redirect()->back()->with('error', 'Tidak ada data yang dipilih untuk dihapus.');
         }
-
-
         Schedule::whereIn('id', $jadwalIds)->delete();
-
         return redirect()->back()->with('success', 'Jadwal berhasil dihapus.');
     }
 }

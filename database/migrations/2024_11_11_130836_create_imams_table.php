@@ -27,6 +27,7 @@ return new class extends Migration
             $table->enum('status', ['nikah', 'belum nikah'])->default('belum nikah');
             $table->integer('child_count')->nullable();
             $table->integer('wife_count')->nullable();
+            $table->boolean('is_active')->default(false);
             $table->timestamps();
         });
     }

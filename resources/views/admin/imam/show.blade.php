@@ -86,7 +86,14 @@
                         <textarea id="description" class="form-control" rows="3" disabled>{{ $imam->description }}</textarea>
                     </div>
                 </div>
-                <a href="{{ route('admin.imam.index') }}" class="btn btn-primary">Kembali</a>
+                <div class="d-flex gap-2">
+                    <a href="{{ route('admin.imam.index') }}" class="btn btn-primary">Kembali</a>
+                    <form action="{{ route('admin.imam.is_active.update.false', $imam->id) }}" method="POST">
+                        @csrf
+                        @method('PUT')
+                        <button type="submit" class="btn btn-danger">Nonaktifkan</button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
