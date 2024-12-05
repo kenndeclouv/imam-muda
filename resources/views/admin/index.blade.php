@@ -90,8 +90,11 @@
                                 <div class="card-title mb-3 mb-md-6">
                                     <h5 class="text-nowrap mb-1">Quotes</h5>
                                 </div>
-                                <h5 class="mb-0" id="quotes">{{ $quote->content ?? 'Allah tidak membebani seseorang melainkan sesuai dengan kesanggupannya.' }}</h5>
-                                <span class="badge bg-label-primary mt-2 fs-6" id="quotes-author">{{ $quote->source ?? 'QS. Al-Baqarah: 286' }}</span>
+                                <h5 class="mb-0" id="quotes">
+                                    {{ $quote->content ?? 'Allah tidak membebani seseorang melainkan sesuai dengan kesanggupannya.' }}
+                                </h5>
+                                <span class="badge bg-label-primary mt-2 fs-6"
+                                    id="quotes-author">{{ $quote->source ?? 'QS. Al-Baqarah: 286' }}</span>
                             </div>
                         </div>
                     </div>
@@ -112,10 +115,10 @@
                                     data-bs-target="#navs-pills-pengumuman" aria-controls="navs-pills-pengumuman"
                                     aria-selected="true">
                                     Pengumuman
-                                    @if ($announcements->count() > 0)
+                                    @if ($announcements->where('is_active', true)->where('target_id', Auth::user()->Role->id)->count() > 0)
                                         <span
                                             class="position-absolute top-0 start-100 translate-middle badge badge-center rounded-pill bg-info text-white">
-                                            {{ $announcements->count() }}
+                                            {{ $announcements->where('is_active', true)->where('target_id', Auth::user()->Role->id)->count() }}
                                         </span>
                                     @endif
                                 </button>
@@ -150,9 +153,9 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($announcements as $announcement)
+                                        @foreach ($announcements->where('is_active', true)->where('target_id', Auth::user()->Role->id) as $announcement)
                                             <tr>
-                                                <td>{{ $announcement->date }}</td>
+                                                <td>{{ \Carbon\Carbon::parse($announcement->date)->format('d F Y') }}</td>
                                                 <td>{{ $announcement->title }}</td>
                                                 <td>{{ $announcement->content }}</td>
                                                 <td>{{ $announcement->Target->name }}</td>

@@ -115,10 +115,10 @@
                                     data-bs-target="#navs-pills-pengumuman" aria-controls="navs-pills-pengumuman"
                                     aria-selected="true">
                                     Pengumuman
-                                    @if ($announcements->count() > 0)
+                                    @if ($announcements->where('is_active', true)->where('target_id', Auth::user()->Role->id)->count() > 0)
                                         <span
                                             class="position-absolute top-0 start-100 translate-middle badge badge-center rounded-pill bg-info text-white">
-                                            {{ $announcements->count() }}
+                                            {{ $announcements->where('is_active', true)->where('target_id', Auth::user()->Role->id)->count() }}
                                         </span>
                                     @endif
                                 </button>
@@ -152,7 +152,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($announcements as $announcement)
+                                        @foreach ($announcements->where('is_active', true)->where('target_id', Auth::user()->Role->id) as $announcement)
                                             <tr>
                                                 <td>{{ $announcement->date }}</td>
                                                 <td>{{ $announcement->title }}</td>
@@ -310,19 +310,6 @@
                     .catch(err => {
                         console.error('Error fetching data:', err);
                     });
-
-
-                // fetch('https://api.quotable.io/random?minLength=80&maxLength=220')
-                //     .then(response => response.json())
-                //     .then(data => {
-                //         document.getElementById('quotes').textContent = data.content;
-                //         document.getElementById('quotes-author').textContent = data.author;
-                //     })
-                //     .catch(err => {
-                //         document.getElementById('quotes').textContent =
-                //             'Allah tidak membebani seseorang melainkan sesuai dengan kesanggupannya.';
-                //         document.getElementById('quotes-author').textContent = 'QS. Al-Baqarah: 286';
-                //     });
             });
         </script>
     </x-slot:js>

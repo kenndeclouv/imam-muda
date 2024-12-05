@@ -1,7 +1,5 @@
 <?php
-
 namespace App\Http\Controllers;
-
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreScheduleRequest;
 use App\Http\Requests\UpdateScheduleRequest;
@@ -15,7 +13,6 @@ use App\Services\ScheduleService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-
 class ScheduleController extends Controller
 {
     protected $scheduleService;
@@ -36,60 +33,53 @@ class ScheduleController extends Controller
             ]);
         }
     }
+    private function getRoleData()
+    {
+        $role = Auth::user()->Role->code;
+        $isActive = Auth::user()->Imam->is_active ?? true;
+        return compact('role', 'isActive');
+    }
     private function sendNotification($userId, $title, $content, $link)
     {
-        UserNotification::create([
-            'user_id' => $userId,
-            'title' => $title,
-            'content' => $content,
-            'link' => $link,
-            'is_displayed' => false,
-        ]);
+        UserNotification::create(['user_id' => $userId, 'title' => $title, 'content' => $content, 'link' => $link, 'is_displayed' => false,]);
     }
     private function isScheduleConflict($date, $masjidId, $shalatId, $excludeId = null)
     {
         $query = Schedule::whereDate('date', $date)
             ->where('masjid_id', $masjidId)
             ->where('shalat_id', $shalatId);
-
         if ($excludeId) {
             $query->where('id', '!=', $excludeId);
         }
-
         return $query->exists();
     }
-
     public function index(Request $request)
     {
-        $role = Auth::user()->Role->code;
-        $schedules = $this->scheduleService->getSchedulesByRole($role, $request);
-
-        switch ($role) {
-            case 'admin':
-                return view("{$role}.jadwal.index", [
-                    'jadwals' => $schedules,
-                    'imams' => Imam::where('is_active', true)->get(),
-                    'masjids' => Masjid::all(),
-                    'shalats' => Shalat::all(),
-                ]);
-            case 'imam':
-                return view("{$role}.jadwal.index", [
-                    'jadwals' => $schedules['jadwals'],
-                    'jadwalBadals' => $schedules['jadwalBadals']
-                ]);
+        $data = $this->getRoleData();
+        if ($data['role'] === 'imam' && !$data['isActive']) {
+            return back()->withErrors(['error' => 'akun anda tidak aktif silakan hubungi admin']);
         }
+        $schedules = $this->scheduleService->getSchedulesByRole($data['role'], $request);
+        return view("{$data['role']}.jadwal.index", [
+            'jadwals' => $schedules['jadwals'] ?? $schedules,
+            'jadwalBadals' => $schedules['jadwalBadals'] ?? [],
+            'imams' => Imam::where('is_active', true)->get(),
+            'masjids' => Masjid::all(),
+            'shalats' => Shalat::all(),
+        ]);
     }
-
     public function create()
     {
-        $role = Auth::user()->Role->code;
-
-        $imams = Imam::where('is_active', true)->get();
-        $masjids = Masjid::all();
-        $shalats = Shalat::all();
-        return view("{$role}.jadwal.create", compact('imams', 'masjids', 'shalats'));
+        $data = $this->getRoleData();
+        if ($data['role'] === 'imam' && !$data['isActive']) {
+            return back()->withErrors(['error' => 'akun anda tidak aktif silakan hubungi admin']);
+        }
+        return view("{$data['role']}.jadwal.create", [
+            'imams' => Imam::where('is_active', true)->get(),
+            'masjids' => Masjid::all(),
+            'shalats' => Shalat::all()
+        ]);
     }
-
     public function fetch(Request $request)
     {
         $events = Schedule::with(['imam', 'masjid', 'shalat'])
@@ -110,10 +100,8 @@ class ScheduleController extends Controller
                     'shalat' => $schedule->shalat->name,
                 ]
             ]);
-
         return response()->json($events);
     }
-
     public function store(StoreScheduleRequest $request)
     {
         $role = Auth::user()->Role->code;
@@ -126,12 +114,9 @@ class ScheduleController extends Controller
                 return back()->withErrors(['error' => 'Jadwal bentrok.']);
             }
         }
-
         $this->createSchedule($validated);
-
         return redirect()->route("{$role}.jadwal.index")->with('success', 'Jadwal berhasil ditambahkan.');
     }
-
     public function edit(Schedule $schedule)
     {
         $role = Auth::user()->Role->code;
@@ -140,10 +125,8 @@ class ScheduleController extends Controller
         $imams = Imam::where('id', '!=', $schedule->imam_id)
             ->where('is_active', true)
             ->get();
-
         return view("{$role}.jadwal.edit", compact('schedule', 'masjids', 'shalats', 'imams'));
     }
-
     public function update(UpdateScheduleRequest $request, Schedule $schedule)
     {
         $role = Auth::user()->Role->code;
@@ -151,13 +134,12 @@ class ScheduleController extends Controller
         if ($role === 'imam' && Auth::user()->Imam->is_active == false) {
             return back()->withErrors(['error' => 'Akun anda tidak aktif silakan hubungi admin']);
         }
-        $inputDate = Carbon::parse($validated['date'])->toDateString();
-
         if ($this->isScheduleConflict($validated['date'], $validated['masjid_id'], $validated['shalat_id'], $schedule->id ?? null)) {
             return back()->withErrors(['error' => 'Jadwal bentrok.']);
         }
-
-        $validated['is_badal'] = true;
+        if ($schedule->badal_id !== null || $validated['badal_id'] !== null) {
+            $validated['is_badal'] = true;
+        }
         $schedule->update($validated);
         $schedule = Schedule::with(['Shalat', 'Masjid', 'Badal'])->findOrFail($schedule->id);
 
@@ -173,7 +155,6 @@ class ScheduleController extends Controller
         }
         return redirect()->route("{$role}.jadwal.index")->with('success', 'Jadwal berhasil diperbarui.');
     }
-
     public function destroy(Schedule $schedule)
     {
         $role = Auth::user()->Role->code;
@@ -193,32 +174,24 @@ class ScheduleController extends Controller
             'masjid_id' => 'required',
             'shalat_id' => 'required',
         ]);
-
         $date = Carbon::parse($validated['start'])->format('Y-m-d');
-
         if ($this->isScheduleConflict($date, $validated['masjid_id'], $validated['shalat_id'], $schedule->id ?? null)) {
             return response()->json(['error' => 'Jadwal bentrok.', 'success' => false]);
         }
-
         $schedule = Schedule::findOrFail($validated['id']);
         $schedule->update([
             'date' => Carbon::parse($validated['start'])->format('Y-m-d H:i:s'),
             'end' => $validated['end'] ? Carbon::parse($validated['end'])->format('Y-m-d H:i:s') : null,
         ]);
-
         return response()->json(['success' => true]);
     }
-
-
     public function imamCariBadal(Request $request, Schedule $schedule)
     {
         $schedule = Schedule::with(['Shalat', 'Masjid', 'Badal'])->findOrFail($schedule->id);
-
         $schedule->update([
             'note' => $request->note,
             'is_badal' => true
         ]);
-
         User::where('role_id', 2)->get()->each(function ($admin) use ($schedule) {
             $this->sendNotification(
                 $admin->id,
@@ -227,26 +200,21 @@ class ScheduleController extends Controller
                 "/admin/jadwal/{$schedule->id}/edit"
             );
         });
-
         return redirect()->route('imam.jadwal.index')->with('success', 'Badal berhasil dicarikan.');
     }
-
     public function imamDone(Schedule $schedule)
     {
         $schedule->update(['status' => 'done']);
         return redirect()->route('imam.jadwal.index')->with('success', 'Jadwal berhasil diselesaikan.');
     }
-
     public function imamCancel(Schedule $schedule)
     {
         $schedule->update(['badal_id' => null]);
         return redirect()->route('imam.jadwal.index')->with('success', 'Badal berhasil dibatalkan.');
     }
-
     public function destroySelected(Request $request)
     {
         $jadwalIds = $request->input('jadwal_id', []);
-
         if (empty($jadwalIds)) {
             return redirect()->back()->with('error', 'Tidak ada data yang dipilih untuk dihapus.');
         }

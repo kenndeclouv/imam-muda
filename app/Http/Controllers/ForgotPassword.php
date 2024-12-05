@@ -1,14 +1,11 @@
 <?php
-
 namespace App\Http\Controllers;
-
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Str;
 use App\Mail\ResetPasswordMail;
-
 class ForgotPassword extends Controller
 {
     public function index()
@@ -30,7 +27,6 @@ class ForgotPassword extends Controller
     {
         return view('auth.reset-password', ['token' => $token]);
     }
-
     public function update(Request $request)
     {
         $request->validate([
@@ -44,7 +40,6 @@ class ForgotPassword extends Controller
                 $user->forceFill([
                     'password' => $password
                 ])->save();
-
                 $user->setRememberToken(Str::random(60));
             }
         );

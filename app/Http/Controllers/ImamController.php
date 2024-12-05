@@ -1,16 +1,11 @@
 <?php
-
 namespace App\Http\Controllers;
-
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreImamRequest;
 use App\Http\Requests\UpdateImamRequest;
 use App\Models\Imam;
 use App\Models\Schedule;
 use App\Models\User;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-
 class ImamController extends Controller
 {
     public function index()
@@ -18,12 +13,10 @@ class ImamController extends Controller
         $imams = Imam::where('is_active', true)->get();
         return view('admin.imam.index', compact('imams'));
     }
-
     public function create()
     {
         return view('admin.imam.create');
     }
-
     public function store(StoreImamRequest $request)
     {
         $validated = $request->validated();
@@ -51,21 +44,16 @@ class ImamController extends Controller
             'wife_count' => $validated['wife_count'],
             'is_active' => true,
         ]);
-
         return redirect()->route('admin.imam.index')->with('success', 'Imam berhasil ditambahkan.');
     }
-
-
     public function show(Imam $imam)
     {
         return view('admin.imam.show', compact('imam'));
     }
-
     public function edit(Imam $imam)
     {
         return view('admin.imam.edit', compact('imam'));
     }
-
     public function update(UpdateImamRequest $request, Imam $imam)
     {
         $user = User::findOrFail($imam->user_id);
@@ -92,23 +80,17 @@ class ImamController extends Controller
         ]);
         return redirect()->route('admin.imam.index', $imam->id)->with('success', 'Imam berhasil diperbarui.');
     }
-
     public function destroy(Imam $imam)
     {
         $user = $imam->User;
         $imam->delete();
-        if ($user) {
-            $user->delete();
-        }
+        $user?->delete();
         return redirect()->route('admin.imam.index')->with('success', 'Imam berhasil dihapus.');
     }
-
     public function detail(Imam $imam)
     {
-
         $user = $imam->User;
         $schedules = Schedule::where('imam_id', $imam->id)->get();
-
         return view('admin.imam.detail', compact('imam', 'user', 'schedules'));
     }
     public function isActive()
@@ -116,7 +98,6 @@ class ImamController extends Controller
         $imams = Imam::where('is_active', false)->get();
         return view('admin.imam.is_active', compact('imams'));
     }
-
     public function isActiveUpdate(Imam $imam)
     {
         $imam->update(['is_active' => true]);

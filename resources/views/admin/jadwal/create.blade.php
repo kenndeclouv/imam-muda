@@ -72,6 +72,11 @@
         </div>
     </div>
     <x-slot:js>
-        <script src="{{ asset('assets/js/form-wizard-numbered.js') }}"></script>
+        {{-- <script src="{{ asset('assets/js/form-wizard-numbered.js') }}"></script> --}}
+        <script>
+            $(document).ready(function() {
+                $('.select2').select2();
+            });
+        </script>
     </x-slot:js>
 </x-app>

@@ -64,7 +64,7 @@ Route::middleware(['auth'])->group(function () {
 // Routes untuk SuperAdmin
 Route::prefix('superadmin')->name('superadmin.')->middleware(['auth', 'checkRole:superadmin'])->group(function () {
     Route::redirect('/', '/superadmin/home');
-    Route::get('/home', [HomeController::class, 'superAdminHome'])->name('home');
+    Route::get('/home', [HomeController::class, 'adminHome'])->name('home');
     Route::get('/log-viewer', [LogViewerController::class, 'index'])->name('logs');
     Route::get('/log-viewer/show/{filename}', [LogViewerController::class, 'show'])->name('logs.show');
     Route::delete('/log-viewer/delete/{filename}', [LogViewerController::class, 'destroy'])->name('logs.destroy');

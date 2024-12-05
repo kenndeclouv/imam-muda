@@ -1,12 +1,8 @@
 <?php
-
 namespace App\Http\Controllers;
-
 use App\Http\Controllers\Controller;
 use App\Models\Masjid;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-
 class MasjidController extends Controller
 {
     public function index()
@@ -14,12 +10,10 @@ class MasjidController extends Controller
         $masjids = Masjid::all();
         return view('admin.masjid.index', compact('masjids'));
     }
-
     public function create()
     {
         return view('admin.masjid.create');
     }
-
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -33,12 +27,10 @@ class MasjidController extends Controller
 
         return redirect()->route('admin.masjid.index')->with('success', 'Masjid berhasil ditambahkan.');
     }
-
     public function edit(Masjid $masjid)
     {
         return view('admin.masjid.edit', compact('masjid'));
     }
-
     public function update(Request $request, Masjid $masjid)
     {
         $validated = $request->validate([
@@ -50,7 +42,6 @@ class MasjidController extends Controller
         $masjid->update($validated);
         return redirect()->route('admin.masjid.index', $masjid->id)->with('success', 'Masjid berhasil diperbarui.');
     }
-
     public function destroy(Masjid $masjid)
     {
         $masjid->delete();

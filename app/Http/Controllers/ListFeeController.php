@@ -1,7 +1,5 @@
 <?php
-
 namespace App\Http\Controllers;
-
 use App\Http\Controllers\Controller;
 use App\Models\Fee;
 use App\Models\Imam;
@@ -9,7 +7,6 @@ use App\Models\ListFee;
 use App\Models\Masjid;
 use App\Models\Shalat;
 use Illuminate\Http\Request;
-
 class ListFeeController extends Controller
 {
     public function index($id)
@@ -29,13 +26,11 @@ class ListFeeController extends Controller
         }
         return view('admin.bayaran.list', compact('listFees', 'data', 'fee'));
     }
-
     public function create()
     {
         $imams = Imam::where('is_active', true)->get();
         return view('admin.bayaran.create', compact('imams'));
     }
-
     public function store(Request $request, $id)
     {
         $fee = Fee::findOrFail($id);
@@ -43,7 +38,6 @@ class ListFeeController extends Controller
             'data_id' => 'required',
             'fee_id' => 'required|exists:fees,id',
         ]);
-
         foreach ($request->data_id as $dataId) {
             switch ($fee->type) {
                 case 'imam':
@@ -75,11 +69,8 @@ class ListFeeController extends Controller
                 ]);
             }
         }
-
-
         return redirect()->route('admin.bayaran.list.index', $fee->id)->with('success', 'Bayaran berhasil dibuat.');
     }
-
     public function destroy(ListFee $listFee)
     {
         $listFee->delete();

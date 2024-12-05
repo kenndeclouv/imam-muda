@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Carbon\Carbon;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Auth;
@@ -21,19 +22,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        // $this->registerPolicies();
-
-        // Define a Gate for admin users
-        Gate::define('isAdmin', function ($user) {
-            return $user->Role->code === 'admin';
-        });
-
-        Gate::define('isSuperAdmin', function ($user) {
-            return $user->Role->code === 'super_admin';
-        });
-
-        Gate::define('isImam', function ($user) {
-            return $user->Role->code === 'imam';
-        });
+        // set timezone carbon global
+        Carbon::setLocale('id');
+        date_default_timezone_set('Asia/Jakarta');
     }
 }

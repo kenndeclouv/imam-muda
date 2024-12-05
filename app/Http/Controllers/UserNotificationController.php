@@ -1,12 +1,9 @@
 <?php
-
 namespace App\Http\Controllers;
-
 use App\Http\Controllers\Controller;
 use App\Models\UserNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-
 class UserNotificationController extends Controller
 {
     public function getNotifications()
@@ -22,20 +19,16 @@ class UserNotificationController extends Controller
         }
         return response()->json([]);
     }
-
     public function markNotificationAsRead(Request $request)
     {
         $notificationId = $request->input('notification_id');
-
         if (Auth::check() && $notificationId) {
-
             UserNotification::where('id', $notificationId)
                 ->where('user_id', Auth::id())
                 ->update(['is_displayed' => 1]);
 
             return response()->json(['status' => 'success']);
         }
-
         return response()->json(['status' => 'failed']);
     }
 }

@@ -1,7 +1,5 @@
 <?php
-
 namespace App\Http\Controllers;
-
 use App\Http\Controllers\Controller;
 use App\Models\Admin;
 use App\Models\Imam;
@@ -9,7 +7,6 @@ use App\Models\User;
 use App\Models\UserShortcut;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
-
 class AccountController extends Controller
 {
     private function uploadPhoto($photo, $oldPhoto = null)
@@ -40,12 +37,10 @@ class AccountController extends Controller
         }
         return null;
     }
-
     public function index()
     {
         return view('account.index');
     }
-
     public function update(Request $request, User $user)
     {
         $validated = $request->validate([
@@ -62,7 +57,6 @@ class AccountController extends Controller
             'photo.mimes' => 'Foto harus berupa gambar dengan format jpeg, png, jpg, atau gif.',
             'photo.max' => 'Foto maksimal 5MB.',
         ]);
-
         if ($request->password) {
             $request->validate(['password' => 'required|string|min:8|confirmed|regex:/^(?=.*[A-Z]).+$/'], [
                 'password.required' => 'Password harus diisi',
@@ -81,7 +75,6 @@ class AccountController extends Controller
         $user->update($validated);
         return redirect()->route('account')->with('success', 'Profile berhasil diperbarui!');
     }
-
     public function storeShortcut(Request $request)
     {
         $validated = $request->validate([
@@ -93,7 +86,6 @@ class AccountController extends Controller
         UserShortcut::create(array_merge($validated, ['user_id' => Auth::id()]));
         return back()->with('success', 'berhasil menambahkan shortcut');
     }
-
     public function updateImam(Request $request)
     {
         $validated = $request->validate([
@@ -111,12 +103,9 @@ class AccountController extends Controller
             'child_count' => 'nullable|integer',
             'wife_count' => 'nullable|integer',
         ]);
-
         Imam::where('user_id', Auth::id())->firstOrFail()->update($validated);
-
         return redirect()->route('account')->with('success', 'Imam berhasil diperbarui.');
     }
-
     public function updateAdmin(Request $request)
     {
         $validated = $request->validate([
@@ -127,9 +116,7 @@ class AccountController extends Controller
             'description' => 'nullable|string|max:255',
             'address' => 'nullable|string|max:255',
         ]);
-
         Admin::where('user_id', Auth::id())->firstOrFail()->update($validated);
-
         return redirect()->route('account')->with('success', 'Admin berhasil diperbarui.');
     }
 }

@@ -1,8 +1,11 @@
 <?php
+
 namespace App\Services;
+
 use App\Models\Schedule;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+
 class ScheduleService
 {
     public function getSchedulesByRole($role, $request)
@@ -12,24 +15,27 @@ class ScheduleService
             $monthYear = Carbon::now()->format('Y-m');
         }
         [$year, $month] = explode('-', $monthYear);
-        $query = Schedule::query()
-            ->whereYear('date', $year)
-            ->whereMonth('date', $month);
-        if ($role === 'admin') {
-            $query->filterByImam($request->input('filter_imam'))
-                  ->filterByShalat($request->input('filter_shalat'))
-                  ->filterByMasjid($request->input('filter_masjid'));
-            return $query->get();
-        }
-        if ($role === 'imam') {
-            $imamId = Auth::user()->Imam->id;
-            return $query->where(function ($q) use ($imamId) {
-                $q->where('imam_id', $imamId)
-                  ->orWhere(function ($subQuery) use ($imamId) {
-                      $subQuery->where('badal_id', $imamId)
-                               ->where('is_badal', true);
-                  });
-            })->get();
+        switch ($role) {
+            case 'admin':
+                return Schedule::query()
+                    ->filterByImam($request->input('filter_imam'))
+                    ->filterByShalat($request->input('filter_shalat'))
+                    ->filterByMasjid($request->input('filter_masjid'))
+                    ->whereYear('date', $year)
+                    ->whereMonth('date', $month)
+                    ->get();
+            case 'imam':
+                $jadwals = Schedule::where('imam_id', Auth::user()->Imam->id)
+                    ->whereYear('date', $year)
+                    ->whereMonth('date', $month)
+                    ->get();
+                $jadwalBadals = Schedule::where('badal_id', Auth::user()->Imam->id)
+                    ->where('is_badal', true)
+                    ->get();
+                return [
+                    'jadwals' => $jadwals,
+                    'jadwalBadals' => $jadwalBadals
+                ];
         }
         return null;
     }

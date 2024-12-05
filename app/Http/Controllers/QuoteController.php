@@ -1,12 +1,9 @@
 <?php
-
 namespace App\Http\Controllers;
-
 use App\Http\Controllers\Controller;
 use App\Models\Quote;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-
 class QuoteController extends Controller
 {
     public function index()
@@ -15,13 +12,11 @@ class QuoteController extends Controller
         $quotes = Quote::all();
         return view("{$role}.quote.index", compact('quotes'));
     }
-
     public function create()
     {
         $role = Auth::user()->Role->code;
         return view("{$role}.quote.create");
     }
-
     public function store(Request $request)
     {
         $role = Auth::user()->Role->code;
@@ -35,13 +30,11 @@ class QuoteController extends Controller
         return redirect()->route("{$role}.quote.index")
             ->with('success', 'Quote berhasil dibuat.');
     }
-
     public function edit(Quote $quote)
     {
         $role = Auth::user()->Role->code;
         return view("{$role}.quote.edit", compact('quote'));
     }
-
     public function update(Request $request, Quote $quote)
     {
         $role = Auth::user()->Role->code;
@@ -55,7 +48,6 @@ class QuoteController extends Controller
         return redirect()->route("{$role}.quote.index")
             ->with('success', 'Quote berhasil diperbarui.');
     }
-
     public function destroy(Quote $quote)
     {
         $role = Auth::user()->Role->code;

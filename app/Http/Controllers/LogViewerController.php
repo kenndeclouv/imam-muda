@@ -1,11 +1,7 @@
 <?php
-
 namespace App\Http\Controllers;
-
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
-
 class LogViewerController extends Controller
 {
     private function calculateLogStats($files)
@@ -17,7 +13,6 @@ class LogViewerController extends Controller
             'warning' => 0,
             'info' => 0,
         ];
-
         foreach ($files as $file) {
             $content = File::get($file);
             $lines = explode("\n", $content);
@@ -26,7 +21,6 @@ class LogViewerController extends Controller
                 if (preg_match('/^\[(.*?)\] (\w+)\.(\w+): (.+)$/', $line, $matches)) {
                     $env = strtolower($matches[2] ?? 'unknown');
                     $type = strtolower($matches[3] ?? 'unknown');
-
                     if (isset($stats[$env])) {
                         $stats[$env]++;
                     }
@@ -36,10 +30,8 @@ class LogViewerController extends Controller
                 }
             }
         }
-
         return $stats;
     }
-
     public function index()
     {
         $logFiles = File::files(storage_path('logs'));
@@ -55,7 +47,6 @@ class LogViewerController extends Controller
                 'modified' => $file->getMTime(),
             ];
         }
-
         return view('superadmin.log.index', compact('logs', 'stats'));
     }
 
