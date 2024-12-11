@@ -703,6 +703,20 @@
                 $('#checkbox-all').click(function() {
                     $('input[type="checkbox"]').prop('checked', this.checked);
                 });
+                $('#jadwal-shalat').on('change', function() {
+                    var selectedShalat = $(this).find('option:selected').text();
+                    var masjidSelect = $('#jadwal-masjid');
+
+                    if (selectedShalat.includes('-')) {
+                        var masjidName = selectedShalat.split('-')[1].trim();
+
+                        masjidSelect.find('option').each(function() {
+                            if ($(this).text().trim() === masjidName) {
+                                $(this).prop('selected', true).trigger('change');
+                            }
+                        });
+                    }
+                });
             });
         </script>
     </x-slot:js>

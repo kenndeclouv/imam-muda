@@ -48,5 +48,24 @@
     </div>
     <x-slot:js>
         <script src="{{ asset('assets/js/form-wizard-numbered.js') }}"></script>
+        <script>
+            $(document).ready(function() {
+                $('.select2').select2();
+                $('#jadwal-shalat').on('change', function() {
+                    var selectedShalat = $(this).find('option:selected').text();
+                    var masjidSelect = $('#jadwal-masjid');
+
+                    if (selectedShalat.includes('-')) {
+                        var masjidName = selectedShalat.split('-')[1].trim();
+
+                        masjidSelect.find('option').each(function() {
+                            if ($(this).text().trim() === masjidName) {
+                                $(this).prop('selected', true).trigger('change');
+                            }
+                        });
+                    }
+                });
+            });
+        </script>
     </x-slot:js>
 </x-app>

@@ -33,10 +33,6 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/api/get-notifications', [UserNotificationController::class, 'getNotifications']);
     Route::post('/api/mark-notification-as-read', [UserNotificationController::class, 'markNotificationAsRead']);
 });
-// Islamic Quote
-Route::middleware(['apiKey', 'throttle:120,1'])->group(function () {
-    Route::get('/api/random-quote', [QuoteController::class, 'randomQuote']);
-});
 
 // Routes untuk Login dan Logout
 Route::get('login', [LoginController::class, 'index'])->name('login.index');

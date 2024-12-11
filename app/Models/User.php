@@ -103,7 +103,7 @@ class User extends Authenticatable implements MustVerifyEmail
     public function getPhotoAttribute($value)
     {
         if (!empty($value) && !is_null($value)) {
-            return asset($value);
+            return $value;
         }
         $randomColor = $this->getConsistentColor();
         $name = $this->name ?? 'Imam';
