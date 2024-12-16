@@ -185,7 +185,7 @@ Route::prefix('imam')->name('imam.')->middleware(['auth', 'checkRole:imam'])->gr
         Route::post('/create', [ScheduleController::class, 'store'])->name('store');
         Route::get('/{schedule}/edit', [ScheduleController::class, 'edit'])->name('edit');
         Route::put('/{schedule}/edit', [ScheduleController::class, 'update'])->name('update');
-        Route::delete('/{schedule}/delete', [ScheduleController::class, 'imamDestroy'])->name('destroy');
+        Route::delete('/{schedule}/delete', [ScheduleController::class, 'destroy'])->name('destroy');
 
         Route::post('/{schedule}/cari-badal', [ScheduleController::class, 'imamCariBadal'])->name('cariBadal');
         Route::post('/{schedule}/done', [ScheduleController::class, 'imamDone'])->name('done');

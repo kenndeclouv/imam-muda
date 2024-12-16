@@ -75,12 +75,14 @@
                         <label for="month" class="form-label">Pilih Bulan</label>
                         <div class="d-flex flex-wrap gap-2">
                             <input type="month" id="month" name="month" class="form-control flex-grow-1"
-                                value="{{ request('month') ?? now()->format('Y-m') }}" {{ request('month') ? 'selected' : '' }}>
+                                value="{{ request('month') ?? now()->format('Y-m') }}"
+                                {{ request('month') ? 'selected' : '' }}>
                             <div class="d-flex flex-wrap gap-2">
                                 <button type="submit" class="btn btn-primary">Filter</button>
                                 <a href="{{ route('imam.jadwal.index') }}" class="btn btn-secondary">Reset</a>
                             </div>
-                            <a href="{{ route('imam.jadwal.create') }}" class="btn btn-primary ms-auto mt-2 mt-sm-0">Tambah Jadwal</a>
+                            <a href="{{ route('imam.jadwal.create') }}"
+                                class="btn btn-primary ms-auto mt-2 mt-sm-0">Tambah Jadwal</a>
                         </div>
                     </form>
                 </div>
@@ -268,7 +270,8 @@
                                                         Telah Dilaksanakan
                                                     </div>
                                                 @endif
-
+                                                <x-confirm-delete :route="route('imam.jadwal.destroy', $jadwal->id)" title="Hapus Jadwal"
+                                                    message="Apakah anda yakin ingin menghapus jadwal ini?" />
                                             </div>
                                         </td>
                                     </tr>
