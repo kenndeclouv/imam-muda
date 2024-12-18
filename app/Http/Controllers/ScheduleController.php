@@ -137,7 +137,7 @@ class ScheduleController extends Controller
         if ($this->isScheduleConflict($validated['date'], $validated['masjid_id'], $validated['shalat_id'], $schedule->id ?? null)) {
             return back()->withErrors(['error' => 'Jadwal bentrok.']);
         }
-        if ($schedule->badal_id !== null || $validated['badal_id'] !== null) {
+        if (isset($schedule->badal_id) || isset($validated['badal_id'])) {
             $validated['is_badal'] = true;
         }
         $schedule->update($validated);

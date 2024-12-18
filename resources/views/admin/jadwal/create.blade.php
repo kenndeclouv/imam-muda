@@ -30,7 +30,7 @@
                     </div>
                     <div class="mb-6">
                         <label class="form-label" for="jadwal-shalat">Shalat</label>
-                        <select name="shalat_id[]" class="form-control select2" id="jadwal-shalat" multiple required>
+                        <select name="shalat_id[]" class="form-control select2" id="jadwal-shalat" required>
                             @foreach ($shalats as $shalat)
                                 <option value="{{ $shalat->id }}" {{ in_array($shalat->id, old('shalat_id', [])) ? 'selected' : '' }}>{{ $shalat->name }}</option>
                             @endforeach
@@ -49,23 +49,7 @@
                         <label class="form-label" for="jadwal-date">Tanggal</label>
                         <input type="date" name="date" class="form-control" id="jadwal-date" required value="{{ old('date') }}">
                     </div>
-                    <div class="mb-6">
-                        <label class="form-label" for="jadwal-status">Status</label>
-                        <div id="jadwal-status">
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="status" id="status-to_do" value="to_do" {{ old('status') == 'to_do' ? 'checked' : '' }} checked>
-                                <label class="form-check-label" for="status-to_do">
-                                    Akan
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="status" id="status-done" value="done" {{ old('status') == 'done' ? 'checked' : '' }}>
-                                <label class="form-check-label" for="status-done">
-                                    Selesai
-                                </label>
-                            </div>
-                        </div>
-                    </div>
+                    <input type="hidden" name="status" value="done">
                     <button type="submit" class="btn btn-primary">Tambahkan</button>
                 </form>
             </div>

@@ -108,7 +108,7 @@
                                     <div class="mb-6">
                                         <label class="form-label" for="jadwal-shalat">Shalat</label>
                                         <select name="shalat_id[]" class="form-control select2" id="jadwal-shalat"
-                                            multiple required>
+                                            required>
                                             @foreach ($shalats as $shalat)
                                                 <option value="{{ $shalat->id }}"
                                                     {{ in_array($shalat->id, old('shalat_id', [])) ? 'selected' : '' }}>
@@ -135,27 +135,7 @@
                                         <input type="date" class="form-control" id="eventDate" name="date"
                                             required />
                                     </div>
-                                    <div class="mb-6">
-                                        <label class="form-label" for="jadwal-status">Status</label>
-                                        <div id="jadwal-status">
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="status"
-                                                    id="status-to_do" value="to_do"
-                                                    {{ old('status') == 'to_do' ? 'checked' : '' }} checked>
-                                                <label class="form-check-label" for="status-to_do">
-                                                    Akan
-                                                </label>
-                                            </div>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="status"
-                                                    id="status-done" value="done"
-                                                    {{ old('status') == 'done' ? 'checked' : '' }}>
-                                                <label class="form-check-label" for="status-done">
-                                                    Selesai
-                                                </label>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    <input type="hidden" name="status" value="done">
                                     <div class="d-flex justify-content-sm-between justify-content-start mt-6 gap-2">
                                         <div class="d-flex">
                                             <button type="submit" class="btn btn-primary me-4">Tambahkan</button>
@@ -645,7 +625,7 @@
                                     if (result.isConfirmed) {
                                         let form = document.createElement('form');
                                         form.action =
-                                        '/admin/jadwal/delete-selected'; // ganti dengan route hapus kamu
+                                            '/admin/jadwal/delete-selected'; // ganti dengan route hapus kamu
                                         form.method = 'POST';
 
                                         // tambahkan csrf token

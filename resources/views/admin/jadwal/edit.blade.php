@@ -46,23 +46,6 @@
                         <input type="datetime-local" name="date" class="form-control" id="jadwal-date" required value="{{ old('date', $schedule->date) }}">
                     </div>
                     <div class="mb-6">
-                        <label class="form-label" for="jadwal-status">Status</label>
-                        <div id="jadwal-status">
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="status" id="status-to_do" value="to_do" {{ old('status', $schedule->status) == 'to_do' ? 'checked' : '' }} checked>
-                                <label class="form-check-label" for="status-to_do">
-                                    Akan
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="status" id="status-done" value="done" {{ old('status', $schedule->status) == 'done' ? 'checked' : '' }}>
-                                <label class="form-check-label" for="status-done">
-                                    Selesai
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="mb-6">
                         <label class="form-label" for="jadwal-is_badal">Membutuhkan Badal?</label>
                         <div id="jadwal-is_badal">
                             <div class="form-check">

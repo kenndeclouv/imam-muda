@@ -31,7 +31,7 @@
                     </div>
                     <div class="mb-6">
                         <label class="form-label" for="jadwal-shalat">Shalat</label>
-                        <select name="shalat_id[]" class="form-control select2" id="jadwal-shalat" multiple required>
+                        <select name="shalat_id[]" class="form-control select2" id="jadwal-shalat" required>
                             @foreach ($shalats as $shalat)
                                 <option value="{{ $shalat->id }}" {{ in_array($shalat->id, old('shalat_id', [])) ? 'selected' : '' }}>{{ $shalat->name }}</option>
                             @endforeach
