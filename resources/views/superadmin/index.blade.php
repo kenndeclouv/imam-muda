@@ -72,19 +72,6 @@
             <div class="col-12 col-lg-6 mb-6">
                 <div class="card h-100">
                     <div class="card-body">
-                        <div class="card-title d-flex align-items-start justify-content-between mb-4">
-                            <div class="bg-warning rounded-circle d-flex" style="width: 50px; height: 50px">
-                                <i class="menu-icon fa-solid fa-money-bill m-auto text-white"></i>
-                            </div>
-                        </div>
-                        <p class="mb-1">Total Bayaran Imam</p>
-                        <h4 class="card-title mb-3">Rp.{{ number_format($bayaranImam ?? 0, 0, ',', '.') }}</h4>
-                    </div>
-                </div>
-            </div>
-            <div class="col-12 mb-6">
-                <div class="card">
-                    <div class="card-body">
                         <div class="d-flex justify-content-between align-items-center flex-column flex-md-row gap-3">
                             <div class="d-flex flex-column align-items-start justify-content-between text-start">
                                 <div class="card-title mb-3 mb-md-6">

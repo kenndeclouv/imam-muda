@@ -1,5 +1,7 @@
 <?php
+
 namespace App\Http\Controllers;
+
 use App\Http\Controllers\Controller;
 use App\Models\Fee;
 use App\Models\Imam;
@@ -8,6 +10,7 @@ use App\Models\Schedule;
 use App\Models\Shalat;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+
 class RekapController extends Controller
 {
     public function berdasarkanImam(Request $request)

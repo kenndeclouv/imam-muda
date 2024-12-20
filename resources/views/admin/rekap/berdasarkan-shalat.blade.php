@@ -25,20 +25,20 @@
                             <div class="form-group">
                                 <label for="month">Pilih Bulan</label>
                                 <input type="month" id="month" name="month" class="form-control"
-                                    value="{{ request('month') ?? now()->format('Y-m') }}"
-                                    {{ request('month') ? 'selected' : '' }}>
+                                    value="{{ request('month') ?? now()->format('Y-m') }}">
                             </div>
                         </div>
                         <div class="col-md-4 d-flex align-items-end">
                             <button type="submit" class="btn btn-primary">Filter</button>
-                            <a href="{{ route('admin.rekap.berdasarkan-shalat.index') }}" class="btn btn-secondary ms-2">Reset</a>
+                            <a href="{{ route('admin.rekap.berdasarkan-shalat.index') }}"
+                                class="btn btn-secondary ms-2">Reset</a>
                         </div>
                     </div>
                 </form>
             </div>
         </div>
         <div
-            class="card mt-3 card-border-shadow-{{ ['primary', 'secondary', 'danger', 'warning', 'info'][array_rand(['primary', 'secondary', 'danger', 'warning', 'info'])] }}">
+            class="card mt-3 card-border-shadow-{{ collect(['primary', 'secondary', 'danger', 'warning', 'info'])->random() }}">
             <div class="card-datatable table-responsive text-start text-nowrap">
                 <table id="jadwalImam"
                     class="table dataTable table-bordered table-responsive-sm table-responsive-md table-responsive-xl w-100"
@@ -60,12 +60,11 @@
                                 @foreach ($defaultShalat as $shalat)
                                     <td>
                                         {{ $groupedSchedules[$imam->id][$shalat->id]['count'] ?? 0 }}
-                                        {{-- (Rp
-                                        {{ number_format($groupedSchedules[$imam->id][$shalat->id]['salary'] ?? 0, 0, ',', '.') }}) --}}
                                     </td>
                                 @endforeach
                                 <td>{{ $groupedSchedules[$imam->id]['total']['count'] ?? 0 }}</td>
-                                <td>Rp {{ number_format($groupedSchedules[$imam->id]['total']['salary'] ?? 0, 0, ',', '.') }}
+                                <td>Rp
+                                    {{ number_format($groupedSchedules[$imam->id]['total']['salary'] ?? 0, 0, ',', '.') }}
                                 </td>
                             </tr>
                         @endforeach
@@ -76,57 +75,69 @@
     </div>
     <x-slot:js>
         <script src="https://cdn.datatables.net/2.1.8/js/jquery.dataTables.min.js"></script>
-        {{-- <script src="{{ asset('assets/vendor/js/forms-picker.js') }}"></script> --}}
         <script>
             $(document).ready(function() {
-                $('.dataTable').DataTable({
-                    language: {
-                        url: "https://cdn.datatables.net/plug-ins/1.10.19/i18n/Indonesian.json"
-                    },
-                    dom: '<"card-header flex-column justify-content-start flex-md-row pb-0"<"head-label text-center"><"dt-action-buttons text-start pt-6 pt-md-0"B>><"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6 d-flex justify-content-center justify-content-md-end mt-n6 mt-md-0"f>>t<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
-                    buttons: [{
-                        extend: "collection",
-                        className: "btn btn-label-primary dropdown-toggle",
-                        text: '<i class="fas fa-file-export me-sm-2"></i> <span class="d-none d-sm-inline-block">Export</span>',
+                if (!$.fn.DataTable.isDataTable('#jadwalImam')) {
+                    const table = $('#jadwalImam').DataTable({
+                        language: {
+                            url: "https://cdn.datatables.net/plug-ins/1.10.19/i18n/Indonesian.json",
+                        },
+                        dom: '<"card-header flex-column justify-content-start flex-md-row pb-0"<"head-label text-center"><"dt-action-buttons text-start pt-6 pt-md-0"B>><"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6 d-flex justify-content-center justify-content-md-end mt-n6 mt-md-0"f>>t<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
                         buttons: [{
-                                extend: "print",
-                                text: '<i class="fas fa-print me-1" ></i>Print',
-                                className: "dropdown-item",
-                                title: "Jadwal Imam Bulan " + moment().format('MMMM YYYY'),
-                                exportOptions: {
-                                    // columns: [1, 2, 3, 4, 5],
-                                    format: {
-                                        body: function(data, row, column, node) {
-                                            // jika kolom berisi tanggal
-                                            if (moment(data, 'DD MMMM YYYY', true).isValid()) {
-                                                return moment(data).format(
-                                                    'DD'); // hanya tampilkan tanggalnya
-                                            }
-                                            return data; // untuk kolom lain yang bukan tanggal
-                                        }
-                                    }
+                            extend: "collection",
+                            className: "btn btn-label-primary dropdown-toggle",
+                            text: '<i class="fas fa-file-export me-sm-2"></i> <span class="d-none d-sm-inline-block">Export</span>',
+                            buttons: [{
+                                    extend: "print",
+                                    text: '<i class="fas fa-print me-1"></i>Print',
+                                    className: "dropdown-item",
+                                    title: "Jadwal Imam Bulan " + moment().format(
+                                        'MMMM YYYY'),
                                 },
-                            },
-                            {
-                                extend: "excelHtml5",
-                                text: '<i class="fas fa-file-excel me-1"></i>Excel',
-                                className: "dropdown-item",
-                                title: "Rekap Imam Bulan " + moment().format('MMMM YYYY'),
-                            }
-                        ],
-                    }, ],
-                });
-                $('.select2').select2();
+                                {
+                                    extend: "excelHtml5",
+                                    text: '<i class="fas fa-file-excel me-1"></i>Excel',
+                                    className: "dropdown-item",
+                                    title: "Rekap Imam Bulan " + moment().format(
+                                        'MMMM YYYY'),
+                                },
+                            ],
+                        }, ],
+                        drawCallback: function() {
+                            calculateTotals();
+                        },
+                    });
 
-                $('[id^="jadwal-container-"]').each(function() {
-                    const totalJadwal = $(this).find('table tbody tr').length;
-                    const imamId = $(this).attr('id').replace('jadwal-container-',
-                        ''); // Ambil ID imam dari ID tabel
-                    const totalJadwalElement = $(`#totalJadwalImam${imamId}`);
-                    if (totalJadwalElement.length) {
-                        totalJadwalElement.text(totalJadwal);
+                    function calculateTotals() {
+                        // hapus elemen `tfoot` jika ada
+                        $('#jadwalImam tfoot').remove();
+                        const totals = [];
+
+                        table.columns().every(function(index) {
+                            if (index === 0) {
+                                totals.push('Total');
+                            } else {
+                                const total = this.data().reduce((sum, value) => {
+                                    const numericValue = parseInt(value.replace(/[^0-9]/g, '')) ||
+                                        0;
+                                    return sum + numericValue;
+                                }, 0);
+                                totals.push(index === table.columns().count() - 1 ?
+                                    `Rp ${total.toLocaleString('id-ID')}` : total);
+                            }
+                        });
+
+                        $('#jadwalImam').append(`
+                            <tfoot>
+                                <tr>
+                                    ${totals.map((total) => `<th>${total}</th>`).join('')}
+                                </tr>
+                            </tfoot>
+                        `);
                     }
-                });
+
+                }
+                $('.select2').select2();
             });
         </script>
     </x-slot:js>
