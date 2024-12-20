@@ -48,8 +48,7 @@
                                 <td>
                                     <div class="d-flex gap-2" aria-label="Basic example">
                                         <a href="{{ route('admin.imam.show', $imam->id) }}" class="btn btn-info"
-                                            data-bs-toggle="tooltip" data-bs-placement="top"
-                                            data-bs-title="Show Imam">
+                                            data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Show Imam">
                                             <i class="fa-solid fa-eye"></i>
                                         </a>
                                         @if ($permissions->contains('imam_edit'))
@@ -63,10 +62,12 @@
                                             <x-confirm-delete :route="route('admin.imam.destroy', $imam->id)" title="Hapus Imam"
                                                 message="Apakah anda yakin ingin menghapus imam ini?" />
                                         @endif
-                                        <a href="{{ route('admin.imam.detail', $imam->id) }}" class="btn btn-primary"
-                                            data-bs-toggle="tooltip" data-bs-placement="top"
-                                            data-bs-title="Detail Imam">
-                                            <i class="fa-solid fa-list-check"></i>
+                                        @if ($permissions->contains('imam_detail'))
+                                            <a href="{{ route('admin.imam.detail', $imam->id) }}"
+                                                class="btn btn-primary" data-bs-toggle="tooltip" data-bs-placement="top"
+                                                data-bs-title="Detail Imam">
+                                                <i class="fa-solid fa-list-check"></i>
+                                        @endif
                                         </a>
                                     </div>
                                 </td>

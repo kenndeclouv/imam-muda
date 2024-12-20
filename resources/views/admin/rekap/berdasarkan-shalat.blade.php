@@ -39,7 +39,7 @@
         </div>
         <div
             class="card mt-3 card-border-shadow-{{ ['primary', 'secondary', 'danger', 'warning', 'info'][array_rand(['primary', 'secondary', 'danger', 'warning', 'info'])] }}">
-            <div class="card-datatable">
+            <div class="card-datatable table-responsive text-start text-nowrap">
                 <table id="jadwalImam"
                     class="table dataTable table-bordered table-responsive-sm table-responsive-md table-responsive-xl w-100"
                     style="width: 100%;">

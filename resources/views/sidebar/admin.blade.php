@@ -17,17 +17,19 @@
                 </a>
             </li>
             @if ($permissions->contains('imam_create'))
-                <li class="menu-item {{ request()->routeIs('admin.imam.create') ? 'active' : '' }}">
-                    <a href="{{ route('admin.imam.create') }}" class="menu-link">
-                        <div class="text-truncate">Tambah Imam</div>
-                    </a>
-                </li>
+            <li class="menu-item {{ request()->routeIs('admin.imam.create') ? 'active' : '' }}">
+                <a href="{{ route('admin.imam.create') }}" class="menu-link">
+                    <div class="text-truncate">Tambah Imam</div>
+                </a>
+            </li>
             @endif
+            @if ($permissions->contains('imam_edit'))
             <li class="menu-item {{ request()->routeIs('admin.imam.is_active') ? 'active' : '' }}">
                 <a href="{{ route('admin.imam.is_active') }}" class="menu-link">
                     <div class="text-truncate">List Imam Tidak Aktif</div>
                 </a>
             </li>
+            @endif
         </ul>
     </li>
 @endif

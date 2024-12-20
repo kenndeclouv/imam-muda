@@ -223,20 +223,22 @@
                                         <span class="badge bg-label-success">Selesai</span>
                                     @endif
                                 </td>
-                                <td>
-                                    @if ($permissions->contains('jadwal_edit'))
-                                        <div class="d-flex gap-2" aria-label="Basic example">
-                                            <a href="{{ route('admin.jadwal.edit', $jadwal->id) }}"
-                                                class="btn btn-warning" data-bs-toggle="tooltip"
-                                                data-bs-placement="top" data-bs-title="Edit Jadwal">
-                                                <i class="fa-solid fa-edit"></i>
-                                            </a>
-                                    @endif
-                                    @if ($permissions->contains('jadwal_delete'))
-                                        <x-confirm-delete :route="route('admin.jadwal.destroy', $jadwal->id)" title="Hapus Jadwal"
-                                            message="Apakah anda yakin ingin menghapus jadwal ini?" />
-                                    @endif
-                                </td>
+                                @if ($permissions->contains('jadwal_edit') || $permissions->contains('jadwal_delete'))
+                                    <td>
+                                        @if ($permissions->contains('jadwal_edit'))
+                                            <div class="d-flex gap-2" aria-label="Basic example">
+                                                <a href="{{ route('admin.jadwal.edit', $jadwal->id) }}"
+                                                    class="btn btn-warning" data-bs-toggle="tooltip"
+                                                    data-bs-placement="top" data-bs-title="Edit Jadwal">
+                                                    <i class="fa-solid fa-edit"></i>
+                                                </a>
+                                        @endif
+                                        @if ($permissions->contains('jadwal_delete'))
+                                            <x-confirm-delete :route="route('admin.jadwal.destroy', $jadwal->id)" title="Hapus Jadwal"
+                                                message="Apakah anda yakin ingin menghapus jadwal ini?" />
+                                        @endif
+                                    </td>
+                                @endif
                             </tr>
                         @endforeach
                     </tbody>

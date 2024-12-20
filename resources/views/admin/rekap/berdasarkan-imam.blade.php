@@ -83,7 +83,7 @@
                     <h5 class="d-inline-block px-3 py-1 rounded-3 bg-label-warning ">Total Jadwal : {{ $totalJadwal }}</h5>
                     <h5 class="d-inline-block px-3 py-1 rounded-3 bg-label-secondary ">Total Jadwal Badal : {{ $totalJadwalBadal }}</h5>
                 </div>
-                <div class="card-datatable">
+                <div class="card-datatable table-responsive text-start text-nowrap">
                     <table id="jadwalImam{{ $imam->id }}"
                         class="table dataTable table-bordered table-responsive-sm table-responsive-md table-responsive-xl w-100"
                         style="width: 100%;">

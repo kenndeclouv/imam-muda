@@ -1,4 +1,7 @@
 <x-app>
+    @php
+        $permissions = Auth::user()->getPermissionCodes();
+    @endphp
     <div class="container-xxl flex-grow-1 container-p-y">
         <div class="card mb-3">
             <div class="card-body">
@@ -77,7 +80,8 @@
                 <div class="col-md-12 mb-3">
                     <div class="form-group">
                         <label for="address">Alamat</label>
-                        <input type="text" id="address" class="form-control" value="{{ $imam->address }}" disabled>
+                        <input type="text" id="address" class="form-control" value="{{ $imam->address }}"
+                            disabled>
                     </div>
                 </div>
                 <div class="col-md-12 mb-3">
@@ -88,11 +92,13 @@
                 </div>
                 <div class="d-flex gap-2">
                     <a href="{{ route('admin.imam.index') }}" class="btn btn-primary">Kembali</a>
-                    <form action="{{ route('admin.imam.is_active.update.false', $imam->id) }}" method="POST">
-                        @csrf
-                        @method('PUT')
-                        <button type="submit" class="btn btn-danger">Nonaktifkan</button>
-                    </form>
+                    @if ($permissions->contains('imam_edit'))
+                        <form action="{{ route('admin.imam.is_active.update.false', $imam->id) }}" method="POST">
+                            @csrf
+                            @method('PUT')
+                            <button type="submit" class="btn btn-danger">Nonaktifkan</button>
+                        </form>
+                    @endif
                 </div>
             </div>
         </div>
