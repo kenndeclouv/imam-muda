@@ -11,24 +11,25 @@
             </div>
         </a>
         <ul class="menu-sub">
-            <li class="menu-item {{ request()->routeIs('admin.imam.index', 'admin.imam.edit', 'admin.imam.detail') ? 'active' : '' }}">
+            <li
+                class="menu-item {{ request()->routeIs('admin.imam.index', 'admin.imam.edit', 'admin.imam.detail') ? 'active' : '' }}">
                 <a href="{{ route('admin.imam.index') }}" class="menu-link">
                     <div class="text-truncate">Daftar Imam</div>
                 </a>
             </li>
             @if ($permissions->contains('imam_create'))
-            <li class="menu-item {{ request()->routeIs('admin.imam.create') ? 'active' : '' }}">
-                <a href="{{ route('admin.imam.create') }}" class="menu-link">
-                    <div class="text-truncate">Tambah Imam</div>
-                </a>
-            </li>
+                <li class="menu-item {{ request()->routeIs('admin.imam.create') ? 'active' : '' }}">
+                    <a href="{{ route('admin.imam.create') }}" class="menu-link">
+                        <div class="text-truncate">Tambah Imam</div>
+                    </a>
+                </li>
             @endif
             @if ($permissions->contains('imam_edit'))
-            <li class="menu-item {{ request()->routeIs('admin.imam.is_active') ? 'active' : '' }}">
-                <a href="{{ route('admin.imam.is_active') }}" class="menu-link">
-                    <div class="text-truncate">List Imam Tidak Aktif</div>
-                </a>
-            </li>
+                <li class="menu-item {{ request()->routeIs('admin.imam.is_active') ? 'active' : '' }}">
+                    <a href="{{ route('admin.imam.is_active') }}" class="menu-link">
+                        <div class="text-truncate">List Imam Tidak Aktif</div>
+                    </a>
+                </li>
             @endif
         </ul>
     </li>
@@ -105,12 +106,17 @@
                     </a>
                 </li>
             @endif
+            <li class="menu-item {{ request()->routeIs('admin.jadwal.cache') ? 'active' : '' }}">
+                <a href="{{ route('admin.jadwal.cache') }}" class="menu-link">
+                    <div class="text-truncate">Cache Jadwal</div>
+                </a>
+            </li>
         </ul>
     </li>
 @endif
 
 @if ($permissions->contains('bayaran_show'))
-    <li class="menu-item {{ request()->routeIs('admin.bayaran.*','admin.marbot*') ? 'open active' : '' }}">
+    <li class="menu-item {{ request()->routeIs('admin.bayaran.*', 'admin.marbot*','admin.bayarantambahan*') ? 'open active' : '' }}">
         <a href="javascript:void(0);" class="menu-link menu-toggle">
             <i class="menu-icon fa-solid fa-money-bill fs-6"></i>
             <div class="text-truncate">
@@ -135,6 +141,13 @@
                 <li class="menu-item {{ request()->routeIs('admin.marbot*') ? 'active' : '' }}">
                     <a href="{{ route('admin.marbot.index') }}" class="menu-link">
                         <div class="text-truncate">Marbot</div>
+                    </a>
+                </li>
+            @endif
+            @if ($permissions->contains('imam_show'))
+                <li class="menu-item {{ request()->routeIs('admin.bayarantambahan*') ? 'active' : '' }}">
+                    <a href="{{ route('admin.bayarantambahan.index') }}" class="menu-link">
+                        <div class="text-truncate">Bayaran Tambahan</div>
                     </a>
                 </li>
             @endif
