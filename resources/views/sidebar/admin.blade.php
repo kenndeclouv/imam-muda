@@ -144,13 +144,6 @@
                     </a>
                 </li>
             @endif
-            @if ($permissions->contains('imam_show'))
-                <li class="menu-item {{ request()->routeIs('admin.bayarantambahan*') ? 'active' : '' }}">
-                    <a href="{{ route('admin.bayarantambahan.index') }}" class="menu-link">
-                        <div class="text-truncate">Bayaran Tambahan</div>
-                    </a>
-                </li>
-            @endif
         </ul>
     </li>
 @endif
