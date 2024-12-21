@@ -88,7 +88,7 @@ class RekapController extends Controller
             }
             $totals['total'] = [
                 'count' => $grandTotal,
-                'salary' => $totalSalary + ($imamMarbot->Marbot->bayaran_pokok ?? 0),
+                'salary' => $totalSalary + ($imamMarbot->Marbot->bayaran_pokok ?? 0) + ($imamMarbot->bayaran_tambahan ?? 0),
             ];
             return $totals;
         });

@@ -1,5 +1,7 @@
 <?php
+
 namespace App\Http\Controllers;
+
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreScheduleRequest;
 use App\Http\Requests\UpdateScheduleRequest;
@@ -13,6 +15,8 @@ use App\Services\ScheduleService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+
 class ScheduleController extends Controller
 {
     protected $scheduleService;
@@ -220,5 +224,71 @@ class ScheduleController extends Controller
         }
         Schedule::whereIn('id', $jadwalIds)->delete();
         return redirect()->back()->with('success', 'Jadwal berhasil dihapus.');
+    }
+    public function cache()
+    {
+        $totalSchedules = Schedule::count();
+        $indexSize = DB::select("
+            SELECT ROUND(index_length / 1024, 2) AS index_size_kb
+            FROM information_schema.tables
+            WHERE table_name = 'schedules'
+        ");
+        $totalSizeInKB = $indexSize[0]->index_size_kb; // Ambil hasil index_size_kb
+
+        $schedulesThisMonth = Schedule::whereMonth('date', now()->month)->count();
+        $schedulesThisYear = Schedule::whereYear('date', now()->year)->count();
+
+        return view('admin.jadwal.cache', compact('totalSchedules', 'totalSizeInKB', 'schedulesThisMonth', 'schedulesThisYear'));
+    }
+    public function clearCache(Request $request)
+    {
+        $type = $request->input('type'); // tipe data yang ingin dihapus
+        $currentYear = Carbon::now()->year;
+        $currentMonth = Carbon::now()->month;
+
+        switch ($type) {
+            case 'all':
+                // hapus semua schedule
+                Schedule::truncate();
+                $message = 'Semua jadwal berhasil dihapus.';
+                break;
+
+            case 'this_year':
+                // hapus jadwal tahun ini
+                Schedule::whereYear('date', $currentYear)->delete();
+                $message = 'Jadwal tahun ini berhasil dihapus.';
+                break;
+
+            case 'this_month':
+                // hapus jadwal bulan ini
+                Schedule::whereYear('date', $currentYear)
+                    ->whereMonth('date', $currentMonth)
+                    ->delete();
+                $message = 'Jadwal bulan ini berhasil dihapus.';
+                break;
+
+            case 'last_month':
+                // hapus jadwal bulan lalu
+                $lastMonth = $currentMonth - 1;
+                Schedule::whereYear('date', $currentYear)
+                    ->whereMonth('date', $lastMonth)
+                    ->delete();
+                $message = 'Jadwal bulan lalu berhasil dihapus.';
+                break;
+
+
+            case 'last_year':
+                // hapus jadwal tahun lalu
+                $lastYear = $currentYear - 1;
+                Schedule::whereYear('date', $lastYear)->delete();
+                $message = 'Jadwal tahun lalu berhasil dihapus.';
+                break;
+
+            default:
+                $message = 'Tipe data tidak valid.';
+                break;
+        }
+
+        return response()->json(['message' => $message]);
     }
 }

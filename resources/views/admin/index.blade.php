@@ -302,19 +302,6 @@
                     .catch(err => {
                         console.error('Error fetching data:', err);
                     });
-
-
-                // fetch('https://api.quotable.io/random?minLength=80&maxLength=220')
-                //     .then(response => response.json())
-                //     .then(data => {
-                //         document.getElementById('quotes').textContent = data.content;
-                //         document.getElementById('quotes-author').textContent = data.author;
-                //     })
-                //     .catch(err => {
-                //         document.getElementById('quotes').textContent =
-                //             'Allah tidak membebani seseorang melainkan sesuai dengan kesanggupannya.';
-                //         document.getElementById('quotes-author').textContent = 'QS. Al-Baqarah: 286';
-                //     });
             });
         </script>
     </x-slot:js>

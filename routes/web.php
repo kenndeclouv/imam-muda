@@ -130,6 +130,9 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'checkRole:admin'])-
         Route::put('/{schedule}/edit', [ScheduleController::class, 'update'])->middleware(['auth', 'permission:jadwal_edit'])->name('update');
         Route::delete('/{schedule}/delete', [ScheduleController::class, 'destroy'])->middleware(['auth', 'permission:jadwal_delete'])->name('destroy');
         Route::delete('/delete-selected', [ScheduleController::class, 'destroySelected'])->middleware(['auth', 'permission:jadwal_delete'])->name('destroySelected');
+
+        Route::get('/cache', [ScheduleController::class, 'cache'])->name('cache');
+        Route::post('/clear-cache', [ScheduleController::class, 'clearCache'])->name('clearCache');
     });
     Route::prefix('bayaran')->middleware(['auth', 'permission:bayaran_show'])->name('bayaran.')->group(function () {
         Route::get('/', [FeeController::class, 'index'])->name('index');
@@ -143,6 +146,14 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'checkRole:admin'])-
         Route::post('/{id}/list/create', [ListFeeController::class, 'store'])->middleware(['auth', 'permission:bayaran_list'])->name('list.store');
 
         Route::delete('/list/delete/{listFee}', [ListFeeController::class, 'destroy'])->middleware(['auth', 'permission:bayaran_list'])->name('list.destroy');
+    });
+    Route::prefix('bayarantambahan')->middleware(['auth', 'permission:bayaran_show'])->name('bayarantambahan.')->group(function () {
+        Route::get('/', [FeeController::class, 'bayaranTambahanIndex'])->name('index');
+        Route::get('/create', [FeeController::class, 'bayaranTambahanCreate'])->middleware(['auth', 'permission:bayaran_create'])->name('create');
+        Route::post('/create', [FeeController::class, 'bayaranTambahanStore'])->middleware(['auth', 'permission:bayaran_create'])->name('store');
+        Route::get('/{imam}/edit', [FeeController::class, 'bayaranTambahanEdit'])->middleware(['auth', 'permission:bayaran_edit'])->name('edit');
+        Route::put('/{imam}/edit', [FeeController::class, 'bayaranTambahanUpdate'])->middleware(['auth', 'permission:bayaran_edit'])->name('update');
+        Route::delete('/{imam}/delete', [FeeController::class, 'bayaranTambahanDestroy'])->middleware(['auth', 'permission:bayaran_delete'])->name('destroy');
     });
     Route::prefix('statistik')->middleware(['auth', 'permission:statistik_show'])->name('statistik.')->group(function () {
         Route::get('/', [StatisticController::class, 'statistik'])->name('index');
