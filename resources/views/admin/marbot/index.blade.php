@@ -34,6 +34,7 @@
                             <th>No</th>
                             <th>Imam</th>
                             <th>Masjid</th>
+                            <th>Type</th>
                             @if ($permissions->contains('marbot_edit') || $permissions->contains('marbot_delete'))
                                 <th>Aksi</th>
                             @endif
@@ -44,7 +45,17 @@
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $marbot->Imam->fullname }}</td>
-                                <td>{{ $marbot->Masjid->name }}</td>
+                                <td>{{ $marbot?->Masjid->name ?? "-"}}</td>
+                                <td>
+                                    @if ($marbot->type == 1)
+                                        Flat
+                                    @elseif ($marbot->type == 2)
+                                        Bonus Standby
+                                    @elseif ($marbot->type == 3)
+                                        Bayaran Tambahan
+                                    @endif
+                                </td>
+
                                 @if ($permissions->contains('marbot_edit') || $permissions->contains('marbot_delete'))
                                     <td>
                                         <div class="d-flex gap-2" aria-label="Basic example">

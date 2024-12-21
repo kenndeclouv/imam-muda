@@ -31,8 +31,17 @@
                         </select>
                     </div>
                     <div class="mb-6">
+                        <label class="form-label" for="marbot-type">Tipe</label>
+                        <select name="type" class="form-control select2" id="marbot-type" required>
+                            <option value="">Pilih Tipe</option>
+                            <option value="1" {{ $marbot->type == '1' ? 'selected' : '' }}>Flat (Dihitung 0 jika dimasjid tertentu)</option>
+                            <option value="2" {{ $marbot->type == '2' ? 'selected' : '' }}>Bonus Standby (Seperti Biasa Tapi Jika di Masjid Tertentu)</option>
+                            <option value="3" {{ $marbot->type == '3' ? 'selected' : '' }}>Bayaran Tambahan</option>
+                        </select>
+                    </div>
+                    <div class="mb-6">
                         <label class="form-label" for="marbot-target">Masjid</label>
-                        <select name="masjid_id" class="form-control select2" id="marbot-masjid" required>
+                        <select name="masjid_id" class="form-control select2" id="marbot-masjid">
                             <option value="">Pilih Masjid</option>
                             @foreach ($masjids as $masjid)
                                 <option value="{{ $masjid->id }}"
@@ -43,7 +52,7 @@
                     </div>
                     <div class="mb-6">
                         <label class="form-label" for="bayaran-pokok">Bayaran Pokok</label>
-                        <input type="number" class="form-control" id="bayaran-pokok" name="bayaran_pokok" value="{{ $marbot->bayaran_pokok }}" required>
+                        <input type="number" class="form-control" id="bayaran-pokok" name="bayaran" value="{{ $marbot->bayaran }}" required>
                     </div>
                     <button type="submit" class="btn btn-warning">Edit</button>
                 </form>

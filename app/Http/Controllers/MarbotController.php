@@ -27,8 +27,17 @@ class MarbotController extends Controller
     {
         $validated = $request->validate([
             'imam_id' => 'required|exists:imams,id',
-            'masjid_id' => 'required|exists:masjids,id',
-            'bayaran_pokok' => 'required|integer'
+            'bayaran' => 'required|integer',
+            'type' => 'required|in:1,2,3',
+            'masjid_id' => 'required_if:type,1,2',
+        ], [
+            'imam_id.required' => 'Imam harus dipilih.',
+            'imam_id.exists' => 'Imam yang dipilih tidak valid.',
+            'bayaran.required' => 'Bayaran harus diisi.',
+            'bayaran.integer' => 'Bayaran harus berupa angka.',
+            'type.required' => 'Tipe harus dipilih.',
+            'type.in' => 'Tipe yang dipilih tidak valid.',
+            'masjid_id.required_if' => 'Masjid harus dipilih jika tipe adalah 1 atau 2.',
         ]);
 
         Marbot::create($validated);
@@ -50,8 +59,17 @@ class MarbotController extends Controller
     {
         $validated = $request->validate([
             'imam_id' => 'required|exists:imams,id',
-            'masjid_id' => 'required|exists:masjids,id',
-            'bayaran_pokok' => 'required|integer'
+            'bayaran' => 'required|integer',
+            'type' => 'required|in:1,2,3',
+            'masjid_id' => 'required_if:type,1,2',
+        ], [
+            'imam_id.required' => 'Imam harus dipilih.',
+            'imam_id.exists' => 'Imam yang dipilih tidak valid.',
+            'bayaran.required' => 'Bayaran harus diisi.',
+            'bayaran.integer' => 'Bayaran harus berupa angka.',
+            'type.required' => 'Tipe harus dipilih.',
+            'type.in' => 'Tipe yang dipilih tidak valid.',
+            'masjid_id.required_if' => 'Masjid harus dipilih jika tipe adalah 1 atau 2.',
         ]);
 
         $marbot->update($validated);

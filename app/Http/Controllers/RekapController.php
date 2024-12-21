@@ -71,8 +71,26 @@ class RekapController extends Controller
                     $specialAmount = Fee::find($specialFee)->amount ?? 0;
                     $defaultAmount = $gradeFee ? Fee::find($gradeFee)->amount : 0;
 
-                    if ($imamMarbot?->Marbot && $schedule->masjid_id == $imamMarbot->Marbot->masjid_id) {
-                        $scheduleSalary = 0;
+                    $addBonus = false;
+                    $type2 = false;
+                    if ($imamMarbot?->Marbot) {
+                        $marbot = $imamMarbot->Marbot;
+                        if ($marbot->type == '1' && $schedule->masjid_id == $marbot->masjid_id) {
+                            $scheduleSalary = 0;
+                            $addBonus = true;
+                        } elseif ($marbot->type == '2' && $schedule->masjid_id == $marbot->masjid_id) {
+                            $scheduleSalary = $specialAmount ?: $defaultAmount;
+                            $addBonus = true;
+                            $type2 = true;
+                        } elseif ($marbot->type == '3') {
+                            $scheduleSalary = $specialAmount ?: $defaultAmount;
+                            $addBonus = true;
+                        } else {
+                            $scheduleSalary = $specialAmount ?: $defaultAmount;
+                            if ($type2) {
+                                $addBonus = true;
+                            }
+                        }
                     } else {
                         $scheduleSalary = $specialAmount ?: $defaultAmount;
                     }
@@ -88,7 +106,7 @@ class RekapController extends Controller
             }
             $totals['total'] = [
                 'count' => $grandTotal,
-                'salary' => $totalSalary + ($imamMarbot->Marbot->bayaran_pokok ?? 0),
+                'salary' => $totalSalary + ($addBonus && $imamMarbot->Marbot->bayaran ? $imamMarbot->Marbot->bayaran : 0),
             ];
             return $totals;
         });

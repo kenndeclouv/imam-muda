@@ -15,7 +15,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('imam_id')->nullable()->constrained('imams')->onDelete('cascade')->onUpdate('cascade');
             $table->foreignId('masjid_id')->nullable()->constrained('masjids')->onDelete('cascade')->onUpdate('cascade');
-            $table->integer('bayaran_pokok');
+            $table->enum('type', ['1','2','3']);
+            $table->integer('bayaran');
             $table->timestamps();
         });
     }

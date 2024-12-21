@@ -93,6 +93,11 @@
                                     className: "dropdown-item",
                                     title: "Jadwal Imam Bulan " + moment().format(
                                         'MMMM YYYY'),
+                                    customize: function(win) {
+                                        $(win.document.body)
+                                            .find('table')
+                                            .append($('#jadwalImam tfoot').clone());
+                                    },
                                 },
                                 {
                                     extend: "excelHtml5",
@@ -100,6 +105,7 @@
                                     className: "dropdown-item",
                                     title: "Rekap Imam Bulan " + moment().format(
                                         'MMMM YYYY'),
+                                        
                                 },
                             ],
                         }, ],
@@ -109,8 +115,9 @@
                     });
 
                     function calculateTotals() {
-                        // hapus elemen `tfoot` jika ada
+                        // hapus elemen `tfoot` jika ada sebelumnya
                         $('#jadwalImam tfoot').remove();
+
                         const totals = [];
 
                         table.columns().every(function(index) {
@@ -118,10 +125,11 @@
                                 totals.push('Total');
                             } else {
                                 const total = this.data().reduce((sum, value) => {
-                                    const numericValue = parseInt(value.replace(/[^0-9]/g, '')) ||
-                                        0;
+                                    const numericValue = parseInt(value?.toString().replace(/[^0-9]/g,
+                                        '')) || 0;
                                     return sum + numericValue;
                                 }, 0);
+
                                 totals.push(index === table.columns().count() - 1 ?
                                     `Rp ${total.toLocaleString('id-ID')}` : total);
                             }
@@ -135,6 +143,7 @@
                             </tfoot>
                         `);
                     }
+
 
                 }
                 $('.select2').select2();
