@@ -59,16 +59,26 @@ class RekapController extends Controller
             $totals = [];
             $grandTotal = 0;
             $totalSalary = 0;
+            $imamMarbot = Imam::find($imamId);
             foreach ($defaultShalat as $shalat) {
-                $count = $imamSchedules->where('shalat_id', $shalat->id)->count();
-                $specialFee = ListFee::where('shalat_id', $shalat->id)
-                    ->value('fee_id');
-                $gradeFee = ListFee::where('imam_id', $imamId)
-                    ->whereNull('shalat_id')
-                    ->value('fee_id');
-                $specialAmount = Fee::find($specialFee)->amount ?? null;
-                $defaultAmount = $gradeFee ? Fee::find($gradeFee)->amount : 0;
-                $salary = ($specialAmount ?? $defaultAmount) * $count;
+                $shalatSchedules = $imamSchedules->where('shalat_id', $shalat->id);
+                $count = $shalatSchedules->count();
+                $salary = 0;
+                foreach ($shalatSchedules as $schedule) {
+                    $specialFee = ListFee::where('shalat_id', $shalat->id)->value('fee_id');
+                    $gradeFee = ListFee::where('imam_id', $imamId)->whereNull('shalat_id')->value('fee_id');
+
+                    $specialAmount = Fee::find($specialFee)->amount ?? 0;
+                    $defaultAmount = $gradeFee ? Fee::find($gradeFee)->amount : 0;
+
+                    if ($imamMarbot?->Marbot && $schedule->masjid_id == $imamMarbot->Marbot->masjid_id) {
+                        $scheduleSalary = 0;
+                    } else {
+                        $scheduleSalary = $specialAmount ?: $defaultAmount;
+                    }
+
+                    $salary += $scheduleSalary;
+                }
                 $totals[$shalat->id] = [
                     'count' => $count,
                     'salary' => $salary,
@@ -78,7 +88,7 @@ class RekapController extends Controller
             }
             $totals['total'] = [
                 'count' => $grandTotal,
-                'salary' => $totalSalary,
+                'salary' => $totalSalary + ($imamMarbot->Marbot->bayaran_pokok ?? 0),
             ];
             return $totals;
         });

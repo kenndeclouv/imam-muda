@@ -110,7 +110,7 @@
 @endif
 
 @if ($permissions->contains('bayaran_show'))
-    <li class="menu-item {{ request()->routeIs('admin.bayaran.*') ? 'open active' : '' }}">
+    <li class="menu-item {{ request()->routeIs('admin.bayaran.*','admin.marbot*') ? 'open active' : '' }}">
         <a href="javascript:void(0);" class="menu-link menu-toggle">
             <i class="menu-icon fa-solid fa-money-bill fs-6"></i>
             <div class="text-truncate">
@@ -128,6 +128,13 @@
                 <li class="menu-item {{ request()->routeIs('admin.bayaran.create') ? 'active' : '' }}">
                     <a href="{{ route('admin.bayaran.create') }}" class="menu-link">
                         <div class="text-truncate">Tambah Bayaran</div>
+                    </a>
+                </li>
+            @endif
+            @if ($permissions->contains('marbot_show'))
+                <li class="menu-item {{ request()->routeIs('admin.marbot*') ? 'active' : '' }}">
+                    <a href="{{ route('admin.marbot.index') }}" class="menu-link">
+                        <div class="text-truncate">Marbot</div>
                     </a>
                 </li>
             @endif

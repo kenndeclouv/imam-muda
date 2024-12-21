@@ -34,8 +34,8 @@ class Imam extends Model
     {
         return $this->hasOne(ListFee::class);
     }
-    public function getPhotoAttribute($value)
+    public function Marbot()
     {
-        return (!empty($value) && !is_null($value)) ? asset('/storage/' . $value) : $value;
+        return $this->hasOne(Marbot::class);
     }
 }

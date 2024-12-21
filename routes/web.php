@@ -4,6 +4,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Auth\EmailVerificationController;
 use App\Http\Controllers\ForgotPassword;
 use App\Http\Controllers\ListFeeController;
+use App\Http\Controllers\MarbotController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\QuoteController;
 use App\Http\Controllers\LogViewerController;
@@ -168,6 +169,14 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'checkRole:admin'])-
         Route::put('/{quote}/edit', [QuoteController::class, 'update'])->middleware(['auth', 'permission:quote_edit'])->name('update');
         Route::delete('/{quote}/delete', [QuoteController::class, 'destroy'])->middleware(['auth', 'permission:quote_delete'])->name('destroy');
         Route::put('/{quote}/status', [QuoteController::class, 'toggleStatus'])->middleware(['auth', 'permission:quote_edit'])->name('status');
+    });
+    Route::prefix('marbot')->middleware(['auth', 'permission:marbot_show'])->name('marbot.')->group(function () {
+        Route::get('/', [MarbotController::class, 'index'])->name('index');
+        Route::get('/create', [MarbotController::class, 'create'])->middleware(['auth', 'permission:marbot_create'])->name('create');
+        Route::post('/create', [MarbotController::class, 'store'])->middleware(['auth', 'permission:marbot_create'])->name('store');
+        Route::get('/{marbot}/edit', [MarbotController::class, 'edit'])->middleware(['auth', 'permission:marbot_edit'])->name('edit');
+        Route::put('/{marbot}/edit', [MarbotController::class, 'update'])->middleware(['auth', 'permission:marbot_edit'])->name('update');
+        Route::delete('/{marbot}/delete', [MarbotController::class, 'destroy'])->middleware(['auth', 'permission:marbot_delete'])->name('destroy');
     });
 });
 

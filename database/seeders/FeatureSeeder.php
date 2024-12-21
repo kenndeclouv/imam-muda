@@ -49,6 +49,10 @@ class FeatureSeeder extends Seeder
             ['name' => 'Tambah Quote', 'code' => 'quote_create'],
             ['name' => 'Ubah Quote', 'code' => 'quote_edit'],
             ['name' => 'Hapus Quote', 'code' => 'quote_delete'],
+            ['name' => 'Tampilkan Marbot', 'code' => 'marbot_show'],
+            ['name' => 'Tambah Marbot', 'code' => 'marbot_create'],
+            ['name' => 'Ubah Marbot', 'code' => 'marbot_edit'],
+            ['name' => 'Hapus Marbot', 'code' => 'marbot_delete'],
         ];
 
         foreach ($features as $feature) {
