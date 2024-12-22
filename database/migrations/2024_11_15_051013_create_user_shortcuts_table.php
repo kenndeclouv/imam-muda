@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade')->onUpdate('cascade');
             $table->string('link');
             $table->string('title');
-            $table->string('description');
+            $table->string('key_combination');
             $table->string('icon');
             $table->timestamps();
         });

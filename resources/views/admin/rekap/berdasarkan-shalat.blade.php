@@ -91,8 +91,7 @@
                                     extend: "print",
                                     text: '<i class="fas fa-print me-1"></i>Print',
                                     className: "dropdown-item",
-                                    title: "Jadwal Imam Bulan " + moment().format(
-                                        'MMMM YYYY'),
+                                    title: "Jadwal Imam Bulan " + moment().format('MMMM YYYY'),
                                     customize: function(win) {
                                         $(win.document.body)
                                             .find('table')
@@ -103,9 +102,7 @@
                                     extend: "excelHtml5",
                                     text: '<i class="fas fa-file-excel me-1"></i>Excel',
                                     className: "dropdown-item",
-                                    title: "Rekap Imam Bulan " + moment().format(
-                                        'MMMM YYYY'),
-                                        
+                                    title: "Rekap Imam Bulan " + moment().format('MMMM YYYY'),
                                 },
                             ],
                         }, ],
@@ -143,8 +140,6 @@
                             </tfoot>
                         `);
                     }
-
-
                 }
                 $('.select2').select2();
             });

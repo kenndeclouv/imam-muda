@@ -54,11 +54,16 @@ class AccountController extends Controller
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'link' => 'required|string',
-            'icon' => 'nullable|string',
-            'description' => 'nullable|string',
+            'icon' => 'required|string',
+            'key_combination' => 'required|string',
+        ], [
+            'title.required' => 'Title harus diisi',
+            'link.required' => 'Link harus diisi',
+            'icon.required' => 'Icon harus diisi',
+            'key_combination.required' => 'Kombinasi Shortcut harus diisi',
         ]);
         UserShortcut::create(array_merge($validated, ['user_id' => Auth::id()]));
-        return back()->with('success', 'berhasil menambahkan shortcut');
+        return back()->with('success', 'Shortcut berhasil ditambahkan');
     }
     public function updateImam(Request $request)
     {

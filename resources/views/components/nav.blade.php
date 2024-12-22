@@ -66,7 +66,7 @@
                                         <i class="{{ $shortcut->icon ?? 'fa-solid fa-bookmark' }} text-heading"></i>
                                     </span>
                                     <a href="{{ $shortcut->link }}" class="stretched-link">{{ $shortcut->title }}</a>
-                                    <small>{{ $shortcut->description }}</small>
+                                    <small>{{ $shortcut->key_combination }}</small>
                                 </div>
                             @endforeach
                         </div>
@@ -150,8 +150,7 @@
                             <div class="d-flex">
                                 <div class="flex-shrink-0 me-3">
                                     <div class="avatar avatar-online">
-                                        <img src="{{ $user->photo }}" alt="Avatar"
-                                            class="rounded-circle">
+                                        <img src="{{ $user->photo }}" alt="Avatar" class="rounded-circle">
                                     </div>
                                 </div>
                                 <div class="flex-grow-1">
@@ -239,8 +238,16 @@
                         </select>
                     </div>
                     <div class="mb-3">
-                        <label for="shortcutDescription" class="form-label">Description</label>
-                        <textarea class="form-control" id="shortcutDescription" name="description"></textarea>
+                        <label for="key-combination" class="form-label">Kombinasi Shorcut</label>
+                        <div class="row w-100">
+                            <div class="col-10">
+                                <input type="text" class="form-control" id="key-combination"
+                                    name="key_combination" placeholder="Pencet kombinasi tombol..." readonly required>
+                            </div>
+                            <div class="col-2">
+                                <button type="button" class="btn btn-secondary" id="resetButton">Reset</button>
+                            </div>
+                        </div>
                     </div>
                     <button type="submit" class="btn btn-primary">Add Shortcut</button>
                 </form>
@@ -409,5 +416,41 @@
     $(document).ready(function() {
         fetchNotifications();
 
+    });
+</script>
+<script>
+    let pressedKeys = [];
+    document.getElementById('key-combination').addEventListener('focus', function() {
+        let pressedKeys = [];
+        const keydownListener = function(event) {
+            if (event.key === 'Enter' || event.key === 'Backspace') {
+                pressedKeys = [];
+            } else {
+                pressedKeys.push(event.key);
+            }
+            const keyCombination = pressedKeys.join(' + ');
+            document.getElementById('key-combination').value = keyCombination;
+        };
+        document.addEventListener('keydown', keydownListener);
+        document.getElementById('key-combination').addEventListener('blur', function() {
+            document.removeEventListener('keydown', keydownListener);
+        });
+    });
+    document.getElementById('resetButton').addEventListener('click', function() {
+        document.getElementById('key-combination').value = '';
+        pressedKeys = [];
+    });
+    const savedShortcuts = @json($user->UserShortcuts);
+    document.addEventListener('keydown', function(event) {
+        const pressedKeys = [];
+        if (event.ctrlKey) pressedKeys.push('Control');
+        if (event.shiftKey) pressedKeys.push('Shift');
+        pressedKeys.push(event.key);
+        const keyCombination = pressedKeys.join(' + ');
+        const matchedShortcut = savedShortcuts.find(shortcut => shortcut.key_combination === keyCombination);
+        if (matchedShortcut) {
+            event.preventDefault();
+            window.location.href = matchedShortcut.link;
+        }
     });
 </script>

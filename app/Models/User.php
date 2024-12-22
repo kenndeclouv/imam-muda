@@ -115,25 +115,15 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         $user = Auth::user();
         $routes = collect(Route::getRoutes());
-
-        $accessibleRoutes = $routes->filter(function ($route) use ($user) {
+        $userRoleCode = $user->Role->code ?? null;
+        $accessibleRoutes = $routes->filter(function ($route) use ($user, $userRoleCode) {
+            $routeName = $route->getName();
             $middleware = collect($route->gatherMiddleware())->filter(fn($m) => is_string($m));
-
-
-            $gateName = $middleware->first(fn($m) => str_starts_with($m, 'can:'));
-
-            if ($gateName) {
-                $gate = str_replace('can:', '', $gateName);
-
-
-                return Gate::forUser($user)->allows($gate);
+            if ($middleware->contains("checkRole:$userRoleCode")) {
+                return true;
             }
-
-
-            return true;
+            return false;
         });
-
-
         return $accessibleRoutes->map(function ($route) {
             return [
                 'uri' => $route->uri(),
@@ -142,6 +132,9 @@ class User extends Authenticatable implements MustVerifyEmail
             ];
         });
     }
+
+
+
     public function Permissions()
     {
         return $this->hasMany(Permission::class);

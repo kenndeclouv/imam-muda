@@ -20,7 +20,7 @@
 
 @if (session('success'))
     <script>
-        Swal.fire(getSwalOptions('success', 'Sukses!', '{{ session('success') }}'));
+        Swal.fire(getSwalOptions('success', 'Sukses!', '{!! session('success') !!}'));
     </script>
 @elseif (session('error'))
     <script>
