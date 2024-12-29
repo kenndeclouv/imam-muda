@@ -108,7 +108,7 @@
             @endif
             <li class="menu-item {{ request()->routeIs('admin.jadwal.cache') ? 'active' : '' }}">
                 <a href="{{ route('admin.jadwal.cache') }}" class="menu-link">
-                    <div class="text-truncate">Cache Jadwal</div>
+                    <div class="text-truncate">Bersihkan Jadwal</div>
                 </a>
             </li>
         </ul>
