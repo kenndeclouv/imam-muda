@@ -39,6 +39,16 @@
     <script src="{{ asset('assets/vendor/js/helpers.js') }}"></script>
     <script src="{{ asset('assets/vendor/js/template-customizer.js') }}"></script>
     <script src="{{ asset('assets/js/config.js') }}"></script>
+    <style>
+        .misc-wrapper {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: calc(100vh - 1.5rem*2);
+            text-align: center
+        }
+    </style>
 </head>
 
 <body class="vh-100 overflow-hidden">
