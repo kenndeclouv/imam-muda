@@ -1,6 +1,34 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/laravel/compare/v11.1.3...11.x)
+## [Unreleased](https://github.com/laravel/laravel/compare/v1.0-release...main)
+
+## [v1.0-release](https://github.com/laravel/laravel/compare/v11.1.3...v1.0-release) - 2024-12-29
+
+### **Release v1.0**
+
+##### Fitur yang tersedia setiap role:
+
+###### Super Admin
+
+- Data Admin.
+- Logs
+
+###### Admin
+
+- Data Imam
+- Data Shalat
+- Data Masjid
+- Data Shalat
+- Data Jadwal
+- Data Bayaran
+- Pengumuman
+- Rekap per imam dan shalat
+- Statistik
+- Quote
+
+###### Imam
+
+- Data Jadwal
 
 ## [v11.1.3](https://github.com/laravel/laravel/compare/v11.1.2...v11.1.3) - 2024-07-03
 
