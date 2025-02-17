@@ -120,10 +120,6 @@
                                                             <i class="fa-solid fa-edit"></i>
                                                         </a>
 
-                                                        <!-- Tombol Hapus Jadwal -->
-                                                        <x-confirm-delete :route="route('imam.jadwal.destroy', $jadwal->id)" title="Hapus Jadwal"
-                                                            message="Apakah anda yakin ingin menghapus jadwal ini?" />
-
                                                         <!-- Tombol Carikan Badal -->
                                                         <span data-bs-toggle="tooltip" data-bs-placement="top"
                                                             title="Carikan Badal">
@@ -178,11 +174,13 @@
                                                     @endif
                                                 @else
                                                     <!-- Badge Telah Dilaksanakan -->
-                                                    <div class="badge bg-label-success">
+                                                    <div class="badge bg-label-success align-self-center">
                                                         Telah Dilaksanakan
                                                     </div>
                                                 @endif
-
+                                                <!-- Tombol Hapus Jadwal -->
+                                                <x-confirm-delete :route="route('imam.jadwal.destroy', $jadwal->id)" title="Hapus Jadwal"
+                                                    message="Apakah anda yakin ingin menghapus jadwal ini?" />
                                             </div>
                                         </td>
                                     </tr>
