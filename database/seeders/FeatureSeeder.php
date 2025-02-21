@@ -53,10 +53,19 @@ class FeatureSeeder extends Seeder
             ['name' => 'Tambah Marbot', 'code' => 'marbot_create'],
             ['name' => 'Ubah Marbot', 'code' => 'marbot_edit'],
             ['name' => 'Hapus Marbot', 'code' => 'marbot_delete'],
+            ['name' => 'Tampilkan Student', 'code' => 'student_show'],
+            ['name' => 'Tambah Student', 'code' => 'student_create'],
+            ['name' => 'Ubah Student', 'code' => 'student_edit'],
+            ['name' => 'Hapus Student', 'code' => 'student_delete'],
+            ['name' => 'Detail Student', 'code' => 'student_detail'],
+            ['name' => 'Tampilkan Hafalan', 'code' => 'memorization_show'],
+            ['name' => 'Tambah Hafalan', 'code' => 'memorization_create'],
+            ['name' => 'Ubah Hafalan', 'code' => 'memorization_edit'],
+            ['name' => 'Hapus Hafalan', 'code' => 'memorization_delete'],
         ];
 
         foreach ($features as $feature) {
-            Feature::create($feature);
+            Feature::firstOrCreate($feature);
         }
     }
 }

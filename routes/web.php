@@ -19,9 +19,13 @@ use App\Http\Controllers\FeeController;
 use App\Http\Controllers\StatisticController;
 use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\RekapController;
+use App\Http\Controllers\UserController;
+
 // API
 use App\Http\Controllers\API\APIController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\StudentController;
+use App\Http\Controllers\StudentMemorizationController;
 use App\Http\Controllers\UserNotificationController;
 
 Route::redirect('/', '/login');
@@ -39,7 +43,10 @@ Route::middleware(['auth'])->group(function () {
 Route::get('login', [LoginController::class, 'index'])->name('login.index');
 Route::post('login', [LoginController::class, 'login'])->name('login');
 Route::get('register', [RegisterController::class, 'index'])->name('register');
-Route::post('register', [RegisterController::class, 'store'])->name('register.store');
+Route::get('register/imam', [RegisterController::class, 'imam'])->name('register.imam');
+Route::get('register/student', [RegisterController::class, 'student'])->name('register.student');
+Route::post('register/imam', [RegisterController::class, 'storeImam'])->name('register.imam.store');
+Route::post('register/student', [RegisterController::class, 'storeStudent'])->name('register.student.store');
 
 Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 Route::get('/forgot-password', [ForgotPassword::class, 'index'])->middleware('guest')->name('password.request');
@@ -81,6 +88,12 @@ Route::prefix('superadmin')->name('superadmin.')->middleware(['auth', 'checkRole
         Route::put('/{admin}/permissions/edit', [AdminController::class, 'permissionsUpdate'])->name('permissions.update');
         Route::delete('/{admin}/permissions/{permission}/delete', [AdminController::class, 'permissionsDestroy'])->name('permissions.destroy');
     });
+
+    Route::prefix('user')->name('user.')->group(function () {
+        Route::get('/', [UserController::class, 'index'])->name('index');
+        Route::get('/{user}/reset-password', [UserController::class, 'resetPassword'])->name('resetPassword');
+        Route::delete('/{user}/delete', [UserController::class, 'destroy'])->name('destroy');
+    });
 });
 
 // Routes untuk Admin
@@ -102,6 +115,30 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'checkRole:admin'])-
         Route::get('/active', [ImamController::class, 'isActive'])->name('is_active');
         Route::put('/active/{imam}', [ImamController::class, 'isActiveUpdate'])->name('is_active.update');
         Route::put('/active/{imam}/false', [ImamController::class, 'isActiveUpdateFalse'])->name('is_active.update.false');
+    });
+    Route::prefix('student')->middleware(['auth', 'permission:student_show'])->name('student.')->group(function () {
+        Route::get('/', [StudentController::class, 'index'])->name('index');
+        Route::get('/{student}/show', [StudentController::class, 'show'])->name('show');
+        Route::get('/create', [StudentController::class, 'create'])->middleware(['auth', 'permission:student_create'])->name('create');
+        Route::post('/create', [StudentController::class, 'store'])->middleware(['auth', 'permission:student_create'])->name('store');
+        Route::get('/{student}/edit', [StudentController::class, 'edit'])->middleware(['auth', 'permission:student_edit'])->name('edit');
+        Route::put('/{student}/edit', [StudentController::class, 'update'])->middleware(['auth', 'permission:student_edit'])->name('update');
+        Route::delete('/{student}/delete', [StudentController::class, 'destroy'])->middleware(['auth', 'permission:student_delete'])->name('destroy');
+
+        Route::get('/{student}/detail', [StudentController::class, 'detail'])->middleware(['auth', 'permission:student_detail'])->name('detail');
+        Route::get('/active', [StudentController::class, 'isActive'])->name('is_active');
+        Route::put('/active/{student}', [StudentController::class, 'isActiveUpdate'])->name('is_active.update');
+        Route::put('/active/{student}/false', [StudentController::class, 'isActiveUpdateFalse'])->name('is_active.update.false');
+
+        Route::prefix('memorization')->middleware(['auth', 'permission:memorization_show'])->name('memorization.')->group(function () {
+            Route::get('/', [StudentMemorizationController::class, 'index'])->name('index');
+            Route::get('/{memorization}/show', [StudentMemorizationController::class, 'show'])->name('show');
+            Route::get('/create', [StudentMemorizationController::class, 'create'])->middleware(['auth', 'permission:memorization_create'])->name('create');
+            Route::post('/create', [StudentMemorizationController::class, 'store'])->middleware(['auth', 'permission:memorization_create'])->name('store');
+            Route::get('/{memorization}/edit', [StudentMemorizationController::class, 'edit'])->middleware(['auth', 'permission:memorization_edit'])->name('edit');
+            Route::put('/{memorization}/edit', [StudentMemorizationController::class, 'update'])->middleware(['auth', 'permission:memorization_edit'])->name('update');
+            Route::delete('/{memorization}/delete', [StudentMemorizationController::class, 'destroy'])->middleware(['auth', 'permission:memorization_delete'])->name('destroy');
+        });
     });
     Route::prefix('masjid')->middleware(['auth', 'permission:masjid_show'])->name('masjid.')->group(function () {
         Route::get('/', [MasjidController::class, 'index'])->name('index');

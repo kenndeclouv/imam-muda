@@ -9,7 +9,7 @@
                     document.write(new Date().getFullYear());
                 </script>
                 , made with ❤️ by
-                <a href="https://kenndeclouv.rf.gd" target="_blank"
+                <a href="https://kenndeclouv.my.id" target="_blank"
                     class="footer-link">kenndeclouv</a>
             </div>
         </div>

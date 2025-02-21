@@ -13,6 +13,21 @@
         </li>
     </ul>
 </li>
+<li class="menu-item {{ request()->routeIs('superadmin.user.*') ? 'open active' : '' }}">
+    <a href="javascript:void(0);" class="menu-link menu-toggle">
+        <i class="menu-icon fa fa-user fs-6"></i>
+        <div class="text-truncate">
+            User
+        </div>
+    </a>
+    <ul class="menu-sub">
+        <li class="menu-item {{ request()->routeIs('superadmin.user.*') ? 'active' : '' }}">
+            <a href="{{ route('superadmin.user.index') }}" class="menu-link">
+                <div class="text-truncate">Daftar User</div>
+            </a>
+        </li>
+    </ul>
+</li>
 <li class="menu-header small text-uppercase">
     <span class="menu-header-text">Tools</span>
 </li>

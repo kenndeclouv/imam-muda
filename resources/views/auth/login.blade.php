@@ -1,6 +1,6 @@
-<x-auth-app>
+<x-auth-app title="Login">
     <x-slot:css>
-    <link rel="stylesheet" href="{{ asset('assets/vendor/css/pages/page-auth.css') }}">
+        <link rel="stylesheet" href="{{ asset('assets/vendor/css/pages/page-auth.css') }}">
     </x-slot:css>
     <!-- Content -->
 
@@ -14,7 +14,7 @@
                             <a href="/" class="app-brand-link gap-2">
                                 <span class="app-brand-logo demo">
                                     <img src="{{ asset(config('app.logo')) }}" alt="{{ config('app.name') . ' logo' }}"
-                                    style="border-radius:5px; width: 200px">
+                                        style="border-radius:5px; width: 200px">
                                 </span>
                                 {{-- <span class="app-brand-text demo text-heading fw-bold">{{ config('app.name') }}</span> --}}
                             </a>
@@ -23,7 +23,7 @@
                         <h4 class="mb-1">Selamat datang Imam Muda👋</h4>
                         <p class="mb-6">Silahkan masuk menggunakan akun anda</p>
                         @include('components.alert')
-                        <form id="formAuthentication" class="mb-6" action="{{ route('login')}}" method="POST">
+                        <form id="formAuthentication" class="mb-6" action="{{ route('login') }}" method="POST">
                             @csrf
                             <div class="mb-6">
                                 <label for="username" class="form-label">Username</label>
@@ -42,7 +42,8 @@
                             <div class="mb-8">
                                 <div class="d-flex justify-content-between mt-8">
                                     <div class="form-check mb-0 ms-2">
-                                        <input class="form-check-input" type="checkbox" id="remember-me" name="remember">
+                                        <input class="form-check-input" type="checkbox" id="remember-me"
+                                            name="remember">
                                         <label class="form-check-label" for="remember-me">
                                             Ingat saya
                                         </label>
@@ -55,7 +56,8 @@
                             <div class="mb-2">
                                 <button class="btn btn-primary d-grid w-100" type="submit">Login</button>
                                 <hr>
-                                <p class="text-center mt-2">Belum punya akun? <a href="{{ route('register') }}" class="text-center mt-2">Daftar</a></p>
+                                <p class="text-center mt-2">Belum punya akun? <a href="{{ route('register') }}"
+                                        class="text-center mt-2">Daftar</a></p>
                             </div>
                         </form>
                     </div>

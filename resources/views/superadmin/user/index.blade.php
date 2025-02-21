@@ -5,54 +5,44 @@
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb m-0">
                         <li class="breadcrumb-item"><a href="{{ route('superadmin.home') }}">Dashboard</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Daftar Admin</li>
+                        <li class="breadcrumb-item active" aria-current="page">Daftar User</li>
                     </ol>
                 </nav>
             </div>
         </div>
         <div class="card">
-            <div class="card-header border-bottom mb-4">
-                <h5 class="card-title">Daftar Admin</h5>
-            </div>
-            <div class="card-body pb-0">
-                @include('components.alert')
-                <div class="card-actions d-flex">
-                    <a href="{{ route('superadmin.admin.create') }}" class="btn btn-primary ms-auto">Tambah Admin</a>
-                </div>
-            </div>
             <div class="card-datatable table-responsive text-start text-nowrap">
                 <table class="table table-bordered table-responsive-sm table-responsive-md table-responsive-xl w-100"
                     id="dataTable" style="width: 100%;">
                     <thead>
                         <tr>
-                            <th>Nama</th>
+                            <th>ID</th>
                             <th>Username</th>
                             <th>Email</th>
+                            <th>Role</th>
                             <th>Terakhir diubah</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
                     @include('components.show')
                     <tbody>
-                        @foreach ($admins as $admin)
+                        @foreach ($users as $user)
                             <tr>
-                                <td>{{ $admin->fullname }}</td>
-                                <td>{{ $admin->User->username }}</td>
-                                <td>{{ $admin->User->email }}</td>
-                                <td>{{ $admin->updated_at->format('d F Y H:i') }}</td>
+                                <td>{{ $user->id }}</td>
+                                <td>{{ $user->username }}</td>
+                                <td>{{ $user->email }}</td>
+                                <td>{{ $user->role->name }}</td>
+                                <td>{{ $user->updated_at->format('d F Y H:i') }}</td>
                                 <td>
                                     <div class="d-flex gap-2" aria-label="Basic example">
-                                        <a href="{{ route('superadmin.admin.edit', $admin->id) }}"
+                                        <a href="{{ route('superadmin.user.resetPassword', $user->id) }}"
                                             class="btn btn-warning" data-bs-toggle="tooltip" data-bs-placement="top"
-                                            data-bs-title="Edit Admin">
-                                            <i class="fa-solid fa-edit"></i>
-                                        </a>
-                                        <x-confirm-delete :route="route('superadmin.admin.destroy', $admin->id)" title="Hapus Admin" />
-                                        <a href="{{ route('superadmin.admin.permissions', $admin->id) }}"
-                                            class="btn btn-info" data-bs-toggle="tooltip" data-bs-placement="top"
-                                            data-bs-title="Ijin Akses">
+                                            data-bs-title="Reset Password">
                                             <i class="fa-solid fa-key"></i>
                                         </a>
+                                        @if ($user->role->code !== 'superadmin')
+                                            <x-confirm-delete :route="route('superadmin.user.destroy', $user->id)" title="Hapus User" />
+                                        @endif
                                     </div>
                                 </td>
                             </tr>

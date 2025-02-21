@@ -35,6 +35,39 @@
     </li>
 @endif
 
+@if ($permissions->contains('student_show'))
+    <li class="menu-item {{ request()->routeIs('admin.student.*') && !request()->routeIs('admin.student.memorization.*') ? 'open active' : '' }}">
+        <a href="javascript:void(0);" class="menu-link menu-toggle">
+            <i class="menu-icon fa-solid fa-user-graduate fs-6"></i>
+            <div class="text-truncate">
+                Santri
+            </div>
+        </a>
+        <ul class="menu-sub">
+            <li
+                class="menu-item {{ request()->routeIs('admin.student.index', 'admin.student.edit', 'admin.student.detail') ? 'active' : '' }}">
+                <a href="{{ route('admin.student.index') }}" class="menu-link">
+                    <div class="text-truncate">Daftar Santri</div>
+                </a>
+            </li>
+            @if ($permissions->contains('student_create'))
+                <li class="menu-item {{ request()->routeIs('admin.student.create') ? 'active' : '' }}">
+                    <a href="{{ route('admin.student.create') }}" class="menu-link">
+                        <div class="text-truncate">Tambah Santri</div>
+                    </a>
+                </li>
+            @endif
+            @if ($permissions->contains('student_edit'))
+                <li class="menu-item {{ request()->routeIs('admin.student.is_active') ? 'active' : '' }}">
+                    <a href="{{ route('admin.student.is_active') }}" class="menu-link">
+                        <div class="text-truncate">List Santri Tidak Aktif</div>
+                    </a>
+                </li>
+            @endif
+        </ul>
+    </li>
+@endif
+
 @if ($permissions->contains('shalat_show'))
     <li class="menu-item {{ request()->routeIs('admin.shalat.*') ? 'open active' : '' }}">
         <a href="javascript:void(0);" class="menu-link menu-toggle">
@@ -90,7 +123,7 @@
         <a href="javascript:void(0);" class="menu-link menu-toggle">
             <i class="menu-icon fa-solid fa-calendar-lines-pen fs-6"></i>
             <div class="text-truncate">
-                Jadwal
+                Jadwal Imam
             </div>
         </a>
         <ul class="menu-sub">
@@ -115,8 +148,39 @@
     </li>
 @endif
 
+@if ($permissions->contains('memorization_show'))
+    <li class="menu-item {{ request()->routeIs('admin.student.memorization.*') ? 'open active' : '' }}">
+        <a href="javascript:void(0);" class="menu-link menu-toggle">
+            <i class="menu-icon fa-solid fa-book-open fs-6"></i>
+            <div class="text-truncate">
+                Hafalan Santri
+            </div>
+        </a>
+        <ul class="menu-sub">
+            <li class="menu-item {{ request()->routeIs('admin.student.memorization.index', 'admin.student.memorization.edit', 'admin.student.memorization.show') ? 'active' : '' }}">
+                <a href="{{ route('admin.student.memorization.index') }}" class="menu-link">
+                    <div class="text-truncate">Daftar Hafalan</div>
+                </a>
+            </li>
+            @if ($permissions->contains('memorization_create'))
+                <li class="menu-item {{ request()->routeIs('admin.student.memorization.create') ? 'active' : '' }}">
+                    <a href="{{ route('admin.student.memorization.create') }}" class="menu-link">
+                        <div class="text-truncate">Tambah Hafalan</div>
+                    </a>
+                </li>
+            @endif
+            {{-- <li class="menu-item {{ request()->routeIs('admin.memorization.cache') ? 'active' : '' }}">
+                <a href="{{ route('admin.memorization.cache') }}" class="menu-link">
+                    <div class="text-truncate">Bersihkan Hafalan</div>
+                </a>
+            </li> --}}
+        </ul>
+    </li>
+@endif
+
 @if ($permissions->contains('bayaran_show'))
-    <li class="menu-item {{ request()->routeIs('admin.bayaran.*', 'admin.marbot*','admin.bayarantambahan*') ? 'open active' : '' }}">
+    <li
+        class="menu-item {{ request()->routeIs('admin.bayaran.*', 'admin.marbot*', 'admin.bayarantambahan*') ? 'open active' : '' }}">
         <a href="javascript:void(0);" class="menu-link menu-toggle">
             <i class="menu-icon fa-solid fa-money-bill fs-6"></i>
             <div class="text-truncate">
