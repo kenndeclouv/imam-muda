@@ -8,8 +8,9 @@
         "php": "^8.2",
         "laravel/framework": "^11.9",
         "laravel/tinker": "^2.9",
+        "league/flysystem": "^3.0",
         "phpoffice/phpspreadsheet": "^3.4",
-        "league/flysystem": "^3.0"
+        "spatie/laravel-backup": "^9.2"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.13",
