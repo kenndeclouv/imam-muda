@@ -33,7 +33,7 @@
                     <thead>
                         <tr>
                             <th>Nama</th>
-                            <th>Imam</th>
+                            <th>Ustadz</th>
                             <th>Surat</th>
                             <th>Dari</th>
                             <th>Sampai</th>
@@ -69,6 +69,36 @@
                                                 data-bs-title="Edit Hafalan">
                                                 <i class="fa-solid fa-edit"></i>
                                             </a>
+                                        @endif
+                                        @if ($permissions->contains('memorization_edit'))
+                                            <div class="dropdown" data-bs-toggle="tooltip" data-bs-placement="bottom"
+                                                data-bs-title="Ubah Status">
+                                                <button class="btn btn-secondary dropdown-toggle" type="button"
+                                                    id="dropdownMenuButton" data-bs-toggle="dropdown"
+                                                    aria-expanded="false">
+                                                    <i class="fa-solid fa-check-circle"></i>
+                                                </button>
+                                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                    <li>
+                                                        <form
+                                                            action="{{ route('admin.student.memorization.isContinueTrue', $memorization->id) }}"
+                                                            method="POST" style="display:inline;">
+                                                            @csrf
+                                                            <button type="submit"
+                                                                class="dropdown-item text-success">Lulus</button>
+                                                        </form>
+                                                    </li>
+                                                    <li>
+                                                        <form
+                                                            action="{{ route('admin.student.memorization.isContinueFalse', $memorization->id) }}"
+                                                            method="POST" style="display:inline;">
+                                                            @csrf
+                                                            <button type="submit"
+                                                                class="dropdown-item text-danger">Tidak Lulus</button>
+                                                        </form>
+                                                    </li>
+                                                </ul>
+                                            </div>
                                         @endif
                                         @if ($permissions->contains('memorization_delete'))
                                             <x-confirm-delete :route="route('admin.student.memorization.destroy', $memorization->id)" title="Hapus Hafalan"

@@ -24,6 +24,7 @@ use App\Http\Controllers\UserController;
 // API
 use App\Http\Controllers\API\APIController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\StudentAttendanceController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\StudentMemorizationController;
 use App\Http\Controllers\UserNotificationController;
@@ -47,6 +48,7 @@ Route::get('register/imam', [RegisterController::class, 'imam'])->name('register
 Route::get('register/student', [RegisterController::class, 'student'])->name('register.student');
 Route::post('register/imam', [RegisterController::class, 'storeImam'])->name('register.imam.store');
 Route::post('register/student', [RegisterController::class, 'storeStudent'])->name('register.student.store');
+Route::get('clear-cookie', [LoginController::class, 'clearCookie'])->name('clear.cookie');
 
 Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 Route::get('/forgot-password', [ForgotPassword::class, 'index'])->middleware('guest')->name('password.request');
@@ -138,6 +140,9 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'checkRole:admin'])-
             Route::get('/{memorization}/edit', [StudentMemorizationController::class, 'edit'])->middleware(['auth', 'permission:memorization_edit'])->name('edit');
             Route::put('/{memorization}/edit', [StudentMemorizationController::class, 'update'])->middleware(['auth', 'permission:memorization_edit'])->name('update');
             Route::delete('/{memorization}/delete', [StudentMemorizationController::class, 'destroy'])->middleware(['auth', 'permission:memorization_delete'])->name('destroy');
+
+            Route::post('/{memorization}/is-continue-true', [StudentMemorizationController::class, 'isContinueTrue'])->middleware(['auth', 'permission:memorization_edit'])->name('isContinueTrue');
+            Route::post('/{memorization}/is-continue-false', [StudentMemorizationController::class, 'isContinueFalse'])->middleware(['auth', 'permission:memorization_edit'])->name('isContinueFalse');
         });
     });
     Route::prefix('masjid')->middleware(['auth', 'permission:masjid_show'])->name('masjid.')->group(function () {
@@ -239,5 +244,65 @@ Route::prefix('imam')->name('imam.')->middleware(['auth', 'checkRole:imam'])->gr
         Route::post('/{schedule}/cari-badal', [ScheduleController::class, 'imamCariBadal'])->name('cariBadal');
         Route::post('/{schedule}/done', [ScheduleController::class, 'imamDone'])->name('done');
         Route::post('/{schedule}/cancel', [ScheduleController::class, 'imamCancel'])->name('cancel');
+    });
+    Route::prefix('student')->middleware(['auth'])->name('student.')->group(function () {
+        Route::prefix('memorization')->middleware(['auth'])->name('memorization.')->group(function () {
+            Route::get('/', [StudentMemorizationController::class, 'index'])->name('index');
+            Route::get('/{memorization}/show', [StudentMemorizationController::class, 'show'])->name('show');
+            Route::get('/create', [StudentMemorizationController::class, 'create'])->name('create');
+            Route::post('/create', [StudentMemorizationController::class, 'store'])->name('store');
+            Route::get('/{memorization}/edit', [StudentMemorizationController::class, 'edit'])->name('edit');
+            Route::put('/{memorization}/edit', [StudentMemorizationController::class, 'update'])->name('update');
+            Route::delete('/{memorization}/delete', [StudentMemorizationController::class, 'destroy'])->name('destroy');
+
+            Route::post('/{memorization}/is-continue-true', [StudentMemorizationController::class, 'isContinueTrue'])->name('isContinueTrue');
+            Route::post('/{memorization}/is-continue-false', [StudentMemorizationController::class, 'isContinueFalse'])->name('isContinueFalse');
+        });
+    });
+});
+Route::prefix('student')->middleware(['auth', 'checkRole:student'])->name('student.')->group(function () {
+    Route::redirect('/', '/student/home');
+    Route::get('/home', [HomeController::class, 'studentHome'])->name('home');
+
+    Route::prefix('student')->name('student.')->group(function () {
+        Route::prefix('memorization')->middleware(['auth'])->name('memorization.')->group(function () {
+            Route::get('/', [StudentMemorizationController::class, 'index'])->name('index');
+            Route::get('/{memorization}/show', [StudentMemorizationController::class, 'show'])->name('show');
+            Route::get('/create', [StudentMemorizationController::class, 'create'])->name('create');
+            Route::post('/create', [StudentMemorizationController::class, 'store'])->name('store');
+            Route::get('/{memorization}/edit', [StudentMemorizationController::class, 'edit'])->name('edit');
+            Route::put('/{memorization}/edit', [StudentMemorizationController::class, 'update'])->name('update');
+            Route::delete('/{memorization}/delete', [StudentMemorizationController::class, 'destroy'])->name('destroy');
+
+            Route::post('/{memorization}/is-continue-true', [StudentMemorizationController::class, 'isContinueTrue'])->name('isContinueTrue');
+            Route::post('/{memorization}/is-continue-false', [StudentMemorizationController::class, 'isContinueFalse'])->name('isContinueFalse');
+        });
+
+        Route::prefix('attendance')->name('attendance.')->group(function () {
+            Route::get('/', [StudentAttendanceController::class, 'index'])->name('index');
+            Route::get('/{attendance}/show', [StudentAttendanceController::class, 'show'])->name('show');
+            Route::get('/create', [StudentAttendanceController::class, 'create'])->name('create');
+            Route::post('/create', [StudentAttendanceController::class, 'store'])->name('store');
+            Route::get('/{attendance}/edit', [StudentAttendanceController::class, 'edit'])->name('edit');
+            Route::put('/{attendance}/edit', [StudentAttendanceController::class, 'update'])->name('update');
+            Route::delete('/{attendance}/delete', [StudentAttendanceController::class, 'destroy'])->name('destroy');
+        });
+    });
+});
+Route::prefix('musyrif')->middleware(['auth', 'checkRole:musyrif'])->name('musyrif.')->group(function () {
+    Route::redirect('/', '/musyrif/home');
+    Route::get('/home', [HomeController::class, 'musyrifHome'])->name('home');
+
+    Route::prefix('student')->name('student.')->group(function () {
+        Route::prefix('attendance')->name('attendance.')->group(function () {
+            Route::get('/', [StudentAttendanceController::class, 'index'])->name('index');
+            Route::get('/{attendance}/show', [StudentAttendanceController::class, 'show'])->name('show');
+            Route::get('/create', [StudentAttendanceController::class, 'create'])->name('create');
+            Route::post('/create', [StudentAttendanceController::class, 'store'])->name('store');
+            Route::post('/create-multiple', [StudentAttendanceController::class, 'storeMultiple'])->name('storeMultiple');
+            Route::get('/{attendance}/edit', [StudentAttendanceController::class, 'edit'])->name('edit');
+            Route::put('/{attendance}/edit', [StudentAttendanceController::class, 'update'])->name('update');
+            Route::delete('/{attendance}/delete', [StudentAttendanceController::class, 'destroy'])->name('destroy');
+        });
     });
 });

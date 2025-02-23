@@ -8,6 +8,9 @@ use App\Models\Masjid;
 use App\Models\Schedule;
 use App\Models\Announcement;
 use App\Models\Quote;
+use App\Models\Student;
+use App\Models\StudentPermit;
+use App\Models\StudentMemorization;
 use Carbon\Carbon;
 
 class HomeController extends Controller
@@ -53,5 +56,15 @@ class HomeController extends Controller
         });
 
         return view('imam.index', compact('schedules', 'announcements', 'quote'));
+    }
+    public function musyrifHome()
+    {
+        $memorizations = StudentMemorization::all();
+        return view("musyrif.index", compact('memorizations'));
+    }
+    public function studentHome()
+    {
+        $memorizations = StudentMemorization::where('student_id', Auth::user()->Student->id)->get();
+        return view("student.index", compact('memorizations'));
     }
 }

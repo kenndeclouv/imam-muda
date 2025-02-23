@@ -155,4 +155,12 @@ class User extends Authenticatable implements MustVerifyEmail
             return collect([]);
         }
     }
+    public function Student()
+    {
+        return $this->hasOne(Student::class);
+    }
+    public function Musyrif()
+    {
+        return $this->hasOne(Musyrif::class);
+    }
 }

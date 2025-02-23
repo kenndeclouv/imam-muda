@@ -1,4 +1,5 @@
 <x-app>
+    @include('components.alert')
     <div class="container-xxl flex-grow-1 container-p-y">
         <div class="card mb-3">
             <div class="card-body">
@@ -170,7 +171,7 @@
 
                                 @php
                                     $infaqOptions = ['300000', '200000', '150000', '0'];
-                                    $selectedInfaq = old('infaq', $user->infaq ?? '');
+                                    $selectedInfaq = old('infaq', $student->infaq ?? '');
                                     $isOther = !in_array($selectedInfaq, $infaqOptions);
                                 @endphp
 

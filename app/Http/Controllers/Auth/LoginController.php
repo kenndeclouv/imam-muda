@@ -44,4 +44,10 @@ class LoginController extends Controller
 
         return redirect('/login')->with('status', 'Logout berhasil.');
     }
+    public function clearCookie(Request $request)
+    {
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+        return redirect('/login')->with('status', 'Logout berhasil.');
+    }
 }

@@ -21,10 +21,6 @@ class ConfirmDelete extends Component
      */
     public function render(): View|Closure|string
     {
-        return <<<'blade'
-<div>
-    <!-- Nothing worth having comes easy. - Theodore Roosevelt -->
-</div>
-blade;
+        return view('components.confirm-delete');
     }
 }

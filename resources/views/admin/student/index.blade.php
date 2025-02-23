@@ -43,7 +43,7 @@
                             <tr>
                                 <td>{{ $student->fullname }}</td>
                                 <td>{{ $student->class_time == 'morning' ? 'Pagi' : 'Sore' }}</td>
-                                <td>{{ $student->infaq }}</td>
+                                <td>{{ indonesianCurrency($student->infaq) }}</td>
                                 <td>{{ $student->updated_at->format('d F Y H:i') }}</td>
                                 <td>
                                     <div class="d-flex gap-2" aria-label="Basic example">

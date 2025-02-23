@@ -1,4 +1,5 @@
 <x-app>
+    @include('components.alert')
     <div class="container-xxl flex-grow-1 container-p-y">
         <div class="card mb-3">
             <div class="card-body">
@@ -182,34 +183,36 @@
                             </div>
                             <div class="col-12">
                                 <label class="form-label">Komitmen Infaq Program</label>
+
+                                @php
+                                    $infaqOptions = ['300000', '200000', '150000', '0'];
+                                    $selectedInfaq = old('infaq');
+                                    $isOther = !in_array($selectedInfaq, $infaqOptions);
+                                @endphp
+
+                                <!-- Input hidden buat nyimpen nilai infaq ke database -->
+                                <input type="hidden" name="infaq" id="infaq_hidden"
+                                    value="{{ $selectedInfaq }}">
+
+                                @foreach ($infaqOptions as $option)
+                                    <div class="form-check">
+                                        <input class="form-check-input infaq-radio" type="radio" name="infaq_radio"
+                                            id="infaq_{{ $option }}" value="{{ $option }}"
+                                            {{ $selectedInfaq == $option ? 'checked' : '' }}>
+                                        <label class="form-check-label" for="infaq_{{ $option }}">
+                                            Rp. {{ number_format($option, 0, ',', '.') }} / Bulan
+                                        </label>
+                                    </div>
+                                @endforeach
+
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="infaq" id="infaq_300"
-                                        value="300000" {{ old('infaq') == '300000' ? 'checked' : '' }}>
-                                    <label class="form-check-label" for="infaq_300">Rp. 300.000 / Bulan</label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="infaq" id="infaq_200"
-                                        value="200000" {{ old('infaq') == '200000' ? 'checked' : '' }}>
-                                    <label class="form-check-label" for="infaq_200">Rp. 200.000 / Bulan</label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="infaq" id="infaq_150"
-                                        value="150000" {{ old('infaq') == '150000' ? 'checked' : '' }}>
-                                    <label class="form-check-label" for="infaq_150">Rp. 150.000 / Bulan</label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="infaq" id="infaq_0"
-                                        value="0" {{ old('infaq') == '0' ? 'checked' : '' }}>
-                                    <label class="form-check-label" for="infaq_0">Belum Mampu Infaq</label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="infaq" id="infaq_other"
-                                        value="other" {{ old('infaq') == 'other' ? 'checked' : '' }}>
+                                    <input class="form-check-input infaq-radio" type="radio" name="infaq_radio"
+                                        id="infaq_other" value="other" {{ $isOther ? 'checked' : '' }}>
                                     <label class="form-check-label" for="infaq_other">Lainnya</label>
-                                    <input type="text" class="form-control mt-2" id="infaq_other_amount"
-                                        name="infaq_other_amount" placeholder="Masukkan jumlah infaq"
-                                        value="{{ old('infaq_other_amount') }}"
-                                        {{ old('infaq') == 'other' ? '' : 'disabled' }}>
+                                    <input type="number" class="form-control mt-2" id="infaq_other_amount"
+                                        placeholder="Masukkan jumlah infaq"
+                                        value="{{ $isOther ? $selectedInfaq : '' }}"
+                                        {{ $isOther ? '' : 'disabled' }}>
                                 </div>
                             </div>
                             <div class="col-12">
@@ -250,6 +253,28 @@
         <script>
             $(document).ready(function() {
                 $('#status').select2();
+                const radioButtons = document.querySelectorAll('.infaq-radio');
+                const otherAmount = document.getElementById('infaq_other_amount');
+                const hiddenInput = document.getElementById('infaq_hidden');
+
+                radioButtons.forEach(radio => {
+                    radio.addEventListener('change', function() {
+                        if (this.value === "other") {
+                            otherAmount.removeAttribute('disabled');
+                            otherAmount.focus();
+                        } else {
+                            otherAmount.setAttribute('disabled', 'disabled');
+                            otherAmount.value = '';
+                            hiddenInput.value = this.value;
+                        }
+                    });
+                });
+
+                otherAmount.addEventListener('input', function() {
+                    if (document.getElementById('infaq_other').checked) {
+                        hiddenInput.value = this.value;
+                    }
+                });
             });
         </script>
     </x-slot:js>

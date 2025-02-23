@@ -2,14 +2,11 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class StudentPermit extends Model
+class StudentAttendance extends Model
 {
-    use HasFactory;
-
-    protected $guarded = ['id'];
+    protected $guarded = [];
 
     public function Student()
     {

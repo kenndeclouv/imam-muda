@@ -22,21 +22,10 @@
         <li class="menu-header small text-uppercase">
             <span class="menu-header-text">Menu</span>
         </li>
-        @switch(Auth::user()->Role->code)
-            @case('superadmin')
-                @include('sidebar.superadmin')
-            @break
-
-            @case('admin')
-                @include('sidebar.admin')
-            @break
-
-            @case('imam')
-                @include('sidebar.imam')
-            @break
-
-            @default
-        @endswitch
+        @php
+            $role = Auth::user()->Role->code;
+        @endphp
+        @include('sidebar.' . $role)
 
         <li class="menu-header small text-uppercase">
             <span class="menu-header-text">Profile</span>
