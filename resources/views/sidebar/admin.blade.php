@@ -36,7 +36,8 @@
 @endif
 
 @if ($permissions->contains('student_show'))
-    <li class="menu-item {{ request()->routeIs('admin.student.*') && !request()->routeIs('admin.student.memorization.*') ? 'open active' : '' }}">
+    <li
+        class="menu-item {{ request()->routeIs('admin.student.*') && !request()->routeIs('admin.student.memorization.*') ? 'open active' : '' }}">
         <a href="javascript:void(0);" class="menu-link menu-toggle">
             <i class="menu-icon fa-solid fa-user-graduate fs-6"></i>
             <div class="text-truncate">
@@ -64,6 +65,38 @@
                     </a>
                 </li>
             @endif
+        </ul>
+    </li>
+@endif
+@if ($permissions->contains('musyrif_show'))
+    <li class="menu-item {{ request()->routeIs('admin.musyrif.*') ? 'open active' : '' }}">
+        <a href="javascript:void(0);" class="menu-link menu-toggle">
+            <i class="menu-icon fa-solid fa-user-tie fs-6"></i>
+            <div class="text-truncate">
+                Musyrif
+            </div>
+        </a>
+        <ul class="menu-sub">
+            <li
+                class="menu-item {{ request()->routeIs('admin.musyrif.index', 'admin.musyrif.edit', 'admin.musyrif.detail') ? 'active' : '' }}">
+                <a href="{{ route('admin.musyrif.index') }}" class="menu-link">
+                    <div class="text-truncate">Daftar Musyrif</div>
+                </a>
+            </li>
+            @if ($permissions->contains('musyrif_create'))
+                <li class="menu-item {{ request()->routeIs('admin.musyrif.create') ? 'active' : '' }}">
+                    <a href="{{ route('admin.musyrif.create') }}" class="menu-link">
+                        <div class="text-truncate">Tambah Musyrif</div>
+                    </a>
+                </li>
+            @endif
+            {{-- @if ($permissions->contains('musyrif_edit'))
+                <li class="menu-item {{ request()->routeIs('admin.musyrif.is_active') ? 'active' : '' }}">
+                    <a href="{{ route('admin.musyrif.is_active') }}" class="menu-link">
+                        <div class="text-truncate">List Musyrif Tidak Aktif</div>
+                    </a>
+                </li>
+            @endif --}}
         </ul>
     </li>
 @endif
@@ -157,7 +190,8 @@
             </div>
         </a>
         <ul class="menu-sub">
-            <li class="menu-item {{ request()->routeIs('admin.student.memorization.index', 'admin.student.memorization.edit', 'admin.student.memorization.show') ? 'active' : '' }}">
+            <li
+                class="menu-item {{ request()->routeIs('admin.student.memorization.index', 'admin.student.memorization.edit', 'admin.student.memorization.show') ? 'active' : '' }}">
                 <a href="{{ route('admin.student.memorization.index') }}" class="menu-link">
                     <div class="text-truncate">Daftar Hafalan</div>
                 </a>

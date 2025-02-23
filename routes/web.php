@@ -24,6 +24,7 @@ use App\Http\Controllers\UserController;
 // API
 use App\Http\Controllers\API\APIController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\MusyrifController;
 use App\Http\Controllers\StudentAttendanceController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\StudentMemorizationController;
@@ -222,6 +223,14 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'checkRole:admin'])-
         Route::get('/{marbot}/edit', [MarbotController::class, 'edit'])->middleware(['auth', 'permission:marbot_edit'])->name('edit');
         Route::put('/{marbot}/edit', [MarbotController::class, 'update'])->middleware(['auth', 'permission:marbot_edit'])->name('update');
         Route::delete('/{marbot}/delete', [MarbotController::class, 'destroy'])->middleware(['auth', 'permission:marbot_delete'])->name('destroy');
+    });
+    Route::prefix('musyrif')->name('musyrif.')->group(function () {
+        Route::get('/', [MusyrifController::class, 'index'])->name('index');
+        Route::get('/create', [MusyrifController::class, 'create'])->name('create');
+        Route::post('/create', [MusyrifController::class, 'store'])->name('store');
+        Route::get('/{musyrif}/edit', [MusyrifController::class, 'edit'])->name('edit');
+        Route::put('/{musyrif}/edit', [MusyrifController::class, 'update'])->name('update');
+        Route::delete('/{musyrif}/delete', [MusyrifController::class, 'destroy'])->name('destroy');
     });
 });
 

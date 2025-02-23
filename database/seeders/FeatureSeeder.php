@@ -62,6 +62,10 @@ class FeatureSeeder extends Seeder
             ['name' => 'Tambah Hafalan', 'code' => 'memorization_create'],
             ['name' => 'Ubah Hafalan', 'code' => 'memorization_edit'],
             ['name' => 'Hapus Hafalan', 'code' => 'memorization_delete'],
+            ['name' => 'Tampilkan Musyrif', 'code' => 'musyrif_show'],
+            ['name' => 'Tambah Musyrif', 'code' => 'musyrif_create'],
+            ['name' => 'Ubah Musyrif', 'code' => 'musyrif_edit'],
+            ['name' => 'Hapus Musyrif', 'code' => 'musyrif_delete'],
         ];
 
         foreach ($features as $feature) {
