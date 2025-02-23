@@ -64,7 +64,7 @@ class AdminController extends Controller
     }
     public function destroy(Admin $admin)
     {
-        $admin->delete();
+        $admin->User->delete();
         return redirect()->route('superadmin.admin.index')->with('success', 'Admin berhasil dihapus.');
     }
     public function permissions(Admin $admin)

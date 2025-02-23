@@ -99,9 +99,7 @@ class StudentController extends Controller
 
     public function destroy(Student $student)
     {
-        $user = $student->User;
-        $student->delete();
-        $user?->delete();
+        $student->User->delete();
         return redirect()->route('admin.student.index')->with('success', 'Santri berhasil dihapus.');
     }
 

@@ -63,7 +63,7 @@ class MusyrifController extends Controller
     }
     public function destroy(Musyrif $musyrif)
     {
-        $musyrif->delete();
+        $musyrif->User->delete();
         return redirect()->route('admin.musyrif.index')->with('success', 'Musyrif berhasil dihapus.');
     }
 }

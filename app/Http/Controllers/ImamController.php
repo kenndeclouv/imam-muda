@@ -82,9 +82,7 @@ class ImamController extends Controller
     }
     public function destroy(Imam $imam)
     {
-        $user = $imam->User;
-        $imam->delete();
-        $user?->delete();
+        $imam->User->delete();
         return redirect()->route('admin.imam.index')->with('success', 'Imam berhasil dihapus.');
     }
     public function detail(Imam $imam)
