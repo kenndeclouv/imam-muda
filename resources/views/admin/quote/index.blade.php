@@ -32,6 +32,7 @@
                     id="dataTable" style="width: 100%;">
                     <thead>
                         <tr>
+                            <th>No</th>
                             <th>Konten</th>
                             <th>Sumber</th>
                             @if ($permissions->contains('quote_edit') || $permissions->contains('quote_delete'))
@@ -42,6 +43,7 @@
                     <tbody>
                         @foreach ($quotes as $quote)
                             <tr>
+                                <td>{{ $loop->iteration }}</td>
                                 <td>{{ $quote->content }}</td>
                                 <td>{{ $quote->source }}</td>
                                 @if ($permissions->contains('quote_edit') || $permissions->contains('quote_delete'))

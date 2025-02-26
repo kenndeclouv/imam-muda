@@ -95,6 +95,7 @@
                             style="width: 100%;">
                             <thead>
                                 <tr>
+                                    <th>No</th>
                                     <th>Nama Imam</th>
                                     <th>Shalat</th>
                                     <th>Nama Masjid</th>
@@ -105,6 +106,7 @@
                             <tbody>
                                 @foreach ($jadwals as $jadwal)
                                     <tr>
+                                        <td>{{ $loop->iteration }}</td>
                                         <td>{{ $jadwal->Imam->fullname }}</td>
                                         <td>{{ $jadwal->Shalat->name }}</td>
                                         <td>{{ $jadwal->Masjid->name }}</td>

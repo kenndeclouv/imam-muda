@@ -42,6 +42,7 @@
                     id="dataTable" style="width: 100%;">
                     <thead>
                         <tr>
+                            <th>No</th>
                             <th>tanggal</th>
                             <th>masjid</th>
                             <th>shalat</th>
@@ -52,6 +53,7 @@
                     <tbody>
                         @foreach ($schedules as $item)
                             <tr>
+                                <td>{{ $loop->iteration }}</td>
                                 <td>{{ \Carbon\Carbon::parse($item->date)->format('d F Y') }}</td>
                                 <td>{{ $item->Masjid->name }}</td>
                                 <td>{{ $item->Shalat->name }}</td>

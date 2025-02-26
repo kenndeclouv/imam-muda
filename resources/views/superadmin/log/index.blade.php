@@ -40,6 +40,7 @@
                     id="dataTable" style="width: 100%;">
                     <thead>
                         <tr>
+                            <th>No</th>
                             <th>Nama File</th>
                             <th>Ukuran (KB)</th>
                             <th>Terakhir Diubah</th>
@@ -50,6 +51,7 @@
                     <tbody>
                         @foreach ($logs as $log)
                             <tr>
+                                <td>{{ $loop->iteration }}</td>
                                 <td>{{ $log['name'] }}</td>
                                 <td>{{ $log['size'] }}</td>
                                 <td>{{ date('Y-m-d H:i:s', $log['modified']) }}</td>

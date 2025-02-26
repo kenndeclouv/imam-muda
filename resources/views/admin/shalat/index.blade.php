@@ -31,6 +31,7 @@
                     id="dataTable" style="width: 100%;">
                     <thead>
                         <tr>
+                            <th>No</th>
                             <th>Nama Shalat</th>
                             <th>Jam Mulai Shalat</th>
                             <th>Sampai Jam</th>
@@ -43,6 +44,7 @@
                     <tbody>
                         @foreach ($shalats as $shalat)
                             <tr>
+                                <td>{{ $loop->iteration }}</td>
                                 <td>{{ $shalat->name }}</td>
                                 <td>{{ \Carbon\Carbon::parse($shalat->start)->format('H:i') }}</td>
                                 <td>{{ \Carbon\Carbon::parse($shalat->end)->format('H:i') }}</td>

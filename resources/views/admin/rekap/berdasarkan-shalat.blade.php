@@ -45,6 +45,7 @@
                     style="width: 100%;">
                     <thead>
                         <tr>
+                            <th>No</th>
                             <th>Nama Imam</th>
                             @foreach ($defaultShalat as $shalat)
                                 <th>{{ $shalat->name }}</th>
@@ -56,6 +57,7 @@
                     <tbody>
                         @foreach ($defaultImam as $imam)
                             <tr>
+                                <td>{{ $loop->iteration }}</td>
                                 <td>{{ $imam->fullname }}</td>
                                 @foreach ($defaultShalat as $shalat)
                                     <td>

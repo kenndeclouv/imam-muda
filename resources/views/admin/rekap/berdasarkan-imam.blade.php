@@ -89,6 +89,7 @@
                         style="width: 100%;">
                         <thead>
                             <tr>
+                                <th>No</th>
                                 <th>Tanggal</th>
                                 <th>Shalat</th>
                                 <th>Masjid</th>
@@ -99,6 +100,7 @@
                         <tbody>
                             @foreach ($imam->Schedules as $schedule)
                                 <tr>
+                                    <td>{{ $loop->iteration }}</td>
                                     <td>{{ \Carbon\Carbon::parse($schedule->date)->format('d F Y') }}</td>
                                     <td>{{ $schedule->Shalat->name }}</td>
                                     <td>{{ $schedule->Masjid->name }}</td>

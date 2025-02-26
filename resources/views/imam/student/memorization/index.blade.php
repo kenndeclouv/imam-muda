@@ -30,6 +30,7 @@
                     id="dataTable" style="width: 100%;">
                     <thead>
                         <tr>
+                            <th>No</th>
                             <th>Nama</th>
                             <th>Surat</th>
                             <th>Dari</th>
@@ -42,6 +43,7 @@
                     <tbody>
                         @foreach ($memorizations as $memorization)
                             <tr>
+                                <td>{{ $loop->iteration }}</td>
                                 <td>{{ $memorization->Student->fullname }}</td>
                                 <td>{{ getSurahName($memorization->surah_number) }}</td>
                                 <td>{{ $memorization->from }}</td>

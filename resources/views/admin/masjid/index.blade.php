@@ -30,6 +30,7 @@
                     id="dataTable" style="width: 100%;">
                     <thead>
                         <tr>
+                            <th>No</th>
                             <th>Nama Masjid</th>
                             <th>Alamat</th>
                             <th>terakhir diubah</th>
@@ -41,6 +42,7 @@
                     <tbody>
                         @foreach ($masjids as $masjid)
                             <tr>
+                                <td>{{ $loop->iteration }}</td>
                                 <td>{{ $masjid->name }}</td>
                                 <td>{{ Str::limit($masjid->address, 60) }}</td>
                                 <td>{{ $masjid->updated_at->format('d F Y H:i') }}</td>

@@ -62,6 +62,7 @@
                     id="dataTable" style="width: 100%;">
                     <thead>
                         <tr>
+                            <th>No</th>
                             <th>Nama</th>
                             <th>terakhir diubah</th>
                             <th>aksi</th>
@@ -70,6 +71,7 @@
                     <tbody>
                         @foreach ($listFees as $listFee)
                             <tr>
+                                <td>{{ $loop->iteration }}</td>
                                 {{-- <td>{{ $listFee->Imam->fullname }}</td> --}}
                                 @if ($listFee->Fee->type == 'imam' )
                                     <td>{{ $listFee->Imam->fullname  ?? ''}}</td>

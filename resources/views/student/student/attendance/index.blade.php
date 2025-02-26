@@ -30,6 +30,7 @@
                     id="dataTable" style="width: 100%;">
                     <thead>
                         <tr>
+                            <th>No</th>
                             <th>Tanggal</th>
                             <th>Status</th>
                             <th>Keterangan</th>
@@ -40,6 +41,7 @@
                     <tbody>
                         @foreach ($attendances as $attendance)
                             <tr>
+                                <td>{{ $loop->iteration }}</td>
                                 <td>{{ $attendance->date }}</td>
                                 <td>
                                     <span

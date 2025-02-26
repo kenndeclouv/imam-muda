@@ -31,6 +31,7 @@
                     id="dataTable" style="width: 100%;">
                     <thead>
                         <tr>
+                            <th>No</th>
                             <th>Nama</th>
                             <th>Bayaran</th>
                             <th>Jenis per</th>
@@ -43,6 +44,7 @@
                     <tbody>
                         @foreach ($fees as $fee)
                             <tr>
+                                <td>{{ $loop->iteration }}</td>
                                 <td>{{ $fee->name }}</td>
                                 <td>{{ $fee->amount }}</td>
                                 <td>{{ $fee->type }}</td>

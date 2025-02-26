@@ -30,6 +30,7 @@
                     id="dataTable" style="width: 100%;">
                     <thead>
                         <tr>
+                            <th>No</th>
                             <th>Nama</th>
                             <th>terakhir diubah</th>
                             <th>aksi</th>
@@ -39,6 +40,7 @@
                     <tbody>
                         @foreach ($students as $student)
                             <tr>
+                                <td>{{ $loop->iteration }}</td>
                                 <td>{{ $student->fullname }}</td>
                                 <td>{{ $student->updated_at->format('d F Y H:i') }}</td>
                                 <td>

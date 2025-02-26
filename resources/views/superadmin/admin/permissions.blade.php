@@ -66,6 +66,7 @@
                     id="dataTable" style="width: 100%;">
                     <thead>
                         <tr>
+                            <th>No</th>
                             <th>Fitur Akses</th>
                             <th>Terakhir diubah</th>
                             <th>Aksi</th>
@@ -75,6 +76,7 @@
                     <tbody>
                         @foreach ($permissions as $permission)
                             <tr>
+                                <td>{{ $loop->iteration }}</td>
                                 <td>{{ $permission->Feature->name }}</td>
                                 <td>{{ $permission->updated_at->format('d F Y H:i') }}</td>
                                 <td>

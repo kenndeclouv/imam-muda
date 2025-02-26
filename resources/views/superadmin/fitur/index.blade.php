@@ -25,6 +25,7 @@
                     id="dataTable" style="width: 100%;">
                     <thead>
                         <tr>
+                            <th>No</th>
                             <th>Nama</th>
                             <th>Username</th>
                             <th>Email</th>
@@ -36,6 +37,7 @@
                     <tbody>
                         @foreach ($admins as $admin)
                             <tr>
+                                <td>{{ $loop->iteration }}</td>
                                 <td>{{ $admin->fullname }}</td>
                                 <td>{{ $admin->User->username }}</td>
                                 <td>{{ $admin->User->email }}</td>

@@ -31,6 +31,7 @@
                     id="dataTable" style="width: 100%;">
                     <thead>
                         <tr>
+                            <th>No</th>
                             <th>Tanggal</th>
                             <th>Judul</th>
                             <th>Pengumuman</th>
@@ -44,6 +45,7 @@
                     <tbody>
                         @foreach ($announcements as $announcement)
                             <tr>
+                                <td>{{ $loop->iteration }}</td>
                                 <td>{{ $announcement->date }}</td>
                                 <td>{{ $announcement->title }}</td>
                                 <td>{{ $announcement->content }}</td>

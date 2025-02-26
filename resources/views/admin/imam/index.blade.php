@@ -30,6 +30,7 @@
                     id="dataTable" style="width: 100%;">
                     <thead>
                         <tr>
+                            <th>No</th>
                             <th>Nama</th>
                             <th>Juz yang dihafal</th>
                             <th>umur</th>
@@ -41,6 +42,7 @@
                     <tbody>
                         @foreach ($imams as $imam)
                             <tr>
+                                <td>{{ $loop->iteration }}</td>
                                 <td>{{ $imam->fullname }}</td>
                                 <td>{{ $imam->juz }}</td>
                                 <td>{{ \Carbon\Carbon::parse($imam->birthdate)->age }}</td>

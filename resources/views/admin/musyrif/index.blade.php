@@ -25,6 +25,7 @@
                     id="dataTable" style="width: 100%;">
                     <thead>
                         <tr>
+                            <th>No</th>
                             <th>Nama</th>
                             <th>Username</th>
                             <th>Email</th>
@@ -36,6 +37,7 @@
                     <tbody>
                         @foreach ($musyrifs as $musyrif)
                             <tr>
+                                <td>{{ $loop->iteration }}</td>
                                 <td>{{ $musyrif->fullname }}</td>
                                 <td>{{ $musyrif->User->username }}</td>
                                 <td>{{ $musyrif->User->email }}</td>
