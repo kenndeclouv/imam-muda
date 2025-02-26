@@ -30,6 +30,7 @@
                     id="dataTable" style="width: 100%;">
                     <thead>
                         <tr>
+                            <th>No</th>
                             <th>Nama</th>
                             <th>Kelas</th>
                             <th>Bulanan</th>
@@ -41,6 +42,7 @@
                     <tbody>
                         @foreach ($students as $student)
                             <tr>
+                                <td>{{ $loop->iteration }}</td>
                                 <td>{{ $student->fullname }}</td>
                                 <td>{{ $student->class_time == 'morning' ? 'Pagi' : 'Sore' }}</td>
                                 <td>{{ indonesianCurrency($student->infaq) }}</td>
@@ -48,12 +50,13 @@
                                 <td>
                                     <div class="d-flex gap-2" aria-label="Basic example">
                                         <a href="{{ route('admin.student.show', $student->id) }}" class="btn btn-info"
-                                            data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Detail Santri">
+                                            data-bs-toggle="tooltip" data-bs-placement="top"
+                                            data-bs-title="Detail Santri">
                                             <i class="fa-solid fa-eye"></i>
                                         </a>
                                         @if ($permissions->contains('student_edit'))
-                                            <a href="{{ route('admin.student.edit', $student->id) }}" class="btn btn-warning"
-                                                data-bs-toggle="tooltip" data-bs-placement="top"
+                                            <a href="{{ route('admin.student.edit', $student->id) }}"
+                                                class="btn btn-warning" data-bs-toggle="tooltip" data-bs-placement="top"
                                                 data-bs-title="Edit Santri">
                                                 <i class="fa-solid fa-edit"></i>
                                             </a>
@@ -74,6 +77,14 @@
                             </tr>
                         @endforeach
                     </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="3" class="text-end"><strong>Total:</strong></td>
+                            <td><strong>{{ indonesianCurrency($students->sum('infaq')) }}</strong></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tfoot>
                 </table>
             </div>
         </div>
