@@ -1,0 +1,20 @@
+{
+    "name": "Imam Muda App",
+    "short_name": "Imam Muda",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#F5F5F9",
+    "theme_color": "#232323",
+    "icons": [
+        {
+            "src": "/assets/img/favicon/192.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "/assets/img/favicon/512.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ]
+}

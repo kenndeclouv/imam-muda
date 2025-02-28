@@ -20,7 +20,7 @@
         {{ $head }}
     @endif
 
-    <link rel="icon" type="image/x-icon" href="{{ asset('assets/img/favicon/icon.svg') }}">
+    <link rel="icon" type="image/x-icon" href="{{ asset('assets/img/favicon/192.png') }}">
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -91,7 +91,16 @@
         <div class="layout-overlay layout-menu-toggle"></div>
         <div class="drag-target"></div>
     </div>
-
+    <!-- PWA -->
+    <link rel="manifest" href="{{ asset('manifest.json') }}">
+    <script>
+        if ("serviceWorker" in navigator) {
+            navigator.serviceWorker.register("/sw.js")
+                .then((reg) => console.log("Service Worker registered!", reg))
+                .catch((err) => console.log("Service Worker failed!", err));
+        }
+    </script>
+    
     <!-- Core JS -->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>

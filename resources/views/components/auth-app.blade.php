@@ -10,7 +10,7 @@
     <title>{{ $title ?? 'Selamat Datang' }} | {{ ucwords(str_replace('_', ' ', config('app.name'))) }}</title>
 
     <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="assets/img/favicon/favicon.ico">
+    <link rel="icon" type="image/x-icon" href="{{ asset('assets/img/favicon/192.png') }}">
     <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.6.0/css/all.css">
 
     <!-- Fonts -->
