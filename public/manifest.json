@@ -1,7 +1,7 @@
 {
     "name": "Imam Muda App",
     "short_name": "Imam Muda",
-    "start_url": "/",
+    "start_url": "/login",
     "display": "standalone",
     "background_color": "#F5F5F9",
     "theme_color": "#232323",

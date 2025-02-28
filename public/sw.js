@@ -3,7 +3,7 @@ self.addEventListener("install", (event) => {
         caches.open("imam-muda-cache").then((cache) => {
             return cache.addAll(
                 [
-                    "/",
+                    "/login",
                     "/assets/css/demo.css",
                     "/assets/js/app.js",
                     "/assets/img/favicon/192.png",
