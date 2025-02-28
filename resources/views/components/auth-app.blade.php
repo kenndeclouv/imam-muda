@@ -12,7 +12,15 @@
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="{{ asset('assets/img/favicon/192.png') }}">
     <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.6.0/css/all.css">
-
+    <!-- PWA -->
+    <link rel="manifest" href="{{ asset('manifest.json') }}">
+    <script>
+        if ("serviceWorker" in navigator) {
+            navigator.serviceWorker.register("/sw.js")
+                .then((reg) => console.log("Service Worker registered!", reg))
+                .catch((err) => console.log("Service Worker failed!", err));
+        }
+    </script>
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
@@ -49,6 +57,31 @@
     @if (isset($js))
         {{ $js }}
     @endif
+    <script>
+        let deferredPrompt;
+
+        window.addEventListener("beforeinstallprompt", (event) => {
+            event.preventDefault();
+            deferredPrompt = event;
+
+            const installBtn = document.createElement("button");
+            installBtn.textContent = "Install Imam Muda";
+            installBtn.classList.add("btn", "btn-primary", "position-fixed", "bottom-0", "end-0", "m-3");
+            installBtn.style.zIndex = "1000";
+
+            document.body.appendChild(installBtn);
+
+            installBtn.addEventListener("click", () => {
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then((choiceResult) => {
+                    if (choiceResult.outcome === "accepted") {
+                        console.log("User accepted the install prompt");
+                    }
+                    installBtn.remove();
+                });
+            });
+        });
+    </script>
 </body>
 
 </html>

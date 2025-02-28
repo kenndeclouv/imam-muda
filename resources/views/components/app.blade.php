@@ -7,7 +7,15 @@
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-
+    <!-- PWA -->
+    <link rel="manifest" href="{{ asset('manifest.json') }}">
+    <script>
+        if ("serviceWorker" in navigator) {
+            navigator.serviceWorker.register("/sw.js")
+                .then((reg) => console.log("Service Worker registered!", reg))
+                .catch((err) => console.log("Service Worker failed!", err));
+        }
+    </script>
     <!-- Title & Description for SEO -->
     @php
         $auth = Auth::user()->Role->code;
@@ -54,22 +62,22 @@
     {{-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@form-validation@1.8.1/dist/css/formValidation.min.css"> --}}
     <link rel="stylesheet" href="{{ asset('assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css') }}">
 
-        <!-- Page CSS -->
-        @if (isset($style))
-            {{ $style }}
-        @endif
+    <!-- Page CSS -->
+    @if (isset($style))
+        {{ $style }}
+    @endif
 
-        <!-- Helpers -->
-        <script src="{{ asset('assets/vendor/libs/jquery/jquery.js') }}"></script>
-        <script src="{{ asset('assets/vendor/libs/select2/select2.js') }}"></script>
-        <script src="{{ asset('assets/vendor/libs/toastr/toastr.js') }}"></script>
-        <script src="{{ asset('assets/vendor/js/helpers.js') }}"></script>
-        {{-- <script src="https://cdn.jsdelivr.net/npm/ui-toasts.js"></script> --}}
-        {{-- <script src="{{ asset('assets/vendor/js/template-customizer.min.js') }}"></script> --}}
-        <script src="{{ asset('assets/vendor/js/template-customizer.js') }}"></script>
-        <script src="{{ asset('assets/js/config.js') }}"></script>
-        {{-- <script src="https://js.pusher.com/beams/1.0/push-notifications-cdn.js"></script> --}}
-    </head>
+    <!-- Helpers -->
+    <script src="{{ asset('assets/vendor/libs/jquery/jquery.js') }}"></script>
+    <script src="{{ asset('assets/vendor/libs/select2/select2.js') }}"></script>
+    <script src="{{ asset('assets/vendor/libs/toastr/toastr.js') }}"></script>
+    <script src="{{ asset('assets/vendor/js/helpers.js') }}"></script>
+    {{-- <script src="https://cdn.jsdelivr.net/npm/ui-toasts.js"></script> --}}
+    {{-- <script src="{{ asset('assets/vendor/js/template-customizer.min.js') }}"></script> --}}
+    <script src="{{ asset('assets/vendor/js/template-customizer.js') }}"></script>
+    <script src="{{ asset('assets/js/config.js') }}"></script>
+    {{-- <script src="https://js.pusher.com/beams/1.0/push-notifications-cdn.js"></script> --}}
+</head>
 
 
 <body style="overflow-x: hidden">
@@ -91,19 +99,10 @@
         <div class="layout-overlay layout-menu-toggle"></div>
         <div class="drag-target"></div>
     </div>
-    <!-- PWA -->
-    <link rel="manifest" href="{{ asset('manifest.json') }}">
-    <script>
-        if ("serviceWorker" in navigator) {
-            navigator.serviceWorker.register("/sw.js")
-                .then((reg) => console.log("Service Worker registered!", reg))
-                .catch((err) => console.log("Service Worker failed!", err));
-        }
-    </script>
-    
     <!-- Core JS -->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous">
+    </script>
     <script src="{{ asset('assets/vendor/libs/datatables-bs5/datatables-bootstrap5.min.js') }}"></script>
     <script src="{{ asset('assets/vendor/js/menu.js') }}"></script>
     <script src="{{ asset('assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js') }}"></script>
@@ -116,7 +115,8 @@
     <script src="{{ asset('assets/js/main.js') }}"></script>
 
     @if (isset($js))
-        {{ $js }} @endif
+        {{ $js }}
+    @endif
 </body>
 
 </html>

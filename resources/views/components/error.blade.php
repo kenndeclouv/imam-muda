@@ -9,7 +9,15 @@
 
     <title>{{ $errorType ?? 'Error' }} | {{ ucwords(str_replace('_', ' ', env('APP_NAME'))) }}</title>
     <link rel="icon" type="image/x-icon" href="{{ asset('assets/img/favicon/192.png') }}">
-
+    <!-- PWA -->
+    <link rel="manifest" href="{{ asset('manifest.json') }}">
+    <script>
+        if ("serviceWorker" in navigator) {
+            navigator.serviceWorker.register("/sw.js")
+                .then((reg) => console.log("Service Worker registered!", reg))
+                .catch((err) => console.log("Service Worker failed!", err));
+        }
+    </script>
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
