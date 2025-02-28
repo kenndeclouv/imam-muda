@@ -51,7 +51,7 @@
     <link rel="stylesheet"
         href="https://cdn.jsdelivr.net/npm/datatables.net-buttons-bs5@2.2.3/css/buttons.bootstrap5.min.css">
     <link rel="stylesheet" href="{{ asset('assets/vendor/libs/flatpickr/flatpickr.css') }}">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@form-validation@1.8.1/dist/css/formValidation.min.css">
+    {{-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@form-validation@1.8.1/dist/css/formValidation.min.css"> --}}
     <link rel="stylesheet" href="{{ asset('assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css') }}">
 
         <!-- Page CSS -->
@@ -62,9 +62,9 @@
         <!-- Helpers -->
         <script src="{{ asset('assets/vendor/libs/jquery/jquery.js') }}"></script>
         <script src="{{ asset('assets/vendor/libs/select2/select2.js') }}"></script>
-        <script src="https://cdn.jsdelivr.net/npm/toastr@2.1.4/build/toastr.min.js"></script>
+        <script src="{{ asset('assets/vendor/libs/toastr/toastr.js') }}"></script>
         <script src="{{ asset('assets/vendor/js/helpers.js') }}"></script>
-        <script src="https://cdn.jsdelivr.net/npm/ui-toasts.js"></script>
+        {{-- <script src="https://cdn.jsdelivr.net/npm/ui-toasts.js"></script> --}}
         {{-- <script src="{{ asset('assets/vendor/js/template-customizer.min.js') }}"></script> --}}
         <script src="{{ asset('assets/vendor/js/template-customizer.js') }}"></script>
         <script src="{{ asset('assets/js/config.js') }}"></script>
@@ -110,7 +110,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bs-stepper@1.7.0/dist/js/bs-stepper.min.js"></script>
     <!-- Vendors JS -->
     <script src="https://cdn.jsdelivr.net/npm/apexcharts@3.28.3/dist/apexcharts.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@form-validation/bootstrap@0.8.1/dist/umd/bootstrap.min.js"></script>
+    {{-- <script src="https://cdn.jsdelivr.net/npm/@form-validation/bootstrap@0.8.1/dist/umd/bootstrap.min.js"></script> --}}
 
     <!-- Main JS -->
     <script src="{{ asset('assets/js/main.js') }}"></script>
