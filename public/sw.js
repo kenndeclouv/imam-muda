@@ -28,8 +28,10 @@ self.addEventListener("install", (event) => {
 });
 
 self.addEventListener("fetch", (event) => {
-    if (event.request.url.includes("/login")) {
-        // Bypass cache untuk halaman login
+    const url = new URL(event.request.url);
+
+    if (url.pathname === "/login" || url.pathname === "/sanctum/csrf-cookie") {
+        // Selalu ambil fresh data untuk halaman login & csrf token
         event.respondWith(fetch(event.request));
     } else {
         event.respondWith(
