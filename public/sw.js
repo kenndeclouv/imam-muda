@@ -30,7 +30,12 @@ self.addEventListener("install", (event) => {
 self.addEventListener("fetch", (event) => {
     const url = new URL(event.request.url);
 
-    if (url.pathname === "/login" || url.pathname === "/sanctum/csrf-cookie") {
+    if (url.pathname === "/") {
+        event.respondWith(Response.redirect("/login", 302));
+    } else if (
+        url.pathname === "/login" ||
+        url.pathname === "/sanctum/csrf-cookie"
+    ) {
         // Selalu ambil fresh data untuk halaman login & csrf token
         event.respondWith(fetch(event.request));
     } else {
