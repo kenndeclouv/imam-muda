@@ -34,6 +34,7 @@
                             <th>Nama</th>
                             <th>Kelas</th>
                             <th>Bulanan</th>
+                            <th>Status</th>
                             <th>terakhir diubah</th>
                             <th>aksi</th>
                         </tr>
@@ -44,8 +45,9 @@
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $student->fullname }}</td>
-                                <td>{{ $student->class_time == 'morning' ? 'Pagi' : 'Sore' }}</td>
+                                <td>{{ $student->class_time == 'morning' ? 'Pagi' : 'Malam' }}</td>
                                 <td>{{ indonesianCurrency($student->infaq) }}</td>
+                                <td>{{ $student->residence_status == 'mukim' ? 'Mukim' : 'Non-Mukim' }}</td>
                                 <td>{{ $student->updated_at->format('d F Y H:i') }}</td>
                                 <td>
                                     <div class="d-flex gap-2" aria-label="Basic example">

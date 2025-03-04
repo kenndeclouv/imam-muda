@@ -87,7 +87,7 @@
                         <div class="form-group">
                             <label for="class_time">Waktu Kelas</label>
                             <input type="text" id="class_time" class="form-control"
-                                value="{{ $student->class_time == 'morning' ? 'Pagi' : 'Sore' }}" disabled>
+                                value="{{ $student->class_time == 'morning' ? 'Pagi' : 'Malam' }}" disabled>
                         </div>
                     </div>
                     <div class="col-md-12 mb-3">

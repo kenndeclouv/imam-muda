@@ -43,7 +43,7 @@
                         <div class="form-group">
                             <label for="class_time">Kelas</label>
                             <input type="text" id="class_time" class="form-control"
-                                value="{{ $memorization->Student->class_time == 'morning' ? 'Pagi' : 'Sore' }}"
+                                value="{{ $memorization->Student->class_time == 'morning' ? 'Pagi' : 'Malam' }}"
                                 disabled>
                         </div>
                     </div>
