@@ -347,6 +347,29 @@
         {{-- <script src="{{ asset('assets/vendor/js/admin-jadwal-index.js') }}" defer></script> --}}
         <script>
             $(document).ready(function() {
+                function getMonthName() {
+                    const month = new URLSearchParams(window.location.search).get('month') ?
+                        moment(new URLSearchParams(window.location.search).get('month')).format('MMMM YYYY') :
+                        moment().locale('id').format('MMMM YYYY');
+
+                    const monthNames = {
+                        'January': 'Januari',
+                        'February': 'Februari',
+                        'March': 'Maret',
+                        'April': 'April',
+                        'May': 'Mei',
+                        'June': 'Juni',
+                        'July': 'Juli',
+                        'August': 'Agustus',
+                        'September': 'September',
+                        'October': 'Oktober',
+                        'November': 'November',
+                        'December': 'Desember'
+                    };
+
+                    return monthNames[month.split(' ')[0]] ||
+                        month; // Return the month name or the original month if not found
+                }
                 function getUrlParams() {
                     const params = new URLSearchParams(window.location.search);
                     return {
@@ -534,6 +557,7 @@
                     }
                 });
 
+                const date = getMonthName() + " " + (new URLSearchParams(window.location.search).get('month') ? moment(new URLSearchParams(window.location.search).get('month')).format('YYYY') : moment().format('YYYY'));
                 $('#dataTable').DataTable({
                     language: {
                         url: "https://cdn.datatables.net/plug-ins/1.10.19/i18n/Indonesian.json"
@@ -547,7 +571,7 @@
                                     extend: "print",
                                     text: '<i class="fas fa-print me-1" ></i>Print',
                                     className: "dropdown-item",
-                                    title: "Jadwal Imam Bulan " + moment().format('MMMM YYYY'),
+                                    title: "Jadwal Imam Bulan " + date,
                                     exportOptions: {
                                         columns: [1, 2, 3, 4, 5],
                                         format: {
@@ -586,7 +610,7 @@
                                             }
                                         }
                                     },
-                                    title: "Jadwal Imam Bulan " + moment().format('MMMM YYYY'),
+                                    title: "Jadwal Imam Bulan " + date,
                                 }
                             ],
                         },

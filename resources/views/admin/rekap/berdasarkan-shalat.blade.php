@@ -79,7 +79,31 @@
         <script src="https://cdn.datatables.net/2.1.8/js/jquery.dataTables.min.js"></script>
         <script>
             $(document).ready(function() {
+                function getMonthName() {
+                    const month = new URLSearchParams(window.location.search).get('month') ?
+                        moment(new URLSearchParams(window.location.search).get('month')).format('MMMM YYYY') :
+                        moment().locale('id').format('MMMM YYYY');
+
+                    const monthNames = {
+                        'January': 'Januari',
+                        'February': 'Februari',
+                        'March': 'Maret',
+                        'April': 'April',
+                        'May': 'Mei',
+                        'June': 'Juni',
+                        'July': 'Juli',
+                        'August': 'Agustus',
+                        'September': 'September',
+                        'October': 'Oktober',
+                        'November': 'November',
+                        'December': 'Desember'
+                    };
+
+                    return monthNames[month.split(' ')[0]] ||
+                        month; // Return the month name or the original month if not found
+                }
                 if (!$.fn.DataTable.isDataTable('#jadwalImam')) {
+                    const date = getMonthName() + " " + (new URLSearchParams(window.location.search).get('month') ? moment(new URLSearchParams(window.location.search).get('month')).format('YYYY') : moment().format('YYYY'));
                     const table = $('#jadwalImam').DataTable({
                         language: {
                             url: "https://cdn.datatables.net/plug-ins/1.10.19/i18n/Indonesian.json",
@@ -93,7 +117,7 @@
                                     extend: "print",
                                     text: '<i class="fas fa-print me-1"></i>Print',
                                     className: "dropdown-item",
-                                    title: "Jadwal Imam Bulan " + moment().format('MMMM YYYY'),
+                                    title: "Jadwal Imam Bulan " + date,
                                     customize: function(win) {
                                         $(win.document.body)
                                             .find('table')
@@ -104,7 +128,7 @@
                                     extend: "excelHtml5",
                                     text: '<i class="fas fa-file-excel me-1"></i>Excel',
                                     className: "dropdown-item",
-                                    title: "Rekap Imam Bulan " + moment().format('MMMM YYYY'),
+                                    title: "Rekap Imam Bulan " + date,
                                 },
                             ],
                         }, ],

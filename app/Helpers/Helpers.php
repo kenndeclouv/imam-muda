@@ -157,4 +157,32 @@ if (!function_exists('getSurahName')) {
 
         return $surah[$number] ?? 'Surah tidak ditemukan';
     }
+
+    if (!function_exists('getIndonesianMonthName')) {
+        /**
+         * Get the name of a month by its number.
+         * 
+         * @param int $number Month number (1-12)
+         * @return string|null Month name or null if not found
+         */
+        function getIndonesianMonthName($number)
+        {
+            $month = [
+                "January" => 'Januari',
+                "February" => 'Februari',
+                "March" => 'Maret',
+                "April" => 'April',
+                "May" => 'Mei',
+                "June" => 'Juni',
+                "July" => 'Juli',
+                "August" => 'Agustus',
+                "September" => 'September',
+                "October" => 'Oktober',
+                "November" => 'November',
+                "December" => 'Desember'
+            ];
+
+            return $month[$number] ?? 'Bulan tidak ditemukan';
+        }
+    }
 }
