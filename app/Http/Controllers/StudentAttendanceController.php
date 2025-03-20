@@ -84,16 +84,18 @@ class StudentAttendanceController extends Controller
         ]);
 
         foreach ($request->student_ids as $studentId) {
+            $existingAttendance = StudentAttendance::where('student_id', $studentId)->where('date', $request->date)->first();
+            $student = Student::find($studentId);
+            if ($existingAttendance) {
+                return back()->with('error', 'Kehadiran santri ' . $student->fullname . ' pada tanggal ' . $request->date . ' sudah ada.')
+                    ->withInput();
+            }
             StudentAttendance::create([
                 'student_id' => $studentId,
                 'date' => $request->date,
                 'status' => $request->status,
                 'description' => $request->description,
             ]);
-            $existingAttendance = StudentAttendance::where('student_id', $studentId)->where('date', $request->date)->first();
-            if ($existingAttendance) {
-                return back()->with('error', 'Kehadiran pada tanggal ini sudah ada.');
-            }
         }
 
         return redirect()->route("{$role}.student.attendance.index")->with('success', 'Kehadiran berhasil ditambahkan.');
