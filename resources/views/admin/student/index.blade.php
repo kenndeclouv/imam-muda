@@ -35,8 +35,8 @@
                             <th>Kelas</th>
                             <th>Bulanan</th>
                             <th>Status</th>
-                            <th>terakhir diubah</th>
-                            <th>aksi</th>
+                            <th class="no-export">terakhir diubah</th>
+                            <th class="no-export">aksi</th>
                         </tr>
                     </thead>
                     @include('components.show')
@@ -48,8 +48,8 @@
                                 <td>{{ $student->class_time == 'morning' ? 'Pagi' : 'Malam' }}</td>
                                 <td>{{ indonesianCurrency($student->infaq) }}</td>
                                 <td>{{ $student->residence_status == 'mukim' ? 'Mukim' : 'Non-Mukim' }}</td>
-                                <td>{{ $student->updated_at->format('d F Y H:i') }}</td>
-                                <td>
+                                <td class="no-export">{{ $student->updated_at->format('d F Y H:i') }}</td>
+                                <td class="no-export">
                                     <div class="d-flex gap-2" aria-label="Basic example">
                                         <a href="{{ route('admin.student.show', $student->id) }}" class="btn btn-info"
                                             data-bs-toggle="tooltip" data-bs-placement="top"
@@ -95,11 +95,44 @@
         <script src="https://cdn.datatables.net/2.1.8/js/jquery.dataTables.min.js"></script>
         <script>
             $(document).ready(function() {
-                $('#dataTable').DataTable({
-                    language: {
-                        url: "https://cdn.datatables.net/plug-ins/1.10.19/i18n/Indonesian.json"
-                    }
-                });
+                if (!$.fn.DataTable.isDataTable('#dataTable')) {
+                    const table = $('#dataTable').DataTable({
+                        language: {
+                            url: "https://cdn.datatables.net/plug-ins/1.10.19/i18n/Indonesian.json",
+                        },
+                        dom: '<"card-header flex-column justify-content-start flex-md-row pb-0"<"head-label text-center"><"dt-action-buttons text-start pt-6 pt-md-0"B>><"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6 d-flex justify-content-center justify-content-md-end mt-n6 mt-md-0"f>>t<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
+                        buttons: [{
+                            extend: "collection",
+                            className: "btn btn-label-primary dropdown-toggle",
+                            text: '<i class="fas fa-file-export me-sm-2"></i> <span class="d-none d-sm-inline-block">Export</span>',
+                            buttons: [{
+                                    extend: "print",
+                                    text: '<i class="fas fa-print me-1"></i>Print',
+                                    className: "dropdown-item",
+                                    title: "Data Santri Griya Tilawah",
+                                    customize: function(win) {
+                                        $(win.document.body)
+                                            .find('table')
+                                            .append($('#dataTable tfoot').clone());
+                                    },
+                                    exportOptions: {
+                                        columns: ':not(.no-export)'
+                                    }
+                                },
+                                {
+                                    extend: "excelHtml5",
+                                    text: '<i class="fas fa-file-excel me-1"></i>Excel',
+                                    className: "dropdown-item",
+                                    title: "Data Santri Griya Tilawah",
+                                    exportOptions: {
+                                        columns: ':not(.no-export)'
+                                    }
+                                },
+                            ],
+                        }],
+                    });
+                }
+                $('.select2').select2();
             });
         </script>
     </x-slot:js>

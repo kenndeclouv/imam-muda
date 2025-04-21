@@ -45,7 +45,8 @@
                         </div>
                         <div class="col-md-4 d-flex align-items-end">
                             <button type="submit" class="btn btn-primary">Filter</button>
-                            <a href="{{ route('admin.rekap.berdasarkan-imam.index') }}" class="btn btn-secondary ms-2">Reset</a>
+                            <a href="{{ route('admin.rekap.berdasarkan-imam.index') }}"
+                                class="btn btn-secondary ms-2">Reset</a>
                         </div>
                     </div>
                 </form>
@@ -80,8 +81,10 @@
                 id="jadwal-container-{{ $imam->id }}">
                 <div class="card-header border-bottom mb-4">
                     <h5 class="d-inline-block px-3 py-1 rounded-3 bg-label-success ">{{ $imam->fullname }}</h5>
-                    <h5 class="d-inline-block px-3 py-1 rounded-3 bg-label-warning ">Total Jadwal : {{ $totalJadwal }}</h5>
-                    <h5 class="d-inline-block px-3 py-1 rounded-3 bg-label-secondary ">Total Jadwal Badal : {{ $totalJadwalBadal }}</h5>
+                    <h5 class="d-inline-block px-3 py-1 rounded-3 bg-label-warning ">Total Jadwal : {{ $totalJadwal }}
+                    </h5>
+                    {{-- <h5 class="d-inline-block px-3 py-1 rounded-3 bg-label-secondary ">Total Jadwal Badal :
+                        {{ $totalJadwalBadal }}</h5> --}}
                 </div>
                 <div class="card-datatable table-responsive text-start text-nowrap">
                     <table id="jadwalImam{{ $imam->id }}"
@@ -153,10 +156,39 @@
         {{-- <script src="{{ asset('assets/vendor/js/forms-picker.js') }}"></script> --}}
         <script>
             $(document).ready(function() {
-                $('.dataTable').DataTable({
-                    language: {
-                        url: "https://cdn.datatables.net/plug-ins/1.10.19/i18n/Indonesian.json"
-                    }
+                $('[id^="jadwalImam"]').each(function() {
+                    const tableId = $(this).attr('id');
+                    const imamName = $(this).closest('.card').find('.card-header h5:first').text().trim();
+                    const date = new URLSearchParams(window.location.search).get('month') ?
+                        moment(new URLSearchParams(window.location.search).get('month')).format('MMMM YYYY') :
+                        moment().locale('id').format('MMMM YYYY');
+
+                    $(this).DataTable({
+                        language: {
+                            url: "https://cdn.datatables.net/plug-ins/1.10.19/i18n/Indonesian.json"
+                        },
+                        dom: '<"card-header flex-column justify-content-start flex-md-row pb-0"<"head-label text-center"><"dt-action-buttons text-start pt-6 pt-md-0"B>>' +
+                            '<"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6 d-flex justify-content-center justify-content-md-end mt-n6 mt-md-0"f>>t' +
+                            '<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
+                        buttons: [{
+                            extend: "collection",
+                            className: "btn btn-label-primary dropdown-toggle",
+                            text: '<i class="fas fa-file-export me-sm-2"></i> <span class="d-none d-sm-inline-block">Export</span>',
+                            buttons: [{
+                                    extend: "print",
+                                    text: '<i class="fas fa-print me-1"></i>Print',
+                                    className: "dropdown-item",
+                                    title: "Jadwal " + imamName + " Bulan " + date
+                                },
+                                {
+                                    extend: "excelHtml5",
+                                    text: '<i class="fas fa-file-excel me-1"></i>Excel',
+                                    className: "dropdown-item",
+                                    title: "Rekap " + imamName + " Bulan " + date
+                                }
+                            ]
+                        }]
+                    });
                 });
                 $('.select2').select2();
 
