@@ -296,6 +296,11 @@
                     <div class="text-truncate">Berdasarkan Shalat</div>
                 </a>
             </li>
+            <li class="menu-item {{ request()->routeIs('admin.rekap.berdasarkan-santri.index') ? 'active' : '' }}">
+                <a href="{{ route('admin.rekap.berdasarkan-santri.index') }}" class="menu-link">
+                    <div class="text-truncate">Kehadiran Santri</div>
+                </a>
+            </li>
         </ul>
     </li>
 @endif

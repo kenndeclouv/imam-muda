@@ -43,7 +43,7 @@ class StudentAttendanceController extends Controller
         $request->validate([
             'student_id' => 'required|exists:students,id',
             'date' => 'required|date',
-            'status' => 'required|in:hadir,sakit,izin',
+            'status' => 'required|in:hadir,sakit,izin,alpha',
             'description' => 'nullable|string',
         ], [
             'student_id.required' => 'Santri harus diisi.',
@@ -71,7 +71,7 @@ class StudentAttendanceController extends Controller
             'student_ids' => 'required|array',
             'student_ids.*' => 'exists:students,id',
             'date' => 'required|date',
-            'status' => 'required|in:hadir,sakit,izin',
+            'status' => 'required|in:hadir,sakit,izin,alpha',
             'description' => 'nullable|string',
         ], [
             'student_ids.required' => 'Santri harus diisi.',
@@ -118,7 +118,7 @@ class StudentAttendanceController extends Controller
         $request->validate([
             'student_id' => 'required|exists:students,id',
             'date' => 'required|date',
-            'status' => 'required|in:hadir,sakit,izin',
+            'status' => 'required|in:hadir,sakit,izin,alpha',
             'description' => 'nullable|string',
         ], [
             'student_id.required' => 'Santri harus diisi.',

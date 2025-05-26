@@ -34,6 +34,7 @@
                             {{-- <option value="hadir" {{ old('status') == 'hadir' ? 'selected' : '' }}>Hadir</option> --}}
                             <option value="sakit" {{ old('status') == 'sakit' ? 'selected' : '' }}>Sakit</option>
                             <option value="izin" {{ old('status') == 'izin' ? 'selected' : '' }}>Izin</option>
+                            <option value="alpha" {{ old('status') == 'alpha' ? 'selected' : '' }}>Alpha</option>
                         </select>
                     </div>
                     <div class="mb-6">

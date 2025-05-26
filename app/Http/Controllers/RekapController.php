@@ -8,6 +8,7 @@ use App\Models\Imam;
 use App\Models\ListFee;
 use App\Models\Schedule;
 use App\Models\Shalat;
+use App\Models\Student;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -190,89 +191,110 @@ class RekapController extends Controller
     // }
 
     public function berdasarkanShalat(Request $request)
-{
-    $monthYear = $request->input('month');
-    if (!$monthYear || !preg_match('/^\d{4}-\d{2}$/', $monthYear)) {
-        $monthYear = Carbon::now()->format('Y-m');
-    }
-    [$year, $month] = explode('-', $monthYear);
+    {
+        $monthYear = $request->input('month');
+        if (!$monthYear || !preg_match('/^\d{4}-\d{2}$/', $monthYear)) {
+            $monthYear = Carbon::now()->format('Y-m');
+        }
+        [$year, $month] = explode('-', $monthYear);
 
-    $defaultShalat = Shalat::all();
-    $defaultImam = Imam::where('is_active', true)->get();
-    $schedules = Schedule::whereYear('date', $year)
-        ->whereMonth('date', $month)
-        ->get();
+        $defaultShalat = Shalat::all();
+        $defaultImam = Imam::where('is_active', true)->get();
+        $schedules = Schedule::whereYear('date', $year)
+            ->whereMonth('date', $month)
+            ->get();
 
-    $groupedSchedules = $schedules->groupBy('imam_id')->map(function ($imamSchedules, $imamId) use ($defaultShalat) {
-        $totals = [];
-        $grandTotal = 0;
-        $totalSalary = 0;
-        $imamMarbot = Imam::find($imamId);
-        $addBonus = false;
+        $groupedSchedules = $schedules->groupBy('imam_id')->map(function ($imamSchedules, $imamId) use ($defaultShalat) {
+            $totals = [];
+            $grandTotal = 0;
+            $totalSalary = 0;
+            $imamMarbot = Imam::find($imamId);
+            $addBonus = false;
 
-        foreach ($defaultShalat as $shalat) {
-            $shalatSchedules = $imamSchedules->where('shalat_id', $shalat->id);
-            $count = $shalatSchedules->count();
-            $salary = 0;
+            foreach ($defaultShalat as $shalat) {
+                $shalatSchedules = $imamSchedules->where('shalat_id', $shalat->id);
+                $count = $shalatSchedules->count();
+                $salary = 0;
 
-            // Flag to track if masjid_id matches with Marbot's masjid_id
-            $masjidMatch = false;
+                // Flag to track if masjid_id matches with Marbot's masjid_id
+                $masjidMatch = false;
 
-            foreach ($shalatSchedules as $schedule) {
-                // Ambil fee spesial dan grade fee
-                $specialFee = ListFee::where('shalat_id', $shalat->id)->value('fee_id');
-                $gradeFee = ListFee::where('imam_id', $imamId)->whereNull('shalat_id')->value('fee_id');
+                foreach ($shalatSchedules as $schedule) {
+                    // Ambil fee spesial dan grade fee
+                    $specialFee = ListFee::where('shalat_id', $shalat->id)->value('fee_id');
+                    $gradeFee = ListFee::where('imam_id', $imamId)->whereNull('shalat_id')->value('fee_id');
 
-                $specialAmount = Fee::find($specialFee)->amount ?? 0;
-                $defaultAmount = $gradeFee ? Fee::find($gradeFee)->amount : 0;
+                    $specialAmount = Fee::find($specialFee)->amount ?? 0;
+                    $defaultAmount = $gradeFee ? Fee::find($gradeFee)->amount : 0;
 
-                if ($imamMarbot?->Marbot) {
-                    $marbot = $imamMarbot->Marbot;
-                    // Jika tipe marbot adalah 3, langsung tambahkan gaji
-                    if ($marbot->type == '3') {
-                        $scheduleSalary = $specialAmount ?: $defaultAmount;
-                        $addBonus = true; // Bonus langsung diberikan untuk tipe 3
-                    } elseif ($schedule->masjid_id == $marbot->masjid_id) {
-                        // Pengecekan untuk tipe 1 dan tipe 2
-                        $masjidMatch = true;
-                        if ($marbot->type == '1') {
-                            $scheduleSalary = 0;
-                        } elseif ($marbot->type == '2') {
+                    if ($imamMarbot?->Marbot) {
+                        $marbot = $imamMarbot->Marbot;
+                        // Jika tipe marbot adalah 3, langsung tambahkan gaji
+                        if ($marbot->type == '3') {
                             $scheduleSalary = $specialAmount ?: $defaultAmount;
+                            $addBonus = true; // Bonus langsung diberikan untuk tipe 3
+                        } elseif ($schedule->masjid_id == $marbot->masjid_id) {
+                            // Pengecekan untuk tipe 1 dan tipe 2
+                            $masjidMatch = true;
+                            if ($marbot->type == '1') {
+                                $scheduleSalary = 0;
+                            } elseif ($marbot->type == '2') {
+                                $scheduleSalary = $specialAmount ?: $defaultAmount;
+                            }
                         }
                     }
+
+                    // Jika tidak ada Marbot, tetap hitung gaji
+                    if (!$imamMarbot || !$imamMarbot->Marbot) {
+                        $scheduleSalary = $specialAmount ?: $defaultAmount;
+                    }
+
+                    // Jika ada kecocokan masjid, beri bonus
+                    if ($masjidMatch) {
+                        $addBonus = true;
+                    }
+
+                    $salary += $scheduleSalary ?? 0;
                 }
 
-                // Jika tidak ada Marbot, tetap hitung gaji
-                if (!$imamMarbot || !$imamMarbot->Marbot) {
-                    $scheduleSalary = $specialAmount ?: $defaultAmount;
-                }
-
-                // Jika ada kecocokan masjid, beri bonus
-                if ($masjidMatch) {
-                    $addBonus = true;
-                }
-
-                $salary += $scheduleSalary ?? 0;
+                $totals[$shalat->id] = [
+                    'count' => $count,
+                    'salary' => $salary,
+                ];
+                $grandTotal += $count;
+                $totalSalary += $salary;
             }
 
-            $totals[$shalat->id] = [
-                'count' => $count,
-                'salary' => $salary,
+            $totals['total'] = [
+                'count' => $grandTotal,
+                'salary' => $totalSalary + ($addBonus ? ($imamMarbot->Marbot->bayaran ?? 0) : 0),
             ];
-            $grandTotal += $count;
-            $totalSalary += $salary;
+
+            return $totals;
+        });
+
+        return view('admin.rekap.berdasarkan-shalat', compact('defaultShalat', 'defaultImam', 'groupedSchedules'));
+    }
+    public function berdasarkanSantri(Request $request)
+    {
+        $monthYear = $request->input('month');
+        if (!$monthYear || !preg_match('/^\d{4}-\d{2}$/', $monthYear)) {
+            $monthYear = Carbon::now()->format('Y-m');
         }
 
-        $totals['total'] = [
-            'count' => $grandTotal,
-            'salary' => $totalSalary + ($addBonus ? ($imamMarbot->Marbot->bayaran ?? 0) : 0),
-        ];
+        [$year, $month] = explode('-', $monthYear);
 
-        return $totals;
-    });
+        $students = Student::whereHas('Attendances', function ($query) use ($year, $month) {
+            $query->whereRaw('YEAR(date) = ? AND MONTH(date) = ?', [$year, $month]);
+        })
+            ->with(['Attendances' => function ($query) use ($year, $month) {
+                $query->whereRaw('YEAR(date) = ? AND MONTH(date) = ?', [$year, $month])
+                    ->orderBy('date', 'asc');
+            }])
+            ->get();
 
-    return view('admin.rekap.berdasarkan-shalat', compact('defaultShalat', 'defaultImam', 'groupedSchedules'));
-}
 
+        $defaultSantri = Student::all();
+        return view('admin.rekap.berdasarkan-santri', compact('students', 'monthYear', 'defaultSantri'));
+    }
 }

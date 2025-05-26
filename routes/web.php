@@ -197,6 +197,7 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'checkRole:admin'])-
         Route::get('/berdasarkan-imam', [RekapController::class, 'berdasarkanImam'])->middleware(['auth', 'permission:rekap_berdasarkan_imam'])->name('berdasarkan-imam.index');
         // Route::get('/berdasarkan-imam/export', [RekapController::class, 'exportBerdasarkanImam'])->name('berdasarkan-imam.export');
         Route::get('/berdasarkan-shalat', [RekapController::class, 'berdasarkanShalat'])->middleware(['auth', 'permission:rekap_berdasarkan_shalat'])->name('berdasarkan-shalat.index');
+        Route::get('/berdasarkan-santri', [RekapController::class, 'berdasarkanSantri'])->middleware(['auth', 'permission:rekap_berdasarkan_santri'])->name('berdasarkan-santri.index');
     });
     Route::prefix('pengumuman')->middleware(['auth', 'permission:pengumuman_show'])->name('pengumuman.')->group(function () {
         Route::get('/', [AnnouncementController::class, 'index'])->name('index');

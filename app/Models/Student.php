@@ -21,8 +21,8 @@ class Student extends Model
         return $this->hasMany(StudentMemorization::class);
     }
 
-    public function Permits()
+    public function Attendances()
     {
-        return $this->hasMany(StudentPermit::class);
+        return $this->hasMany(StudentAttendance::class);
     }
 }

@@ -17,8 +17,8 @@
             <div class="card-header border-bottom mb-4 d-flex justify-content-between align-items-center">
                 <h5 class="card-title">Detail Kehadiran Kamu</h5>
                 <span
-                    class="badge d-block h-100 {{ is_null($attendance->status) ? 'bg-warning' : ($attendance->status == 'hadir' ? 'bg-success' : 'bg-danger') }}">
-                    {{ is_null($attendance->status) ? 'Belum Diperiksa' : ($attendance->status == 'hadir' ? 'Hadir' : 'Tidak Hadir') }}
+                    class="badge d-block h-100 {{ is_null($attendance->status) ? 'bg-warning' : ($attendance->status == 'hadir' ? 'bg-success' : ($attendance->status == 'izin' ? 'bg-info' : ($attendance->status == 'alpha' ? 'bg-danger' : 'bg-warning')) ) }}">
+                    {{ is_null($attendance->status) ? 'Belum Diperiksa' : ($attendance->status == 'hadir' ? 'Hadir' : ($attendance->status == 'izin' ? 'Izin' : ($attendance->status == 'alpha' ? 'Alpha' : 'Sakit'))) }}
                 </span>
             </div>
             <div class="card-body pb-4">

@@ -38,6 +38,8 @@
                                 {{ old('status', $attendance->status) == 'sakit' ? 'selected' : '' }}>Sakit</option>
                             <option value="izin" {{ old('status', $attendance->status) == 'izin' ? 'selected' : '' }}>
                                 Izin</option>
+                            <option value="alpha"
+                                {{ old('status', $attendance->status) == 'alpha' ? 'selected' : '' }}>Alpha</option>
                         </select>
                     </div>
                     <div class="mb-6">

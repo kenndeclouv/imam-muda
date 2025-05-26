@@ -47,7 +47,7 @@
                                 <td>{{ $attendance->Student->fullname }}</td>
                                 <td>
                                     <span
-                                        class="badge d-block h-100 {{ $attendance->status == 'hadir' ? 'bg-success' : ($attendance->status == 'sakit' ? 'bg-warning' : 'bg-danger') }}">
+                                        class="badge d-block h-100 {{ $attendance->status == 'hadir' ? 'bg-success' : ($attendance->status == 'sakit' ? 'bg-warning' : ($attendance->status == 'izin' ? 'bg-info' : 'bg-danger')) }}">
                                         {{ $attendance->status }}
                                     </span>
                                 </td>

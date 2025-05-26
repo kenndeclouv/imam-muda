@@ -45,7 +45,7 @@
                                 <td>{{ $attendance->date }}</td>
                                 <td>
                                     <span
-                                        class="badge d-block h-100 {{ $attendance->status == 'hadir' ? 'bg-success' : ($attendance->status == 'sakit' ? 'bg-warning' : 'bg-danger') }}">
+                                        class="badge d-block h-100 {{ $attendance->status == 'hadir' ? 'bg-success' : ($attendance->status == 'sakit' ? 'bg-warning' : ($attendance->status == 'izin' ? 'bg-info' : ($attendance->status == 'alpha' ? 'bg-danger' : 'bg-warning')) ) }}">
                                         {{ $attendance->status }}
                                     </span>
                                 </td>
