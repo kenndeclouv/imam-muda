@@ -24,6 +24,7 @@ use App\Http\Controllers\UserController;
 // API
 use App\Http\Controllers\API\APIController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\FixedScheduleController;
 use App\Http\Controllers\MusyrifController;
 use App\Http\Controllers\StudentAttendanceController;
 use App\Http\Controllers\StudentController;
@@ -153,6 +154,13 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'checkRole:admin'])-
         Route::get('/{masjid}/edit', [MasjidController::class, 'edit'])->middleware(['auth', 'permission:masjid_edit'])->name('edit');
         Route::put('/{masjid}/edit', [MasjidController::class, 'update'])->middleware(['auth', 'permission:masjid_edit'])->name('update');
         Route::delete('/{masjid}/delete', [MasjidController::class, 'destroy'])->middleware(['auth', 'permission:masjid_delete'])->name('destroy');
+
+        Route::get('/{masjid}/takmir', [MasjidController::class, 'indexTakmir'])->middleware(['auth', 'permission:takmir_show'])->name('takmir.index');
+        Route::get('/{masjid}/takmir/create', [MasjidController::class, 'createTakmir'])->middleware(['auth', 'permission:takmir_create'])->name('takmir.create');
+        Route::post('/{masjid}/takmir/create', [MasjidController::class, 'storeTakmir'])->middleware(['auth', 'permission:takmir_create'])->name('takmir.store');
+        Route::get('/{masjid}/takmir/{takmir}/edit', [MasjidController::class, 'editTakmir'])->middleware(['auth', 'permission:takmir_edit'])->name('takmir.edit');
+        Route::put('/{masjid}/takmir/{takmir}/edit', [MasjidController::class, 'updateTakmir'])->middleware(['auth', 'permission:takmir_edit'])->name('takmir.update');
+        Route::delete('/{masjid}/takmir/{takmir}/delete', [MasjidController::class, 'destroyTakmir'])->middleware(['auth', 'permission:takmir_delete'])->name('takmir.destroy');
     });
     Route::prefix('shalat')->middleware(['auth', 'permission:shalat_show'])->name('shalat.')->group(function () {
         Route::get('/', [ShalatController::class, 'index'])->name('index');
@@ -176,6 +184,9 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'checkRole:admin'])-
 
         Route::get('/cache', [ScheduleController::class, 'cache'])->name('cache');
         Route::post('/clear-cache', [ScheduleController::class, 'clearCache'])->name('clearCache');
+
+        Route::delete('/fixed', [FixedScheduleController::class, 'destroy'])->name('fixed.destroy');
+        Route::resource('fixed', FixedScheduleController::class)->middleware(['auth'])->only(['index', 'store', 'update']);
     });
     Route::prefix('bayaran')->middleware(['auth', 'permission:bayaran_show'])->name('bayaran.')->group(function () {
         Route::get('/', [FeeController::class, 'index'])->name('index');
@@ -197,7 +208,7 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'checkRole:admin'])-
         Route::get('/berdasarkan-imam', [RekapController::class, 'berdasarkanImam'])->middleware(['auth', 'permission:rekap_berdasarkan_imam'])->name('berdasarkan-imam.index');
         // Route::get('/berdasarkan-imam/export', [RekapController::class, 'exportBerdasarkanImam'])->name('berdasarkan-imam.export');
         Route::get('/berdasarkan-shalat', [RekapController::class, 'berdasarkanShalat'])->middleware(['auth', 'permission:rekap_berdasarkan_shalat'])->name('berdasarkan-shalat.index');
-        Route::get('/berdasarkan-santri', [RekapController::class, 'berdasarkanSantri'])->middleware(['auth', 'permission:rekap_berdasarkan_santri'])->name('berdasarkan-santri.index');
+        Route::get('/kehadiran-santri', [RekapController::class, 'kehadiranSantri'])->middleware(['auth', 'permission:rekap_berdasarkan_santri'])->name('kehadiran-santri.index');
     });
     Route::prefix('pengumuman')->middleware(['auth', 'permission:pengumuman_show'])->name('pengumuman.')->group(function () {
         Route::get('/', [AnnouncementController::class, 'index'])->name('index');
@@ -314,5 +325,36 @@ Route::prefix('musyrif')->middleware(['auth', 'checkRole:musyrif'])->name('musyr
             Route::put('/{attendance}/edit', [StudentAttendanceController::class, 'update'])->name('update');
             Route::delete('/{attendance}/delete', [StudentAttendanceController::class, 'destroy'])->name('destroy');
         });
+    });
+});
+// Routes untuk Admin
+Route::prefix('admin')->name('admin.')->middleware(['auth', 'checkRole:admin'])->group(function () {
+    Route::redirect('/', '/admin/home');
+    Route::get('/home', [HomeController::class, 'adminHome'])->name('home');
+    Route::put('/account', [AccountController::class, 'updateAdmin'])->middleware('verified')->name('update');
+
+    Route::prefix('jadwal')->middleware(['auth', 'permission:jadwal_show'])->name('jadwal.')->group(function () {
+        Route::get('/', [ScheduleController::class, 'index'])->name('index');
+        Route::get('/fetch', [ScheduleController::class, 'fetch'])->name('fetch');
+        Route::get('/create', [ScheduleController::class, 'create'])->middleware(['auth', 'permission:jadwal_create'])->name('create');
+        Route::post('/create', [ScheduleController::class, 'store'])->middleware(['auth', 'permission:jadwal_create'])->name('store');
+
+        Route::post('/updateJSON', [ScheduleController::class, 'updateJSON'])->name('updateJSON');
+        Route::get('/{schedule}/edit', [ScheduleController::class, 'edit'])->middleware(['auth', 'permission:jadwal_edit'])->name('edit');
+        Route::put('/{schedule}/edit', [ScheduleController::class, 'update'])->middleware(['auth', 'permission:jadwal_edit'])->name('update');
+        Route::delete('/{schedule}/delete', [ScheduleController::class, 'destroy'])->middleware(['auth', 'permission:jadwal_delete'])->name('destroy');
+        Route::delete('/delete-selected', [ScheduleController::class, 'destroySelected'])->middleware(['auth', 'permission:jadwal_delete'])->name('destroySelected');
+
+        Route::get('/cache', [ScheduleController::class, 'cache'])->name('cache');
+        Route::post('/clear-cache', [ScheduleController::class, 'clearCache'])->name('clearCache');
+    });
+    Route::prefix('statistik')->middleware(['auth', 'permission:statistik_show'])->name('statistik.')->group(function () {
+        Route::get('/', [StatisticController::class, 'statistik'])->name('index');
+    });
+    Route::prefix('rekap')->middleware(['auth', 'permission:rekap_show'])->name('rekap.')->group(function () {
+        Route::get('/berdasarkan-imam', [RekapController::class, 'berdasarkanImam'])->middleware(['auth', 'permission:rekap_berdasarkan_imam'])->name('berdasarkan-imam.index');
+        // Route::get('/berdasarkan-imam/export', [RekapController::class, 'exportBerdasarkanImam'])->name('berdasarkan-imam.export');
+        Route::get('/berdasarkan-shalat', [RekapController::class, 'berdasarkanShalat'])->middleware(['auth', 'permission:rekap_berdasarkan_shalat'])->name('berdasarkan-shalat.index');
+        Route::get('/kehadiran-santri', [RekapController::class, 'kehadiranSantri'])->middleware(['auth', 'permission:rekap_berdasarkan_santri'])->name('kehadiran-santri.index');
     });
 });

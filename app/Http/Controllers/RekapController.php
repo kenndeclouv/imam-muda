@@ -275,26 +275,33 @@ class RekapController extends Controller
 
         return view('admin.rekap.berdasarkan-shalat', compact('defaultShalat', 'defaultImam', 'groupedSchedules'));
     }
-    public function berdasarkanSantri(Request $request)
+    public function kehadiranSantri(Request $request)
     {
         $monthYear = $request->input('month');
+        $date = $request->input('date');
         if (!$monthYear || !preg_match('/^\d{4}-\d{2}$/', $monthYear)) {
             $monthYear = Carbon::now()->format('Y-m');
         }
 
         [$year, $month] = explode('-', $monthYear);
 
-        $students = Student::whereHas('Attendances', function ($query) use ($year, $month) {
-            $query->whereRaw('YEAR(date) = ? AND MONTH(date) = ?', [$year, $month]);
+        $students = Student::whereHas('Attendances', function ($query) use ($year, $month, $date) {
+            $query->whereRaw('YEAR(date) = ? AND MONTH(date) = ?', [$year, $month])
+                ->when($date, function ($query) use ($date) {
+                    $query->where('date', $date);
+                });
         })
-            ->with(['Attendances' => function ($query) use ($year, $month) {
+            ->with(['Attendances' => function ($query) use ($year, $month, $date) {
                 $query->whereRaw('YEAR(date) = ? AND MONTH(date) = ?', [$year, $month])
+                    ->when($date, function ($query) use ($date) {
+                        $query->where('date', $date);
+                    })
                     ->orderBy('date', 'asc');
             }])
             ->get();
 
 
         $defaultSantri = Student::all();
-        return view('admin.rekap.berdasarkan-santri', compact('students', 'monthYear', 'defaultSantri'));
+        return view('admin.rekap.kehadiran-santri', compact('students', 'monthYear', 'defaultSantri'));
     }
 }

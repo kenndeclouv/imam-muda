@@ -68,6 +68,10 @@ class FeatureSeeder extends Seeder
             ['name' => 'Hapus Musyrif', 'code' => 'musyrif_delete'],
 
             ['name' => 'Rekap Berdasarkan Santri', 'code' => 'rekap_berdasarkan_santri'],
+            ['name' => 'Tampilkan Takmir', 'code' => 'takmir_show'],
+            ['name' => 'Tambah Takmir', 'code' => 'takmir_create'],
+            ['name' => 'Ubah Takmir', 'code' => 'takmir_edit'],
+            ['name' => 'Hapus Takmir', 'code' => 'takmir_delete'],
         ];
 
         foreach ($features as $feature) {

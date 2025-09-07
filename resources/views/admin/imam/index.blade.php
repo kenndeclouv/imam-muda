@@ -81,14 +81,17 @@
         </div>
     </div>
     <x-slot:js>
-        <script src="https://cdn.datatables.net/2.1.8/js/jquery.dataTables.min.js"></script>
+        {{-- <script src="https://cdn.datatables.net/2.1.8/js/jquery.dataTables.min.js"></script> --}}
         <script>
-            $(document).ready(function() {
-                $('#dataTable').DataTable({
-                    language: {
-                        url: "https://cdn.datatables.net/plug-ins/1.10.19/i18n/Indonesian.json"
-                    }
-                });
+            document.addEventListener('DOMContentLoaded', function() {
+                const dataTable = document.getElementById('dataTable');
+                if (dataTable) {
+                    const table = new DataTable(dataTable, {
+                        language: {
+                            url: "https://cdn.datatables.net/plug-ins/1.10.19/i18n/Indonesian.json"
+                        }
+                    });
+                }
             });
         </script>
     </x-slot:js>

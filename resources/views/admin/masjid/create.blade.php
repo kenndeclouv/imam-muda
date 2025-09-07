@@ -72,7 +72,7 @@
             }
             // tambahkan tile layer ke map
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '&copy; <a href="https://kenndeclouv.rf.gd">kenndeclouv</a>'
+                attribution: '&copy; <a href="https://kenndeclouv.me">kenn</a>'
             }).addTo(map);
 
             // variabel marker (default null)
@@ -148,7 +148,7 @@
             const map = L.map('map').setView([0, 0], 2); // default zoom-out
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 maxZoom: 19,
-                attribution: '© <a href="https://kenndeclouv.rf.gd">kenndeclouv</a>'
+                attribution: '© <a href="https://kenndeclouv.me">kenn</a>'
             }).addTo(map);
 
             let marker;

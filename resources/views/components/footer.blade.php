@@ -9,8 +9,8 @@
                     document.write(new Date().getFullYear());
                 </script>
                 , made with ❤️ by
-                <a href="https://kenndeclouv.my.id" target="_blank"
-                    class="footer-link">kenndeclouv</a>
+                <a href="https://kenndeclouv.me" target="_blank"
+                    class="footer-link">kenn</a>
             </div>
         </div>
     </div>

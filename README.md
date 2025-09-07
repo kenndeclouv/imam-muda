@@ -74,4 +74,4 @@ php artisan migrate --seed
 
 -   Visit [http://localhost:8000](http://localhost:8000) in your browser.
 
-make with 💝 by [kenndeclouv](https://kenndeclouv.rf.gd)
+make with 💝 by [kenn](https://kenndeclouv.me)

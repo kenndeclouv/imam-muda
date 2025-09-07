@@ -7,21 +7,48 @@ use Illuminate\Http\Request;
 use App\Models\StudentMemorization;
 use App\Models\Student;
 use App\Models\Imam;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
 class StudentMemorizationController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $role = Auth::user()->Role->code;
-        if ($role == 'admin') {
-            $memorizations = StudentMemorization::all();
-        } else if ($role == 'imam') {
-            $memorizations = StudentMemorization::where('imam_id', Auth::user()->Imam->id)->get();
-        } else if ($role == 'student') {
-            $memorizations = StudentMemorization::where('student_id', Auth::user()->Student->id)->get();
+        $monthYear = $request->input('month');
+        if (!$monthYear || !preg_match('/^\d{4}-\d{2}$/', $monthYear)) {
+            $monthYear = Carbon::now()->format('Y-m');
         }
-        return view("{$role}.student.memorization.index", compact('memorizations'));
+        [$year, $month] = explode('-', $monthYear);
+        $studentId = $request->input('student') ?? null;
+        $students = Student::where(function ($query) use ($year, $month, $studentId) {
+            $query->whereHas('memorizations', function ($query) use ($year, $month, $studentId) {
+                $query->whereYear('date', $year)->whereMonth('date', $month)
+                    ->when($studentId, function ($query) use ($studentId) {
+                        $query->where('student_id', $studentId);
+                    })->orderBy('date', 'desc');
+            });
+        })->get();
+        if ($role == 'admin') {
+            $memorizations = StudentMemorization::where(function ($query) use ($year, $month) {
+                $query->whereHas('student', function ($query) use ($year, $month) {
+                    $query->whereYear('date', $year)->whereMonth('date', $month);
+                });
+            })->get();
+        } else if ($role == 'imam') {
+            $memorizations = StudentMemorization::where(function ($query) use ($year, $month) {
+                $query->whereHas('student', function ($query) use ($year, $month) {
+                    $query->whereYear('date', $year)->whereMonth('date', $month)->where('imam_id', Auth::user()->Imam->id);
+                });
+            })->get();
+        } else if ($role == 'student') {
+            $memorizations = StudentMemorization::where(function ($query) use ($year, $month) {
+                $query->whereHas('student', function ($query) use ($year, $month) {
+                    $query->whereYear('date', $year)->whereMonth('date', $month)->where('student_id', Auth::user()->Student->id);
+                });
+            })->get();
+        }
+        return view("{$role}.student.memorization.index", compact('memorizations', 'monthYear', 'students'));
     }
 
     public function create()

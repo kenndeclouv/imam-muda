@@ -78,8 +78,8 @@
 
                                 <p class="mb-1">🏡 Tempat Pembinaan</p>
                                 <ul class="mb-4">
-                                    <li>Kelas Pagi : Pesma Griya Tilawah Jl Selorejo Blok A No.33</li>
-                                    <li>Kelas Malam : Masjid Sadji Jl Sarangan</li>
+                                    <li>Kelas Pagi : Pesma Griya Tilawah Jl. Selorejo Blok A No.33</li>
+                                    <li>Kelas Malam : Masjid Sabilissalam - Jl. Candi Mendut Selatan No.30</li>
                                 </ul>
                                 <p class="mb-4">📱 More Info : 0895 0587 5530</p>
 

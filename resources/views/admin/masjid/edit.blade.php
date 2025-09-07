@@ -82,7 +82,7 @@
 
             // Add tile layer
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '&copy; <a href="https://kenndeclouv.rf.gd">kenndeclouv</a>'
+                attribution: '&copy; <a href="https://kenndeclouv.me">kenn</a>'
             }).addTo(map);
 
             // Function to update coordinate inputs

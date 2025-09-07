@@ -252,7 +252,7 @@
                 //     });
                 // fetch('/api/quote', {
                 //         headers: {
-                //             'Authorization': 'kenndeclouv'
+                //             'Authorization': 'kenn'
                 //         }
                 //     })
                 //     .then(response => response.json())

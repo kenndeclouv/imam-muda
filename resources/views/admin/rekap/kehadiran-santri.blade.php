@@ -15,13 +15,13 @@
         </div>
         <div class="card">
             <div class="card-header border-bottom mb-4">
-                <h5 class="card-title">Rekap Kehadiran Santri Bulan</h5>
+                <h5 class="card-title">Rekap Kehadiran Santri</h5>
             </div>
             <div class="card-body pb-4">
                 @include('components.alert')
-                <form method="GET" action="{{ route('admin.rekap.berdasarkan-santri.index') }}" class="mb-3">
+                <form method="GET" action="{{ route('admin.rekap.kehadiran-santri.index') }}" class="mb-3">
                     <div class="row">
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <div class="form-group">
                                 <label for="month">Pilih Bulan</label>
                                 <input type="month" id="month" name="month" class="form-control"
@@ -29,83 +29,77 @@
                                     {{ request('month') ? 'selected' : '' }}>
                             </div>
                         </div>
-                        {{-- <div class="col-md-4">
+                        <div class="col-md-3">
                             <div class="form-group">
-                                <label for="santri">Pilih Santri</label>
-                                <select id="santri" name="santri" class="form-control select2">
-                                    <option value="">Semua Santri</option>
-                                    @foreach ($defaultSantri as $santri)
-                                        <option value="{{ $santri->id }}"
-                                            {{ request('santri') == $santri->id ? 'selected' : '' }}>
-                                            {{ $santri->fullname }}
-                                        </option>
-                                    @endforeach
-                                </select>
+                                <label for="date">Pilih Tanggal</label>
+                                <input type="date" id="date" name="date" class="form-control"
+                                    value="{{ request('date') ?? now()->format('Y-m-d') }}"
+                                    {{ request('date') ? 'selected' : '' }}>
                             </div>
-                        </div> --}}
+                        </div>
                         <div class="col-md-4 d-flex align-items-end">
                             <button type="submit" class="btn btn-primary">Filter</button>
-                            <a href="{{ route('admin.rekap.berdasarkan-santri.index') }}"
+                            <a href="{{ route('admin.rekap.kehadiran-santri.index') }}"
                                 class="btn btn-secondary ms-2">Reset</a>
                         </div>
                     </div>
                 </form>
             </div>
         </div>
-        @foreach ($students as $santri)
-        {{-- @foreach ($defaultSantri as $santri) --}}
-            @php
-                $totalKehadiran = $santri->Attendances->count(); // Total kehadiran santri
-                $totalHadir = $santri->Attendances->filter(function ($attendance) {
-                    return $attendance->status == 'hadir'; // Total hadir
-                })->count();
-                $totalIzin = $santri->Attendances->filter(function ($attendance) {
-                    return $attendance->status == 'izin'; // Total izin
-                })->count();
-                $totalSakit = $santri->Attendances->filter(function ($attendance) {
-                    return $attendance->status == 'sakit'; // Total sakit
-                })->count();
-                $totalAlpha = $santri->Attendances->filter(function ($attendance) {
-                    return $attendance->status == 'alpha'; // Total alpha
-                })->count();
-            @endphp
+
+        @php
+            // Gabungkan semua kehadiran santri ke dalam satu array, dikelompokkan per tanggal
+            $attendancesByDate = [];
+            foreach ($students as $santri) {
+                foreach ($santri->Attendances as $attendance) {
+                    $attendancesByDate[$attendance->date][] = [
+                        'santri' => $santri,
+                        'attendance' => $attendance,
+                    ];
+                }
+            }
+            // Urutkan tanggal secara ascending
+            ksort($attendancesByDate);
+        @endphp
+
+        @foreach ($attendancesByDate as $date => $attendances)
             <div class="card mt-3 card-border-shadow-{{ ['primary', 'secondary', 'danger', 'warning', 'info'][array_rand(['primary', 'secondary', 'danger', 'warning', 'info'])] }}"
-                id="kehadiran-container-{{ $santri->id }}">
+                id="kehadiran-container-{{ Str::slug($date) }}">
                 <div class="card-header border-bottom mb-4">
-                    <h5 class="d-inline-block px-3 py-1 rounded-3 bg-label-success ">{{ $santri->fullname }}</h5>
-                    <h5 class="d-inline-block px-3 py-1 rounded-3 bg-label-warning ">Total Kehadiran :
-                        {{ $totalKehadiran }}
+                    <h5 class="d-inline-block px-3 py-1 rounded-3 bg-label-success ">
+                        Tanggal: {{ formatDate($date) }}
+                    </h5>
+                    <h5 class="d-inline-block px-3 py-1 rounded-3 bg-label-warning ">
+                        Total Santri: {{ count($attendances) }}
                     </h5>
                 </div>
                 <div class="card-datatable table-responsive text-start text-nowrap">
-                    <table id="kehadiranSantri{{ $santri->id }}"
+                    <table id="kehadiranTanggal{{ Str::slug($date) }}"
                         class="table dataTable table-bordered table-responsive-sm table-responsive-md table-responsive-xl w-100"
                         style="width: 100%;">
                         <thead>
                             <tr>
-                                {{-- <th>No</th> --}}
-                                <th>Tanggal</th>
+                                <th>Nama Santri</th>
                                 <th>Status</th>
                                 <th>Keterangan</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($santri->Attendances as $attendance)
+                            @foreach ($attendances as $item)
                                 <tr>
-                                    {{-- <td>{{ $loop->iteration }}</td> --}}
-                                    <td>{{ formatDate($attendance->date) }}</td>
+                                    <td>{{ $item['santri']->fullname }}</td>
                                     <td>
-                                        @if ($attendance->status == 'hadir')
+                                        @if ($item['attendance']->status == 'hadir')
                                             <span class="badge bg-label-success">Hadir</span>
-                                        @elseif ($attendance->status == 'izin')
+                                        @elseif ($item['attendance']->status == 'izin')
                                             <span class="badge bg-label-info">Izin</span>
-                                        @elseif ($attendance->status == 'sakit')
+                                        @elseif ($item['attendance']->status == 'sakit')
                                             <span class="badge bg-label-warning">Sakit</span>
-                                        @elseif ($attendance->status == 'alpha')
+                                        @elseif ($item['attendance']->status == 'alpha')
                                             <span class="badge bg-label-danger">Alpha</span>
                                         @endif
                                     </td>
-                                    <td>{{ $attendance->description ?? '-' }}</td>
+                                    <td>{{ $item['attendance']->description ?? '-' }}</td>
                                 </tr>
                             @endforeach
                         </tbody>
@@ -117,13 +111,12 @@
     </div>
     <x-slot:js>
         <script src="https://cdn.datatables.net/2.1.8/js/jquery.dataTables.min.js"></script>
-        {{-- <script src="{{ asset('assets/vendor/js/forms-picker.js') }}"></script> --}}
         <script>
             $(document).ready(function() {
-                $('[id^="kehadiranSantri"]').each(function() {
+                $('[id^="kehadiranTanggal"]').each(function() {
                     const tableId = $(this).attr('id');
-                    const santriName = $(this).closest('.card').find('.card-header h5:first').text().trim();
-                    const date = new URLSearchParams(window.location.search).get('month') ?
+                    const tanggal = $(this).closest('.card').find('.card-header h5:first').text().trim();
+                    const month = new URLSearchParams(window.location.search).get('month') ?
                         moment(new URLSearchParams(window.location.search).get('month')).format('MMMM YYYY') :
                         moment().locale('id').format('MMMM YYYY');
 
@@ -142,29 +135,19 @@
                                     extend: "print",
                                     text: '<i class="fas fa-print me-1"></i>Print',
                                     className: "dropdown-item",
-                                    title: "Kehadiran " + santriName + " Bulan " + date
+                                    title: "Kehadiran Tanggal " + tanggal + " Bulan " + month
                                 },
                                 {
                                     extend: "excelHtml5",
                                     text: '<i class="fas fa-file-excel me-1"></i>Excel',
                                     className: "dropdown-item",
-                                    title: "Rekap " + santriName + " Bulan " + date
+                                    title: "Rekap Tanggal " + tanggal + " Bulan " + month
                                 }
                             ]
                         }]
                     });
                 });
                 $('.select2').select2();
-
-                $('[id^="kehadiran-container-"]').each(function() {
-                    const totalKehadiran = $(this).find('table tbody tr').length;
-                    const santriId = $(this).attr('id').replace('kehadiran-container-',
-                        ''); // Ambil ID santri dari ID tabel
-                    const totalKehadiranElement = $(`#totalKehadiranSantri${santriId}`);
-                    if (totalKehadiranElement.length) {
-                        totalKehadiranElement.text(totalKehadiran);
-                    }
-                });
             });
         </script>
     </x-slot:js>

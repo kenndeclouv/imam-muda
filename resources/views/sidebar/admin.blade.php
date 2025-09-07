@@ -156,25 +156,31 @@
         <a href="javascript:void(0);" class="menu-link menu-toggle">
             <i class="menu-icon fa-solid fa-calendar-lines-pen fs-6"></i>
             <div class="text-truncate">
-                Jadwal Imam
+                Absensi Imam
             </div>
         </a>
         <ul class="menu-sub">
+
+            <li class="menu-item {{ request()->routeIs('admin.jadwal.fixed.index', 'admin.jadwal.fixed.edit') ? 'active' : '' }}">
+                <a href="{{ route('admin.jadwal.fixed.index') }}" class="menu-link">
+                    <div class="text-truncate">Jadwal Tetap</div>
+                </a>
+            </li>
             <li class="menu-item {{ request()->routeIs('admin.jadwal.index', 'admin.jadwal.edit') ? 'active' : '' }}">
                 <a href="{{ route('admin.jadwal.index') }}" class="menu-link">
-                    <div class="text-truncate">Daftar Jadwal</div>
+                    <div class="text-truncate">Daftar Absensi</div>
                 </a>
             </li>
             @if ($permissions->contains('jadwal_create'))
                 <li class="menu-item {{ request()->routeIs('admin.jadwal.create') ? 'active' : '' }}">
                     <a href="{{ route('admin.jadwal.create') }}" class="menu-link">
-                        <div class="text-truncate">Tambah Jadwal</div>
+                        <div class="text-truncate">Tambah Absensi</div>
                     </a>
                 </li>
             @endif
             <li class="menu-item {{ request()->routeIs('admin.jadwal.cache') ? 'active' : '' }}">
                 <a href="{{ route('admin.jadwal.cache') }}" class="menu-link">
-                    <div class="text-truncate">Bersihkan Jadwal</div>
+                    <div class="text-truncate">Bersihkan Absensi</div>
                 </a>
             </li>
         </ul>
@@ -296,8 +302,8 @@
                     <div class="text-truncate">Berdasarkan Shalat</div>
                 </a>
             </li>
-            <li class="menu-item {{ request()->routeIs('admin.rekap.berdasarkan-santri.index') ? 'active' : '' }}">
-                <a href="{{ route('admin.rekap.berdasarkan-santri.index') }}" class="menu-link">
+            <li class="menu-item {{ request()->routeIs('admin.rekap.kehadiran-santri.index') ? 'active' : '' }}">
+                <a href="{{ route('admin.rekap.kehadiran-santri.index') }}" class="menu-link">
                     <div class="text-truncate">Kehadiran Santri</div>
                 </a>
             </li>

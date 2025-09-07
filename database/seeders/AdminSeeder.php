@@ -18,7 +18,7 @@ class AdminSeeder extends Seeder
     {
         User::create([
             'name' => 'Kenn',
-            'email' => 'kenndeclouv@gmail.com',
+            'email' => 'kenn@gmail.com',
             'username' => 'superadmin',
             'password' => 'superadmin',
             'email_verified_at' => now(),
