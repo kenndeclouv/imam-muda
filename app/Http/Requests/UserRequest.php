@@ -8,6 +8,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Request;
 
 class UserRequest extends FormRequest
 {
@@ -16,9 +17,9 @@ class UserRequest extends FormRequest
         return true;
     }
 
-    public function rules()
+    public function rules(Request $request)
     {
-        $userId = $this->route('user')?->id ?? $this->user()?->id ?? 'NULL';
+        $userId = $request->route('user')?->id ?? $request->user()?->id ?? 'NULL';
 
         $rules = [
             'name' => 'required|string|max:255',
@@ -27,12 +28,13 @@ class UserRequest extends FormRequest
             'password' => 'nullable|min:8|confirmed|regex:/^(?=.*[A-Z]).+$/',
         ];
 
-        if ($this->isMethod('put') || $this->isMethod('patch')) {
+        if ($request->method() === 'PUT' || $request->method() === 'PATCH') {
             $rules['name'] = 'sometimes|string|max:255';
             $rules['email'] = 'nullable|email';
             $rules['username'] = 'nullable';
             $rules['password'] = 'nullable|min:8|confirmed|regex:/^(?=.*[A-Z]).+$/';
         }
+        return $rules;
     }
 
     public function messages()

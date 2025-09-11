@@ -8,6 +8,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Request;
 
 class TakmirRequest extends FormRequest
 {
@@ -16,14 +17,16 @@ class TakmirRequest extends FormRequest
         return true;
     }
 
-    public function rules()
+    public function rules(Request $request)
     {
-        $rules = [
-            'fullname' => 'string|max:255|required',
-            'phone' => 'string|max:255',
-            'address' => 'string|max:255',
-        ];
-        if ($this->isMethod('PUT') || $this->isMethod('PATCH')) {
+        $rules = [];
+        if ($request->method() === 'POST') {
+            $rules = [
+                'fullname' => 'string|max:255|required',
+                'phone' => 'string|max:255',
+                'address' => 'string|max:255',
+            ];
+        } else if ($request->method() === 'PUT' || $request->method() === 'PATCH') {
             $rules['fullname'] = 'sometimes|string|max:255';
             $rules['phone'] = 'sometimes|string|max:255';
             $rules['address'] = 'sometimes|string|max:255';

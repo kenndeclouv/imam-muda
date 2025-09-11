@@ -21,13 +21,18 @@
                     @csrf
                     <div class="mb-6">
                         <label class="form-label" for="username">Username</label>
-                        <input type="text" name="username" class="form-control" id="username"
-                            placeholder="Username" value="{{ old('username') }}" required>
+                        <input type="text" name="username" class="form-control" id="username" placeholder="Username"
+                            value="{{ old('username') }}" required>
                     </div>
                     <div class="mb-6">
-                        <label class="form-label" for="email">Email (opsional)</label>
-                        <input type="email" name="email" class="form-control" id="email"
-                            placeholder="Email" value="{{ old('email') }}">
+                        <label class="form-label" for="email">Email</label>
+                        <input type="email" name="email" class="form-control" id="email" placeholder="Email"
+                            value="{{ old('email') }}" required>
+                    </div>
+                    <div class="mb-6">
+                        <label class="form-label" for="name">Nama User</label>
+                        <input type="text" name="name" class="form-control" id="name" placeholder="Nama User"
+                            value="{{ old('name') }}" required>
                     </div>
                     <div class="mb-6">
                         <label class="form-label" for="password">Password</label>
@@ -35,10 +40,11 @@
                             placeholder="Password" required>
                     </div>
                     <div class="mb-6">
-                        <label class="form-label" for="name">Nama User</label>
-                        <input type="text" name="name" class="form-control" id="name"
-                            placeholder="Nama User" value="{{ old('name') }}" required>
+                        <label class="form-label" for="password_confirmation">Konfirmasi Password</label>
+                        <input type="password" name="password_confirmation" class="form-control"
+                            id="password_confirmation" placeholder="Konfirmasi Password" required>
                     </div>
+
                     <hr>
                     <div class="mb-6">
                         <label class="form-label" for="fullname">Nama Lengkap Takmir</label>
@@ -47,8 +53,8 @@
                     </div>
                     <div class="mb-6">
                         <label class="form-label" for="phone">No. HP (opsional)</label>
-                        <input type="text" name="phone" class="form-control" id="phone"
-                            placeholder="No. HP" value="{{ old('phone') }}">
+                        <input type="text" name="phone" class="form-control" id="phone" placeholder="No. HP"
+                            value="{{ old('phone') }}">
                     </div>
                     <div class="mb-6">
                         <label class="form-label" for="address">Alamat (opsional)</label>
