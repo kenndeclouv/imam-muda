@@ -15,40 +15,56 @@ class StudentMemorizationController extends Controller
     public function index(Request $request)
     {
         $role = Auth::user()->Role->code;
-        $monthYear = $request->input('month');
-        if (!$monthYear || !preg_match('/^\d{4}-\d{2}$/', $monthYear)) {
-            $monthYear = Carbon::now()->format('Y-m');
+
+        // Validate and parse start and end month
+        $startMonthYear = $request->input('start_month');
+        $endMonthYear = $request->input('end_month');
+
+        if (!$startMonthYear || !preg_match('/^\d{4}-\d{2}$/', $startMonthYear)) {
+            $startMonthYear = Carbon::now()->startOfMonth()->format('Y-m');
         }
-        [$year, $month] = explode('-', $monthYear);
-        $studentId = $request->input('student') ?? null;
-        $students = Student::where(function ($query) use ($year, $month, $studentId) {
-            $query->whereHas('memorizations', function ($query) use ($year, $month, $studentId) {
-                $query->whereYear('date', $year)->whereMonth('date', $month)
-                    ->when($studentId, function ($query) use ($studentId) {
-                        $query->where('student_id', $studentId);
-                    })->orderBy('date', 'desc');
-            });
-        })->get();
-        if ($role == 'admin') {
-            $memorizations = StudentMemorization::where(function ($query) use ($year, $month) {
-                $query->whereHas('student', function ($query) use ($year, $month) {
-                    $query->whereYear('date', $year)->whereMonth('date', $month);
-                });
-            })->get();
-        } else if ($role == 'imam') {
-            $memorizations = StudentMemorization::where(function ($query) use ($year, $month) {
-                $query->whereHas('student', function ($query) use ($year, $month) {
-                    $query->whereYear('date', $year)->whereMonth('date', $month)->where('imam_id', Auth::user()->Imam->id);
-                });
-            })->get();
-        } else if ($role == 'student') {
-            $memorizations = StudentMemorization::where(function ($query) use ($year, $month) {
-                $query->whereHas('student', function ($query) use ($year, $month) {
-                    $query->whereYear('date', $year)->whereMonth('date', $month)->where('student_id', Auth::user()->Student->id);
-                });
-            })->get();
+        if (!$endMonthYear || !preg_match('/^\d{4}-\d{2}$/', $endMonthYear)) {
+            $endMonthYear = Carbon::now()->format('Y-m');
         }
-        return view("{$role}.student.memorization.index", compact('memorizations', 'monthYear', 'students'));
+
+        $startDate = Carbon::createFromFormat('Y-m', $startMonthYear)->startOfMonth();
+        $endDate = Carbon::createFromFormat('Y-m', $endMonthYear)->endOfMonth();
+
+        $studentId = $request->input('student');
+
+        // Get students who have memorizations in the date range (and optionally filter by student)
+        $studentsQuery = Student::whereHas('memorizations', function ($query) use ($startDate, $endDate, $studentId) {
+            $query->whereBetween('date', [$startDate, $endDate]);
+            if ($studentId) {
+                $query->where('student_id', $studentId);
+            }
+        });
+
+        // If a specific student is selected, only show that student
+        if ($studentId) {
+            $studentsQuery->where('id', $studentId);
+        }
+
+        $students = $studentsQuery->get();
+
+        // Get memorizations based on role
+        $memorizationsQuery = StudentMemorization::whereBetween('date', [$startDate, $endDate]);
+
+        if ($role == 'imam') {
+            $imamId = Auth::user()->Imam->id ?? null;
+            if ($imamId) {
+                $memorizationsQuery->where('imam_id', $imamId);
+            }
+        } elseif ($role == 'student') {
+            $studentUserId = Auth::user()->Student->id ?? null;
+            if ($studentUserId) {
+                $memorizationsQuery->where('student_id', $studentUserId);
+            }
+        }
+
+        $memorizations = $memorizationsQuery->get();
+
+        return view("{$role}.student.memorization.index", compact('memorizations', 'startMonthYear', 'endMonthYear', 'students'));
     }
 
     public function create()

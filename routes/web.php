@@ -29,6 +29,7 @@ use App\Http\Controllers\MusyrifController;
 use App\Http\Controllers\StudentAttendanceController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\StudentMemorizationController;
+use App\Http\Controllers\SuggestionController;
 use App\Http\Controllers\UserNotificationController;
 
 Route::redirect('/', '/login');
@@ -67,6 +68,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/account', [AccountController::class, 'index'])->name('account');
     Route::post('/account/shortcut', [AccountController::class, 'storeShortcut'])->name('account.shortcut');
     Route::put('/account/{user}/update', [AccountController::class, 'update'])->middleware('verified')->name('account.update');
+
+    Route::resource('suggestions', SuggestionController::class)->only(['index', 'create', 'store']);
 });
 
 // Routes untuk SuperAdmin
@@ -328,33 +331,12 @@ Route::prefix('musyrif')->middleware(['auth', 'checkRole:musyrif'])->name('musyr
     });
 });
 // Routes untuk Admin
-Route::prefix('admin')->name('admin.')->middleware(['auth', 'checkRole:admin'])->group(function () {
-    Route::redirect('/', '/admin/home');
-    Route::get('/home', [HomeController::class, 'adminHome'])->name('home');
-    Route::put('/account', [AccountController::class, 'updateAdmin'])->middleware('verified')->name('update');
+Route::prefix('takmir')->name('takmir.')->middleware(['auth', 'checkRole:takmir'])->group(function () {
+    Route::redirect('/', '/takmir/home');
+    Route::get('/home', [HomeController::class, 'takmirHome'])->name('home');
+    Route::put('/account', [AccountController::class, 'updateTakmir'])->middleware('verified')->name('update');
 
-    Route::prefix('jadwal')->middleware(['auth', 'permission:jadwal_show'])->name('jadwal.')->group(function () {
-        Route::get('/', [ScheduleController::class, 'index'])->name('index');
-        Route::get('/fetch', [ScheduleController::class, 'fetch'])->name('fetch');
-        Route::get('/create', [ScheduleController::class, 'create'])->middleware(['auth', 'permission:jadwal_create'])->name('create');
-        Route::post('/create', [ScheduleController::class, 'store'])->middleware(['auth', 'permission:jadwal_create'])->name('store');
-
-        Route::post('/updateJSON', [ScheduleController::class, 'updateJSON'])->name('updateJSON');
-        Route::get('/{schedule}/edit', [ScheduleController::class, 'edit'])->middleware(['auth', 'permission:jadwal_edit'])->name('edit');
-        Route::put('/{schedule}/edit', [ScheduleController::class, 'update'])->middleware(['auth', 'permission:jadwal_edit'])->name('update');
-        Route::delete('/{schedule}/delete', [ScheduleController::class, 'destroy'])->middleware(['auth', 'permission:jadwal_delete'])->name('destroy');
-        Route::delete('/delete-selected', [ScheduleController::class, 'destroySelected'])->middleware(['auth', 'permission:jadwal_delete'])->name('destroySelected');
-
-        Route::get('/cache', [ScheduleController::class, 'cache'])->name('cache');
-        Route::post('/clear-cache', [ScheduleController::class, 'clearCache'])->name('clearCache');
-    });
-    Route::prefix('statistik')->middleware(['auth', 'permission:statistik_show'])->name('statistik.')->group(function () {
-        Route::get('/', [StatisticController::class, 'statistik'])->name('index');
-    });
-    Route::prefix('rekap')->middleware(['auth', 'permission:rekap_show'])->name('rekap.')->group(function () {
-        Route::get('/berdasarkan-imam', [RekapController::class, 'berdasarkanImam'])->middleware(['auth', 'permission:rekap_berdasarkan_imam'])->name('berdasarkan-imam.index');
-        // Route::get('/berdasarkan-imam/export', [RekapController::class, 'exportBerdasarkanImam'])->name('berdasarkan-imam.export');
-        Route::get('/berdasarkan-shalat', [RekapController::class, 'berdasarkanShalat'])->middleware(['auth', 'permission:rekap_berdasarkan_shalat'])->name('berdasarkan-shalat.index');
-        Route::get('/kehadiran-santri', [RekapController::class, 'kehadiranSantri'])->middleware(['auth', 'permission:rekap_berdasarkan_santri'])->name('kehadiran-santri.index');
+    Route::prefix('jadwal')->name('jadwal.')->group(function () {
+        Route::get('/fixed', [FixedScheduleController::class, 'indexTakmir'])->name('fixed.index');
     });
 });

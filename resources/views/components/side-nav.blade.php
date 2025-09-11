@@ -36,5 +36,11 @@
                 <div class="text-truncate" data-i18n="Profile">Profile</div>
             </a>
         </li>
+        <li class="menu-item {{ request()->routeIs('suggestions.*') ? 'active' : '' }}">
+            <a href="{{ $role == 'superadmin' || $role == 'admin' ? route('suggestions.index') : route('suggestions.create') }}" class="menu-link">
+                <i class="menu-icon fa-solid fa-comment-dots fs-6"></i>
+                <div class="text-truncate" data-i18n="Profile">Saran</div>
+            </a>
+        </li>
     </ul>
 </aside>

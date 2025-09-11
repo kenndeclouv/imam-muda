@@ -98,4 +98,47 @@ class FixedScheduleController extends Controller
             return redirect()->back()->with('error', 'Jadwal tidak ditemukan.');
         }
     }
+
+    public function indexTakmir(Request $request)
+    {
+        // Ambil semua data yang diperlukan
+        $masjids = Masjid::where('id',  Auth::user()->Takmir->masjid_id)->get();
+        $shalats = Shalat::whereIn('id', [1, 2])->get();
+        $imams = Imam::orderBy('id')->get(); // Urutkan imam agar konsisten
+        // $allMasjids = Masjid::all(); // Untuk dropdown filter
+
+        // Data hari dalam bahasa Indonesia untuk tampilan
+        $days = [
+            'monday' => 'SENIN',
+            'tuesday' => 'SELASA',
+            'wednesday' => 'RABU',
+            'thursday' => 'KAMIS',
+            'friday' => 'JUMAT',
+            'saturday' => 'SABTU',
+            'sunday' => 'AHAD',
+        ];
+
+        // Ambil semua jadwal tetap dan eager load relasinya
+        $schedulesData = FixedSchedule::with('Imam', 'Shalat', 'Masjid')->where('masjid_id', Auth::user()->Takmir->masjid_id)->get();
+
+        // Proses data jadwal menjadi format yang mudah di-render di view
+        // Strukturnya: [masjid_id][day_key][shalat_id] => imam_name
+        $schedules = [];
+        foreach ($schedulesData as $schedule) {
+            $schedules[$schedule->masjid_id][$schedule->day][$schedule->shalat_id] = $schedule->Imam->fullname;
+        }
+
+        // Ambil permissions user
+        $permissions = Auth::user()->getPermissionCodes();
+
+        return view('takmir.jadwal.fixed.index', compact(
+            'masjids',
+            // 'allMasjids',
+            'shalats',
+            'days',
+            'schedules',
+            'permissions',
+            'imams'
+        ));
+    }
 }

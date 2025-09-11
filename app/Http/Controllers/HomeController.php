@@ -67,4 +67,9 @@ class HomeController extends Controller
         $memorizations = StudentMemorization::where('student_id', Auth::user()->Student->id)->get();
         return view("student.index", compact('memorizations'));
     }
+    public function takmirHome()
+    {
+        // $memorizations = StudentMemorization::where('imam_id', Auth::user()->Imam->id)->get();
+        return view("takmir.index");
+    }
 }

@@ -26,12 +26,16 @@
                     </div>
                     <form method="GET" action="{{ route('admin.student.memorization.index') }}" class="mb-3">
                         <div class="row">
-                            <div class="col-md-4">
+                            <div class="col-md-4 d-flex gap-2">
                                 <div class="form-group">
-                                    <label for="month">Pilih Bulan</label>
-                                    <input type="month" id="month" name="month" class="form-control"
-                                        value="{{ request('month') ?? now()->format('Y-m') }}"
-                                        {{ request('month') ? 'selected' : '' }}>
+                                    <label for="start_month">Dari Bulan</label>
+                                    <input type="month" id="start_month" name="start_month" class="form-control"
+                                        value="{{ request('start_month') ?? now()->startOfMonth()->format('Y-m') }}">
+                                </div>
+                                <div class="form-group">
+                                    <label for="end_month">Sampai Bulan</label>
+                                    <input type="month" id="end_month" name="end_month" class="form-control"
+                                        value="{{ request('end_month') ?? now()->format('Y-m') }}">
                                 </div>
                             </div>
                             <div class="col-md-4">

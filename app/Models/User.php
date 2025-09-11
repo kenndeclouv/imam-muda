@@ -163,4 +163,8 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->hasOne(Musyrif::class);
     }
+    public function Takmir()
+    {
+        return $this->hasOne(Takmir::class);
+    }
 }

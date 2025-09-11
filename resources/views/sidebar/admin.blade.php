@@ -135,7 +135,8 @@
             </div>
         </a>
         <ul class="menu-sub">
-            <li class="menu-item {{ request()->routeIs('admin.masjid.index', 'admin.masjid.edit') ? 'active' : '' }}">
+            <li
+                class="menu-item {{ request()->routeIs('admin.masjid.index', 'admin.masjid.edit', 'admin.masjid.takmir.*') ? 'active' : '' }}">
                 <a href="{{ route('admin.masjid.index') }}" class="menu-link">
                     <div class="text-truncate">Daftar Masjid</div>
                 </a>
@@ -161,7 +162,8 @@
         </a>
         <ul class="menu-sub">
 
-            <li class="menu-item {{ request()->routeIs('admin.jadwal.fixed.index', 'admin.jadwal.fixed.edit') ? 'active' : '' }}">
+            <li
+                class="menu-item {{ request()->routeIs('admin.jadwal.fixed.index', 'admin.jadwal.fixed.edit') ? 'active' : '' }}">
                 <a href="{{ route('admin.jadwal.fixed.index') }}" class="menu-link">
                     <div class="text-truncate">Jadwal Tetap</div>
                 </a>
@@ -178,11 +180,13 @@
                     </a>
                 </li>
             @endif
-            <li class="menu-item {{ request()->routeIs('admin.jadwal.cache') ? 'active' : '' }}">
-                <a href="{{ route('admin.jadwal.cache') }}" class="menu-link">
-                    <div class="text-truncate">Bersihkan Absensi</div>
-                </a>
-            </li>
+            @if ($permissions->contains('jadwal_delete'))
+                <li class="menu-item {{ request()->routeIs('admin.jadwal.cache') ? 'active' : '' }}">
+                    <a href="{{ route('admin.jadwal.cache') }}" class="menu-link">
+                        <div class="text-truncate">Bersihkan Absensi</div>
+                    </a>
+                </li>
+            @endif
         </ul>
     </li>
 @endif
