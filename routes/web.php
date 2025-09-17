@@ -329,6 +329,9 @@ Route::prefix('musyrif')->middleware(['auth', 'checkRole:musyrif'])->name('musyr
             Route::delete('/{attendance}/delete', [StudentAttendanceController::class, 'destroy'])->name('destroy');
         });
     });
+    Route::prefix('rekap')->name('rekap.')->group(function () {
+        Route::get('/kehadiran-santri', [RekapController::class, 'kehadiranSantri'])->name('kehadiran-santri.index');
+    });
 });
 // Routes untuk Admin
 Route::prefix('takmir')->name('takmir.')->middleware(['auth', 'checkRole:takmir'])->group(function () {

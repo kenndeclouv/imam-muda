@@ -13,9 +13,9 @@ class StudentAttendanceController extends Controller
     {
         $role = Auth::user()->Role->code;
         if ($role == 'musyrif') {
-            $attendances = StudentAttendance::all();
+            $attendances = StudentAttendance::orderBy('date', 'desc')->get();
         } else if ($role == 'student') {
-            $attendances = StudentAttendance::where('student_id', Auth::user()->Student->id)->get();
+            $attendances = StudentAttendance::where('student_id', Auth::user()->Student->id)->orderBy('date', 'desc')->get();
         }
         return view("{$role}.student.attendance.index", compact('attendances'));
     }
