@@ -27,7 +27,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Bagel+Fat+One&display=swap" rel="stylesheet">
 
     <!-- Icons -->
-    <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.6.0/css/all.css">
+    <x-fontawesome></x-fontawesome>
     <link rel="stylesheet" href="{{ asset('assets/vendor/fonts/flag-icons.css') }}">
 
     <!-- Core CSS -->

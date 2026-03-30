@@ -29,7 +29,7 @@
         rel="stylesheet">
 
     <!-- Icons -->
-    <link rel="stylesheet" href="{{ asset('assets/vendor/fonts/fontawesome.css') }}">
+    <x-fontawesome></x-fontawesome>
 
     <!-- Core CSS -->
     <link rel="stylesheet" href="{{ asset('assets/vendor/css/rtl/core.css') }}" class="template-customizer-core-css">

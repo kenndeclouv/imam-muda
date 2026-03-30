@@ -1,0 +1,1 @@
+<link rel="stylesheet" href="{{ asset('assets/fonts/fontawesome/v7.2.0/css/all.css') }}">
